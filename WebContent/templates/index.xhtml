@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Informando versão do xml usado e Linguagem adotada -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- Inportando Pacotes com os objetos -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html" />
+	<title>SIGAC</title>
+	<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
+</h:head>
+<body background="/resources/imagens/logoPrincipal.jpg">
+	<p:growl id="mgs" sticky="true"/>
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north" size="50">
+			<h:form>
+				<p:growl id="messages" />
+
+				<p:menubar>
+					<p:submenu label="Cadastros" icon="ui-icon-document">
+						<p:submenu label="Usuários" icon="ui-icon-contact">
+							<p:menuitem value="Coordenador" url="#" />
+							<p:menuitem value="Aluno" url="#" />
+							<p:menuitem value="Perfil" url="#" />
+						</p:submenu>
+
+						<p:menuitem value="Atividades" icon="ui-icon-gear" url="#" />
+						<p:separator />
+
+						<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact">
+							<p:menuitem value="Periodo" url="#" />
+							<p:menuitem value="Turma" url="#" />
+							<p:menuitem value="Turno" url="#" />
+							<p:menuitem value="Unidade" url="paginas/cadastrounidade.xhtml" />
+
+						</p:submenu>
+						<p:separator />
+
+						<p:menuitem value="Sair" url="#" />
+					</p:submenu>
+
+					<p:submenu label="Consulta" icon="ui-icon-pencil">
+						<p:menuitem value="Atividades Realizadas" url="#"
+							icon="ui-icon-arrowreturnthick-1-w" />
+						<p:menuitem value="Area do Aluno" url="#"
+							icon="ui-icon-arrowreturnthick-1-e" />
+					</p:submenu>
+
+					<p:submenu label="Relatorios" icon="ui-icon-gear">
+						<p:submenu label="Cadastros Gerais" icon="ui-icon-refresh">
+							<p:menuitem value="Alunos" url="#" />
+							<p:menuitem value="Coordenadores" url="#" />
+							<p:menuitem value="Perfil" url="#" />
+							<p:separator />
+							<p:menuitem value="Periodo" url="#" />
+							<p:menuitem value="Turma" url="#" />
+							<p:menuitem value="Turno" url="#" />
+							<p:menuitem value="Unidade" url="#" />
+						</p:submenu>
+						<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+							<p:menuitem value="Delete" actionListener="#{menuView.delete}"
+								icon="ui-icon-close" update="messages" ajax="false" />
+						</p:submenu>
+					</p:submenu>
+
+					<p:submenu label="Ajuda" icon="ui-icon-help">
+						<p:menuitem value="Sobre o Sistema" url="#" />
+					</p:submenu>
+
+					<p:menuitem value="Sair" url="#" icon="ui-icon-close" />
+
+				</p:menubar>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+        //page code
+        <ui:insert name="menuPrincipal" />
+    </p:layoutUnit>
+
+		<p:layoutUnit position="south" size="50" resizable="true"
+			closable="false" collapsible="false">
+			<h:outputText
+				value="SIGAC - Sistema de Gestão de Atividades Complementares " />
+			<h:graphicImage alt="Java" value="/resources/imagens/Java.png"></h:graphicImage>
+
+		</p:layoutUnit>
+
+
+	</p:layout>
+</body>
+</html>

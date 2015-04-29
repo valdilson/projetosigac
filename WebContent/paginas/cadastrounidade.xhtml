@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Informando versão do xml usado e Linguagem adotada -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- Inportando Pacotes com os objetos -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/index.xhtml">
+	<ui:define name="metadata">
+
+		<f:metadata>
+			<f:event listener="#{unidadeMB.listarUnidades}" type="preRenderView" />
+			<f:event listener="#{unidadeMB.pesquisaCodigo}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="menuPrincipal">
+
+		<h:form id="cadastroUnidadefrm">
+			<h:panelGrid columns="1" cellspacing="10">
+				<h:outputLabel value="Código" />
+				<h:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
+				
+				
+				<h:outputLabel value="Nome" />
+				<h:inputText value="#{unidadeMB.unidade.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				
+				<h:outputLabel value="Endereco" />
+				<h:inputText value="#{unidadeMB.unidade.endereco}" disabled="false" required="true" requiredMessage="Campo Obrigatório" />
+				
+				<h:outputLabel value="Bairro" />
+				<h:inputText value="#{unidadeMB.unidade.bairro}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				
+				<h:outputLabel value="cep" />
+				<h:inputText value="#{unidadeMB.unidade.cep}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				
+				<h:outputLabel value="telefone" />
+				<p:inputMask mask="(99)9999-9999" value="#{unidadeMB.unidade.telefone}" disabled="false" required="true" requiredMessage="Campo Obrigatório" size="17"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="1">
+				<p:commandButton value="Gravar" action="#{unidadeMB.salvar}" update=":cadastroUnidadefrm :mgs"/>
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
