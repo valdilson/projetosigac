@@ -12,13 +12,13 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
 @Entity
 @Table(name = "Atividade")
 @NamedQueries({
 	@NamedQuery(name="Atividade.lista", query="Select atividade from Atividade atividade"),
 	@NamedQuery(name="Atividade.codigo", query="Select atividade from Atividade atividade where atividade.codigo = :codigo"),
-	@NamedQuery(name="Atividade.nome", query="Select atividade from Atividade atividade where atividade.nome = :nome")
+	@NamedQuery(name="Atividade.nome", query="Select atividade from Atividade atividade where atividade.nome = :nome"),
+	@NamedQuery(name="Atividade.status", query="Select atividade from Atividade atividade where atividade.status = :status")
 })
 public class Atividade implements Serializable {
 

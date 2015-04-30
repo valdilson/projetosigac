@@ -77,7 +77,7 @@ public void salvar(Atividade atividade){
 	}//Fim Editar
 
 	@SuppressWarnings("unchecked")
-	public List<Atividade> listaatividade(){
+	public List<Atividade> listaAtividade(){
 		
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		List<Atividade> listaAtividades = null;

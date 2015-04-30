@@ -15,6 +15,7 @@ public class TesteAtividade {
 		
 			atividade.setCodigo(1l);
 			atividade.setNome("Passeio Bicicleta");
+			atividade.setDescricao("Passeio até instutição de caridade para fazer doacoes.");
 			atividade.setStatus("Ativo");
 			atividadeDAO.salvar(atividade);
 

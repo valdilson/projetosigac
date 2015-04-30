@@ -9,7 +9,7 @@ import br.com.tdsystem.sigac.modelo.Perfil;
 public class TestePerfil {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar(){
 		Perfil perfil = new Perfil();
 		PerfilDAO perfilDAO = new PerfilDAO();
