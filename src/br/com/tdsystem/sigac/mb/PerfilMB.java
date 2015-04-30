@@ -14,7 +14,7 @@ public class PerfilMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Perfil> listaperfis;
+	private List<Perfil> listaperfis = null;
 	private Perfil perfil = null;
 	private PerfilDAO perfilDAO =  null;
 	
@@ -29,6 +29,9 @@ public class PerfilMB implements Serializable {
 	}
 
 	public Perfil getPerfil() {
+		if(perfil == null){
+			perfil = new Perfil();
+		}
 		return perfil;
 	}
 
@@ -47,6 +50,7 @@ public class PerfilMB implements Serializable {
 	public void salvar() {
 
 		try {
+			
 			perfilDAO = new PerfilDAO();
 			perfilDAO.salvar(perfil);
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");

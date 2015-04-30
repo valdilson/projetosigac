@@ -35,7 +35,7 @@ public class Perfil implements Serializable {
 	
 	@Column(name="status")
 	@NotEmpty(message="Campo status obrigatório")
-	private Boolean status;
+	private String status;
 
 	public Long getCodigo() {
 		return codigo;
@@ -53,11 +53,11 @@ public class Perfil implements Serializable {
 		this.nome = nome;
 	}
 
-	public Boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	

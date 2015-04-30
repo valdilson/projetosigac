@@ -13,46 +13,35 @@
 	<ui:define name="metadata">
 
 		<f:metadata>
-			<f:event listener="#{unidadeMB.listarUnidades}" type="preRenderView" />
-			<f:event listener="#{unidadeMB.pesquisaCodigo}" type="preRenderView" />
+			<f:event listener="#{perfilMB.listarperfils}" type="preRenderView" />
+			<f:event listener="#{perfilMB.pesquisaCodigo}" type="preRenderView" />
 		</f:metadata>
 	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
-		<h:form id="cadastroUnidadefrm">
-		<h:outputLabel value="CADASTRO DE UNIDADE"/>
+		<h:form id="cadastroperfilfrm">
+		<h:outputLabel value="CADASTRO DE PERFIL"/>
 		
-			<h:panelGrid columns="4" cellspacing="10">
+			<h:panelGrid columns="2" cellspacing="10">
 				
 				<h:outputLabel value="Código:" />
-				<h:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
-				
+				<h:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
 				
 				<h:outputLabel value="Nome:" />
-				<h:inputText value="#{unidadeMB.unidade.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				<h:inputText value="#{perfilMB.perfil.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
 				
-				<h:outputLabel value="Endereco:" />
-				<h:inputText value="#{unidadeMB.unidade.endereco}" disabled="false" required="true" requiredMessage="Campo Obrigatório" />
+				<h:outputLabel value="Status:" />
+				<h:selectOneMenu value="#{perfilMB.perfil.status}">
+					<f:selectItem itemValue="Ativo"/>
+					<f:selectItem itemValue="Inativo"/>
+				</h:selectOneMenu>
+				<!--<h:inputText value="#{perfilMB.perfil.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>-->
 				
-				<h:outputLabel value="Bairro:" />
-				<h:inputText value="#{unidadeMB.unidade.bairro}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
-				
-				<h:outputLabel value="Cep:" />
-				<p:inputMask mask= "99.999-999" value="#{unidadeMB.unidade.cep}" disabled="false" required="true" requiredMessage="Campo Obrigatório" size="17" />
-
-				<h:outputLabel value="Cidade:" />
-				<h:inputText value="#{unidadeMB.unidade.cidade}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
-				
-				<h:outputLabel value="Estado:" />
-				<h:inputText value="#{unidadeMB.unidade.estado}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
-				
-				<h:outputLabel value="Telefone:" />
-				<p:inputMask mask="(99)9999-9999" value="#{unidadeMB.unidade.telefone}" disabled="false" required="true" requiredMessage="Campo Obrigatório" size="17"/>
 			</h:panelGrid>
 			
 			<h:panelGrid columns="1">
-				<p:commandButton value="Gravar" action="#{unidadeMB.salvar}" update=":cadastroUnidadefrm :mgs"/>
+				<p:commandButton value="Gravar" action="#{perfilMB.salvar}" update=":cadastroperfilfrm :mgs"/>
 			</h:panelGrid>
 
 		</h:form>
