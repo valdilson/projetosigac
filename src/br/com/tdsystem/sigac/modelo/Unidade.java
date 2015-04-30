@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name="Unidade")
 @NamedQueries({
 	@NamedQuery(name = "Unidade.lista", query = "Select unidade from Unidade unidade"),
-	@NamedQuery(name = "Unidade.codigo", query = "Select unidade from Unidade unidade where unidade.codigo = :unidade"),
+	@NamedQuery(name = "Unidade.codigo", query = "Select unidade from Unidade unidade where unidade.codigo = :codigo"),
 	@NamedQuery(name = "Unidade.nome", query = "Select unidade from Unidade unidade where unidade.nome = :nome"),
 	
 })

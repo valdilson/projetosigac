@@ -34,6 +34,7 @@
 		
 		<!-- Mapeando as Classes para o Hibernate gerar as Tabelas-->
 		<mapping class="br.com.tdsystem.sigac.modelo.Unidade"/>
+		<mapping class="br.com.tdsystem.sigac.modelo.Perfil"/>
 			
 				
 	</session-factory>

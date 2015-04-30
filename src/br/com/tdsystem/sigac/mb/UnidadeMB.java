@@ -1,4 +1,4 @@
-package br.com.tdsystem.sigac.visao;
+package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.util.List;
