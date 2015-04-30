@@ -21,24 +21,33 @@
 	<ui:define name="menuPrincipal">
 
 		<h:form id="cadastroUnidadefrm">
-			<h:panelGrid columns="1" cellspacing="10">
-				<h:outputLabel value="Código" />
+		<h:outputLabel value="CADASTRO DE UNIDADE"/>
+		
+			<h:panelGrid columns="4" cellspacing="10">
+				
+				<h:outputLabel value="Código:" />
 				<h:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
 				
 				
-				<h:outputLabel value="Nome" />
+				<h:outputLabel value="Nome:" />
 				<h:inputText value="#{unidadeMB.unidade.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
 				
-				<h:outputLabel value="Endereco" />
+				<h:outputLabel value="Endereco:" />
 				<h:inputText value="#{unidadeMB.unidade.endereco}" disabled="false" required="true" requiredMessage="Campo Obrigatório" />
 				
-				<h:outputLabel value="Bairro" />
+				<h:outputLabel value="Bairro:" />
 				<h:inputText value="#{unidadeMB.unidade.bairro}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
 				
-				<h:outputLabel value="cep" />
-				<h:inputText value="#{unidadeMB.unidade.cep}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				<h:outputLabel value="Cep:" />
+				<p:inputMask mask= "99.999-999" value="#{unidadeMB.unidade.cep}" disabled="false" required="true" requiredMessage="Campo Obrigatório" size="17" />
+
+				<h:outputLabel value="Cidade:" />
+				<h:inputText value="#{unidadeMB.unidade.cidade}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
 				
-				<h:outputLabel value="telefone" />
+				<h:outputLabel value="Estado:" />
+				<h:inputText value="#{unidadeMB.unidade.estado}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				
+				<h:outputLabel value="Telefone:" />
 				<p:inputMask mask="(99)9999-9999" value="#{unidadeMB.unidade.telefone}" disabled="false" required="true" requiredMessage="Campo Obrigatório" size="17"/>
 			</h:panelGrid>
 			

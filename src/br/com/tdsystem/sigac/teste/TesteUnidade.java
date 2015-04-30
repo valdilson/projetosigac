@@ -16,6 +16,7 @@ public class TesteUnidade {
 		
 			unidade.setCodigo(1l);
 			unidade.setBairro("Nova vista");
+			unidade.setEndereco("Rua Teste 123");
 			unidade.setCep("31060450");
 			unidade.setCidade("BH");
 			unidade.setEstado("MG");

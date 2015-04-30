@@ -36,7 +36,7 @@ public class FacesUtil {
 	}
 	
 	private static void exibirMensagem(FacesMessage.Severity severity, String mensagem) {
-		FacesMessage facesMessage = new FacesMessage(severity, "", mensagem);
+		FacesMessage facesMessage = new FacesMessage(severity, "Cadastrado com sucesso!", mensagem);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 

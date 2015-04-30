@@ -14,7 +14,7 @@
 	<title>SIGAC</title>
 	<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
 </h:head>
-<body background="/resources/imagens/logoPrincipal.jpg">
+<h:body>
 	<p:growl id="mgs" sticky="true"/>
 	<p:layout fullPage="true">
 
@@ -41,7 +41,8 @@
 
 						</p:submenu>
 						<p:separator />
-
+						<p:menuitem value="Voltar Tela Principal" url="http://localhost:8080/sigac2/" icon="ui-icon-refresh" />
+						<p:separator />
 						<p:menuitem value="Sair" url="#" />
 					</p:submenu>
 
@@ -74,13 +75,15 @@
 					</p:submenu>
 
 					<p:menuitem value="Sair" url="#" icon="ui-icon-close" />
-
+					
 				</p:menubar>
+				
 			</h:form>
+			<!-- <h:graphicImage alt="School" value="/resources/imagens/school.png" /> -->
 		</p:layoutUnit>
 
 		<p:layoutUnit position="center">
-        //page code
+
         <ui:insert name="menuPrincipal" />
     </p:layoutUnit>
 
@@ -94,5 +97,5 @@
 
 
 	</p:layout>
-</body>
+</h:body>
 </html>
