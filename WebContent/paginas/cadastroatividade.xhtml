@@ -13,26 +13,29 @@
 	<ui:define name="metadata">
 
 		<f:metadata>
-			<f:event listener="#{perfilMB.listarperfils}" type="preRenderView" />
-			<f:event listener="#{perfilMB.pesquisaCodigo}" type="preRenderView" />
+			<f:event listener="#{atividadeMB.listarAtividades}" type="preRenderView" />
+			<f:event listener="#{atividadeMB.pesquisaCodigo}" type="preRenderView" />
 		</f:metadata>
 	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
-		<h:form id="cadastroperfilfrm">
-		<h:outputLabel value="CADASTRO DE PERFIL"/>
+		<h:form id="cadastroatividadefrm">
+		<h:outputLabel value="CADASTRO DE ATIVIDADE"/>
 		
 			<h:panelGrid columns="2" cellspacing="10">
 				
 				<h:outputLabel value="Código:" />
-				<h:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
+				<h:inputText value="#{atividadeMB.atividade.codigo}" disabled="true" />
 				
 				<h:outputLabel value="Nome:" />
-				<h:inputText value="#{perfilMB.perfil.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				<h:inputText value="#{atividadeMB.atividade.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
+				
+				<h:outputLabel value="Descricao:" />
+				<h:inputText value="#{atividadeMB.atividade.descricao}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
 				
 				<h:outputLabel value="Status:" />
-				<h:selectOneMenu value="#{perfilMB.perfil.status}">
+				<h:selectOneMenu value="#{atividadeMB.atividade.status}">
 					<f:selectItem itemValue="Ativo"/>
 					<f:selectItem itemValue="Inativo"/>
 				</h:selectOneMenu>
@@ -40,7 +43,7 @@
 			</h:panelGrid>
 			
 			<h:panelGrid columns="1">
-				<p:commandButton value="Gravar" action="#{perfilMB.salvar}" update=":cadastroperfilfrm :mgs"/>
+				<p:commandButton value="Gravar" action="#{atividadeMB.salvar}" update=":cadastroatividadefrm :mgs"/>
 			</h:panelGrid>
 
 		</h:form>
