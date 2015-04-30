@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
-@Table
+@Table(name = "Atividade")
 @NamedQueries({
 	@NamedQuery(name="Atividade.lista", query="Select atividade from Atividade atividade"),
 	@NamedQuery(name="Atividade.codigo", query="Select atividade from Atividade atividade where atividade.codigo = :codigo"),
