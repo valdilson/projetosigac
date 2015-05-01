@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
@@ -13,7 +12,6 @@ import br.com.tdsystem.sigac.util.FacesUtil;
 
 @ManagedBean
 @ViewScoped
-@RequestScoped
 public class UnidadeMB implements Serializable{
 
 	private static final long serialVersionUID = 1L;

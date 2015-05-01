@@ -1,5 +1,6 @@
 package br.com.tdsystem.sigac.util;
 
+import java.awt.MenuShortcut;
 import java.util.Map;
 
 import javax.el.ExpressionFactory;
@@ -36,7 +37,7 @@ public class FacesUtil {
 	}
 	
 	private static void exibirMensagem(FacesMessage.Severity severity, String mensagem) {
-		FacesMessage facesMessage = new FacesMessage(severity, "", mensagem);
+		FacesMessage facesMessage = new FacesMessage(severity, mensagem, "");
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 

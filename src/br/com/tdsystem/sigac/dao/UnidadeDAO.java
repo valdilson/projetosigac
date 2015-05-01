@@ -84,7 +84,7 @@ public class UnidadeDAO {
 			
 			Query hql = secao.getNamedQuery("Unidade.lista");
 			listaUnidades = hql.list();
-			
+			System.out.println("Fez a lista");
 		} catch (RuntimeException e) {
 			throw e;
 		}finally{
@@ -99,9 +99,10 @@ public class UnidadeDAO {
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		Unidade unidade = null;
 		try{
-			Query hql = secao.getNamedQuery("Unidade.codido");
+			Query hql = secao.getNamedQuery("Unidade.buscarCodigo");
 			hql.setLong("codigo", codigo);
 			unidade = (Unidade) hql.uniqueResult();
+			System.out.println("Fez a consulta");
 			
 		}catch(RuntimeException e){
 			throw e;
