@@ -12,20 +12,34 @@ import br.com.tdsystem.sigac.util.FacesUtil;
 @ViewScoped
 public class PerfilMB implements Serializable {
 
+	public PerfilMB() {
+		listarPerfils();
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
-	private List<Perfil> listaperfis = null;
+	private List<Perfil> listaPerfis = null;
+	private List<Perfil> filtroPerfis = null;
+	
+	public List<Perfil> getFiltroPerfis() {
+		return filtroPerfis;
+	}
+
+	public void setFiltroPerfis(List<Perfil> filtroPerfis) {
+		this.filtroPerfis = filtroPerfis;
+	}
+
 	private Perfil perfil = null;
 	private PerfilDAO perfilDAO =  null;
 	
 	
 	
 	public List<Perfil> getListaperfis() {
-		return listaperfis;
+		return listaPerfis;
 	}
 
 	public void setListaperfis(List<Perfil> listaperfis) {
-		this.listaperfis = listaperfis;
+		this.listaPerfis = listaperfis;
 	}
 
 	public Perfil getPerfil() {
@@ -61,11 +75,12 @@ public class PerfilMB implements Serializable {
 		}
 	}
 
-	public void excluir() {
+	public void excluir(Perfil perfil) {
 
 		try {
 			perfilDAO = new PerfilDAO();
 			perfilDAO.exluir(perfil);
+			listaPerfis.remove(perfil);
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
@@ -74,24 +89,27 @@ public class PerfilMB implements Serializable {
 		}
 	}
 
+	public void selecionaEdicao(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	
 	public void editar() {
 
 		try {
 			perfilDAO = new PerfilDAO();
 			perfilDAO.editar(perfil);
 			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
-
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
 					+ e.getMessage());
 		}
 	}
 
-	public void listarperfils() {
+	public void listarPerfils() {
 
 		try {
 			perfilDAO = new PerfilDAO();
-			listaperfis = perfilDAO.listaPerfil();
+			listaPerfis = perfilDAO.listaPerfil();
 
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Não retornou registro!"

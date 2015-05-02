@@ -1,5 +1,7 @@
 package br.com.tdsystem.sigac.teste;
 
+import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -9,7 +11,7 @@ import br.com.tdsystem.sigac.modelo.Perfil;
 public class TestePerfil {
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void testeSalvar(){
 		Perfil perfil = new Perfil();
 		PerfilDAO perfilDAO = new PerfilDAO();
@@ -19,4 +21,23 @@ public class TestePerfil {
 			perfil.setStatus("Ativo");
 			perfilDAO.salvar(perfil);
 }
+	
+	@Test
+	@Ignore
+	public void testaLista(){
+		PerfilDAO perfilDAO = new PerfilDAO();
+		List<Perfil> listaPerfis = perfilDAO.listaPerfil();
+		
+		for (Perfil perfil : listaPerfis) {
+			System.out.println(" " + perfil.toString());
+		}
+	}
+	
+	@Test
+	public void testaBuscaporCodigo(){
+		PerfilDAO perfilDAO = new PerfilDAO();
+		Perfil perfil = perfilDAO.pesquisaCodigo(1L);
+		System.out.println(" " + perfil.toString());
+	}
+	
 }

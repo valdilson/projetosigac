@@ -21,6 +21,9 @@ public class UnidadeMB implements Serializable{
 	private List<Unidade> listaUnidades;
 	private List<Unidade> filtroUnidades;
 	
+	public UnidadeMB() {
+		listarUnidades();
+	}
 	
 	public synchronized Unidade getUnidade() {
 		if(unidade == null){

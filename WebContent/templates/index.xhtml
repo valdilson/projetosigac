@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Informando versão do xml usado e Linguagem adotada -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <!-- Inportando Pacotes com os objetos -->
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -27,23 +27,23 @@
 						<p:submenu label="Usuários" icon="ui-icon-contact">
 							<p:menuitem value="Coordenador" url="#" />
 							<p:menuitem value="Aluno" url="#" />
-							<p:menuitem value="Perfil" url="paginas/cadastroperfil.xhtml" />
+							<p:menuitem value="Perfil" action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}"/>
 						</p:submenu>
 
 						<p:menuitem value="Atividades" icon="ui-icon-gear"
-							url="paginas/cadastroatividade.xhtml" />
+							action="#{menuMB.navegar('/paginas/cadastroatividades.xhtml')}" />
 						<p:separator />
 
 						<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact">
 							<p:menuitem value="Periodo" url="#" />
 							<p:menuitem value="Turma" url="#" />
 							<p:menuitem value="Turno" url="#" />
-							<p:menuitem value="Unidade" url="paginas/cadastrounidade.xhtml" />
+							<p:menuitem value="Unidade" action="#{menuMB.navegar('/paginas/cadastrounidade.xhtml')}" />
 
 						</p:submenu>
 						<p:separator />
 						<p:menuitem value="Voltar Tela Principal"
-							url="http://localhost:8080/sigac2/" icon="ui-icon-refresh" />
+							action="#{menuMB.navegar('/templates/index.xhtml')}" icon="ui-icon-refresh" />
 						<p:separator />
 						<p:menuitem value="Sair" url="#" />
 					</p:submenu>

@@ -98,7 +98,7 @@ public void salvar(Perfil perfil){
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		Perfil perfil = null;
 		try{
-			Query hql = secao.getNamedQuery("Perfil.codido");
+			Query hql = secao.getNamedQuery("Perfil.codigo");
 			hql.setLong("codigo", codigo);
 			perfil = (Perfil) hql.uniqueResult();
 			

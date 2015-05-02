@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Informando versão do xml usado e Linguagem adotada -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <!-- Inportando Pacotes com os objetos -->
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -30,8 +30,11 @@
 
 
 				<h:outputLabel value="Nome:" />
-				<h:inputText value="#{unidadeMB.unidade.nome}" disabled="false"
-					required="true" requiredMessage="Campo Obrigatório" />
+				<h:panelGroup>
+					<h:inputText id="nomeUnidade" value="#{unidadeMB.unidade.nome}" disabled="false"
+						required="true" requiredMessage="Campo Obrigatório" />
+					<h:message for="nomeUnidaded"/>
+				</h:panelGroup>
 
 				<h:outputLabel value="Endereco:" />
 				<h:inputText value="#{unidadeMB.unidade.endereco}" disabled="false"
@@ -87,8 +90,8 @@
 				</p:column>
 				
 				<p:column headerText="Editar / Excluir" width="125">
-					<p:commandButton value = "Editar"/>
-					<p:commandButton value = "Excluir"/>
+					<p:commandButton value = "Editar" action="#{unidadeMB.editar()}"/>
+					<p:commandButton value = "Excluir" action="#{unidadeMB.excluir()}"/>
 				</p:column>
 
 			</p:dataTable>

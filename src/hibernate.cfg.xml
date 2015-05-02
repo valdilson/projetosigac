@@ -32,7 +32,7 @@
 		<!-- Criar as Tabelas -->
 		<property name="hbm2ddl.auto">update</property>
 		
-		<!-- Mapeando as Classes para o Hibernate gerar as Tabelas-->
+		<!-- Mapeando as Classes Modelo para o Hibernate gerar as Tabelas-->
 		<mapping class="br.com.tdsystem.sigac.modelo.Unidade"/>
 		<mapping class="br.com.tdsystem.sigac.modelo.Perfil"/>
 		<mapping class="br.com.tdsystem.sigac.modelo.Atividade"/>
