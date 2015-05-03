@@ -21,83 +21,105 @@
 	<ui:define name="menuPrincipal">
 
 		<h:form id="cadastroPerfilfrm">
-			<h:outputLabel value="CADASTRO DE PERFIL"/>
-		
+
 			<h:panelGrid columns="2" cellspacing="10">
-				
-				<h:outputLabel value="Código:" />
-				<h:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
-				
-				<h:outputLabel value="Nome:" />
-				<h:inputText value="#{perfilMB.perfil.nome}" disabled="false"
-					required="true" requiredMessage="Campo Nome Obrigatório"/>
-				
+
+				<p:outputLabel value="Código:" />
+				<p:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
+
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{perfilMB.perfil.nome}"/>
+
 				<h:outputLabel value="Status:" />
-				<h:selectOneMenu value="#{perfilMB.perfil.status}">
-					<f:selectItem itemValue="Ativo"/>
-					<f:selectItem itemValue="Inativo"/>
-				</h:selectOneMenu>
-				
+				<p:selectOneMenu value="#{perfilMB.perfil.status}" effect="explode">
+					<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+					<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
+				</p:selectOneMenu>
+
 			</h:panelGrid>
-			
+
+			<!-- Botão Gravar -->
 			<h:panelGrid columns="1">
 				<p:commandButton value="Gravar" action="#{perfilMB.salvar}"
-					update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil"/>
+					update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
 			</h:panelGrid>
-			
+
 			<!-- Começo tabela -->
-			<p:dataTable id="tabelaPerfil" widgetVar="tabelaPerfilWV" var="filtroPerfis"
-			 	value="#{perfilMB.listaperfis}" rows="6" filteredValue="#{perfilMB.filtroPerfis}"
-			  	emptyMessage="Sem registro!" paginator="true">
-			  	
-				<p:column headerText="Código" width="40" sortBy="#{filtroPerfis.codigo}">
+			<p:dataTable id="tabelaPerfil" widgetVar="tabelaPerfilWV"
+				var="filtroPerfis" value="#{perfilMB.listaperfis}" rows="6"
+				filteredValue="#{perfilMB.filtroPerfis}"
+				emptyMessage="Sem registro!" paginator="true">
+
+				<p:column headerText="Código" width="40"
+					sortBy="#{filtroPerfis.codigo}">
 					<h:outputText value="#{filtroPerfis.codigo}" />
 				</p:column>
 
-				<p:column headerText="Nome" filterBy="#{filtroPerfis.nome}" sortBy="#{filtroPerfis.nome}">
+				<p:column headerText="Nome" filterBy="#{filtroPerfis.nome}"
+					sortBy="#{filtroPerfis.nome}">
 					<h:outputText value="#{filtroPerfis.nome}" />
 				</p:column>
 
-				<p:column headerText="Status" filterBy="#{filtroPerfis.status}" sortBy="#{filtroPerfis.status}">
-					<h:outputText value="#{filtroPerfis.status}"/>
+				<p:column headerText="Status" filterBy="#{filtroPerfis.status}"
+					sortBy="#{filtroPerfis.status}">
+					<h:outputText value="#{filtroPerfis.status}" />
 				</p:column>
-				
-				<!--Botão Gravar  -->
+
+				<!--Botão Editar / Excluir  -->
 				<p:column headerText="Editar / Excluir" width="125">
-					<p:commandButton value = "Editar" action="#{perfilMB.selecionaEdicao(filtroPerfis)}" immediate="true"
-									 update=":cadastroPerfilfrm:dialogEdit" oncomplete="PF('edit').show();"/>
-					<p:commandButton value = "Excluir" action="#{perfilMB.excluir(filtroPerfis)}" immediate="true"
-									 update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil"/>
+					<p:commandButton value="Editar"
+						action="#{perfilMB.selecionaEdicao(filtroPerfis)}"
+						immediate="true" update=":cadastroPerfilfrm:dialogEdit"
+						oncomplete="PF('edit').show();" />
+					<p:commandButton value="Excluir"
+						action="#{perfilMB.excluir(filtroPerfis)}" immediate="true"
+						update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
 				</p:column>
 
 			</p:dataTable>
-			<p:dialog id="dialogEdit" header="Basic Dialog" widgetVar="edit" minHeight="40" showEffect="explode" hideEffect="explode">
-			    <!-- <h:outputText value="#{perfilMB.perfil.codigo}" /><br />
-			    <h:inputText value="#{perfilMB.perfil.nome}" /><br />
-			    <h:outputText value="#{perfilMB.perfil.status}" /><br /> -->
-			    
-			    
-			    <h:panelGrid columns="2" cellspacing="10">
-				
+
+			<!--Dialog para edição  -->
+			<p:dialog id="dialogEdit" header="Basic Dialog" widgetVar="edit"
+				minHeight="40" showEffect="explode" hideEffect="explode">
+				<p:outputLabel value="Dados Atuais:" />
+				<br />
+
+				<p:outputLabel value="Código: " />
+				<h:outputText value="#{perfilMB.perfil.codigo}" />
+				<br />
+
+				<p:outputLabel value="Nome: " />
+				<h:outputText value="#{perfilMB.perfil.nome}" />
+				<br />
+
+				<p:outputLabel value="Status: " />
+				<h:outputText value="#{perfilMB.perfil.status}" />
+				<br />
+
+				<p:separator />
+
+				<h:panelGrid columns="2" cellspacing="10">
+
 					<h:outputLabel value="Código:" />
-					<h:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
-					
+					<p:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
+
 					<h:outputLabel value="Nome:" />
-					<h:inputText value="#{perfilMB.perfil.nome}"/>
-					
+					<p:inputText value="#{perfilMB.perfil.nome}" />
+
 					<h:outputLabel value="Status:" />
-					<h:selectOneMenu value="#{perfilMB.perfil.status}">
-						<f:selectItem itemValue="Ativo"/>
-						<f:selectItem itemValue="Inativo"/>
-					</h:selectOneMenu>
-					
+					<p:selectOneMenu value="#{perfilMB.perfil.status}" effect="explode">
+						<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+						<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
+					</p:selectOneMenu>
+
 				</h:panelGrid>
-				
+
 				<h:panelGrid columns="1">
-					<p:commandButton value="Editar" action="#{perfilMB.editar()}" immediate="true"
-						update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil"/>
+					<p:commandButton value="Editar" action="#{perfilMB.editar()}"
+						immediate="true"
+						update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
 				</h:panelGrid>
-			    
+
 			</p:dialog>
 		</h:form>
 

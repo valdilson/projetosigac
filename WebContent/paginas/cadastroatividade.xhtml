@@ -13,39 +13,149 @@
 	<ui:define name="metadata">
 
 		<f:metadata>
-			<f:event listener="#{atividadeMB.listarAtividades}" type="preRenderView" />
-			<f:event listener="#{atividadeMB.pesquisaCodigo}" type="preRenderView" />
+			<f:event listener="#{atividadeMB.listarAtividades}"
+				type="preRenderView" />
+			<f:event listener="#{atividadeMB.pesquisaCodigo}"
+				type="preRenderView" />
 		</f:metadata>
 	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
-		<h:form id="cadastroatividadefrm">
-		<h:outputLabel value="CADASTRO DE ATIVIDADE"/>
-		
-			<h:panelGrid columns="2" cellspacing="10">
-				
-				<h:outputLabel value="Código:" />
-				<h:inputText value="#{atividadeMB.atividade.codigo}" disabled="true" />
-				
-				<h:outputLabel value="Nome:" />
-				<h:inputText value="#{atividadeMB.atividade.nome}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
-				
-				<h:outputLabel value="Descricao:" />
-				<h:inputTextarea value="#{atividadeMB.atividade.descricao}" disabled="false" required="true" requiredMessage="Campo Obrigatório"/>
-				
-				<h:outputLabel value="Status:" />
-				<h:selectOneMenu value="#{atividadeMB.atividade.status}">
-					<f:selectItem itemValue="Ativo"/>
-					<f:selectItem itemValue="Inativo"/>
-				</h:selectOneMenu>
-				
-			</h:panelGrid>
+		<h:form id="cadastroAtividadefrm">
 			
-			<h:panelGrid columns="1">
-				<p:commandButton value="Gravar" action="#{atividadeMB.salvar}" update=":cadastroatividadefrm :mgs"/>
-			</h:panelGrid>
+			<p:panel id="basic" header="CADASTRO ATIVIDADE"
+				style="margin-bottom:15px">
+				
+				<h:panelGrid columns="4" cellspacing="10">
 
+					<p:outputLabel value="Código:" />
+					<p:inputText value="#{atividadeMB.atividade.codigo}"
+						disabled="true" />
+
+					<p:outputLabel value="Nome:" />
+					<p:inputText value="#{atividadeMB.atividade.nome}" 
+								 required="true" requiredMessage="Campo Obrigatório" />
+
+					<p:outputLabel value="Horas:" />
+					<p:inputText value="#{atividadeMB.atividade.horas}"
+						disabled="false" />
+
+					<p:outputLabel value="Descricao:" />
+					<p:inputTextarea value="#{atividadeMB.atividade.descricao}"
+						disabled="false" required="true"
+						requiredMessage="Campo Obrigatório" />
+
+					<p:outputLabel value="Status:" />
+					<p:selectOneMenu value="#{atividadeMB.atividade.status}" effect="explode">
+						<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+						<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+				<!-- Botão Gravar -->
+				<h:panelGrid columns="1">
+					<p:commandButton value="Gravar" action="#{atividadeMB.salvar}"
+						update=":cadastroAtividadefrm :mgs" />
+				</h:panelGrid>
+			</p:panel>
+			
+			<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
+			<p:dataTable id="tabelaAtividade" widgetVar="tabelaAtividadeWV"
+				var="filtroAtividades" value="#{atividadeMB.listaAtividades}" rows="6"
+				filteredValue="#{atividadeMB.filtroAtividades}"
+				emptyMessage="Sem registro!" paginator="true">
+
+				<p:column headerText="Código" width="40"
+					sortBy="#{filtroAtividades.codigo}">
+					<h:outputText value="#{filtroAtividades.codigo}" />
+				</p:column>
+
+				<p:column headerText="Nome" filterBy="#{filtroAtividades.nome}"
+					sortBy="#{filtroAtividades.nome}">
+					<h:outputText value="#{filtroAtividades.nome}" />
+				</p:column>
+
+				<p:column headerText="Horas" width="120" filterBy="#{filtroAtividades.horas}"
+					sortBy="#{filtroAtividades.horas}">
+					<h:outputText value="#{filtroAtividades.horas}" />
+				</p:column>
+				
+				<p:column headerText="Status" width="120" filterBy="#{filtroAtividades.status}"
+					sortBy="#{filtroAtividades.status}">
+					<h:outputText value="#{filtroAtividades.status}" />
+				</p:column>
+
+				<!--Botão Editar / Excluir  -->
+				<p:column headerText="Editar / Excluir" width="125">
+					<p:commandButton value="Editar"
+						action="#{atividadeMB.selecionaEdicao(filtroAtividades)}"
+						immediate="true" update=":cadastroAtividadefrm:dialogEdit"
+						oncomplete="PF('edit').show();" />
+					<p:commandButton value="Excluir"
+						action="#{atividadeMB.excluir(filtroAtividades)}" immediate="true"
+						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+				</p:column>
+
+			</p:dataTable>
+			
+			<!--Dialog para edição  -->
+			<p:dialog id="dialogEdit" header="Basic Dialog" widgetVar="edit"
+				minHeight="40" showEffect="explode" hideEffect="explode" >
+				<p:outputLabel value="Dados Atuais:" />
+				<br />
+
+				<p:outputLabel value="Código: " />
+					<h:outputText value="#{atividadeMB.atividade.codigo}" /><br />
+
+					<p:outputLabel value="Nome: " />
+					<h:outputText value="#{atividadeMB.atividade.nome}" /><br />
+
+					<p:outputLabel value="Horas: " />
+					<h:outputText value="#{atividadeMB.atividade.horas}" /><br />
+
+					<p:outputLabel value="Descricao: " />
+					<h:outputText value="#{atividadeMB.atividade.descricao}" /><br />
+
+					<p:outputLabel value="Status: " />
+					<h:outputText value="#{atividadeMB.atividade.status}" /><br />
+
+				<p:separator />
+
+				<h:panelGrid columns="2" cellspacing="10">
+
+					<p:outputLabel value="Código:" />
+					<p:inputText value="#{atividadeMB.atividade.codigo}"
+						disabled="true" />
+
+					<p:outputLabel value="Nome:" />
+					<p:inputText value="#{atividadeMB.atividade.nome}" disabled="false" />
+
+					<p:outputLabel value="Horas:" />
+					<p:inputText value="#{atividadeMB.atividade.horas}"
+						disabled="false" />
+
+					<p:outputLabel value="Descricao:" />
+					<p:inputTextarea value="#{atividadeMB.atividade.descricao}"
+						disabled="false" />
+
+					<p:outputLabel value="Status:" />
+					<p:selectOneMenu value="#{atividadeMB.atividade.status}" effect="explode">
+						<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+						<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="1">
+					<p:commandButton value="Editar" action="#{atividadeMB.editar()}"
+						immediate="true"
+						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+				</h:panelGrid>
+
+			</p:dialog>
+			
 		</h:form>
 
 	</ui:define>

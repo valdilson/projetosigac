@@ -21,63 +21,68 @@
 	<ui:define name="menuPrincipal">
 
 		<h:form id="cadastroUnidadefrm">
-			<h:outputLabel value="CADASTRO DE UNIDADE" />
+			<p:outputLabel value="CADASTRO DE UNIDADE" />
 
 			<h:panelGrid columns="4" cellspacing="10">
 
-				<h:outputLabel value="Código:" />
-				<h:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
+				<p:outputLabel value="Código:" />
+				<p:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
 
-
-				<h:outputLabel value="Nome:" />
+				<p:outputLabel value="Nome:" />
 				<h:panelGroup>
-					<h:inputText id="nomeUnidade" value="#{unidadeMB.unidade.nome}" disabled="false"
-						required="true" requiredMessage="Campo Obrigatório" />
-					<h:message for="nomeUnidaded"/>
+					<p:inputText id="nomeUnidade" value="#{unidadeMB.unidade.nome}"
+						disabled="false" required="true"
+						requiredMessage="Campo Nome Obrigatório" />
+					<h:message for="nomeUnidade" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Endereco:" />
-				<h:inputText value="#{unidadeMB.unidade.endereco}" disabled="false"
-					required="true" requiredMessage="Campo Obrigatório" />
+				<p:outputLabel value="Endereco:" />
+				<p:inputText value="#{unidadeMB.unidade.endereco}" disabled="false"
+					required="true" requiredMessage="Campo Endereço Obrigatório" />
 
-				<h:outputLabel value="Bairro:" />
-				<h:inputText value="#{unidadeMB.unidade.bairro}" disabled="false"
-					required="true" requiredMessage="Campo Obrigatório" />
+				<p:outputLabel value="Bairro:" />
+				<p:inputText value="#{unidadeMB.unidade.bairro}" disabled="false"
+					required="true" requiredMessage="Campo Bairro Obrigatório" />
 
-				<h:outputLabel value="Cep:" />
+				<p:outputLabel value="Cep:" />
 				<p:inputMask mask="99.999-999" value="#{unidadeMB.unidade.cep}"
 					disabled="false" required="true"
-					requiredMessage="Campo Obrigatório" size="17" />
+					requiredMessage="Campo CEP Obrigatório" size="20" />
 
-				<h:outputLabel value="Cidade:" />
-				<h:inputText value="#{unidadeMB.unidade.cidade}" disabled="false"
-					required="true" requiredMessage="Campo Obrigatório" />
+				<p:outputLabel value="Cidade:" />
+				<p:inputText value="#{unidadeMB.unidade.cidade}" disabled="false"
+					required="true" requiredMessage="Campo Cidade Obrigatório" />
 
-				<h:outputLabel value="Estado:" />
-				<h:inputText value="#{unidadeMB.unidade.estado}" disabled="false"
-					required="true" requiredMessage="Campo Obrigatório" />
+				<p:outputLabel value="Estado:" />
+				<p:inputText value="#{unidadeMB.unidade.estado}" disabled="false"
+					required="true" requiredMessage="Campo Estado Obrigatório" />
 
-				<h:outputLabel value="Telefone:" />
+				<p:outputLabel value="Telefone:" />
 				<p:inputMask mask="(99)9999-9999"
 					value="#{unidadeMB.unidade.telefone}" disabled="false"
-					required="true" requiredMessage="Campo Obrigatório" size="17" />
+					required="true" requiredMessage="Campo Telefone Obrigatório"
+					size="20" />
 			</h:panelGrid>
 
+			<!-- Botato Gravar -->
 			<h:panelGrid columns="1">
 				<p:commandButton value="Gravar" action="#{unidadeMB.salvar}"
-					update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade"/>
+					update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
 			</h:panelGrid>
 
 			<!-- Começo tabela -->
-			<p:dataTable id="tabelaUnidade" widgetVar="tabelaUnidadeWV" var="filtroUnidades"
-			 	value="#{unidadeMB.listaUnidades}" rows="6" filteredValue="#{unidadeMB.filtroUnidades}"
-			  	emptyMessage="Sem registro!" paginator="true">
-			  	
-				<p:column headerText="Código" width="40" sortBy="#{filtroUnidades.codigo}">
+			<p:dataTable id="tabelaUnidade" widgetVar="tabelaUnidadeWV"
+				var="filtroUnidades" value="#{unidadeMB.listaUnidades}" rows="6"
+				filteredValue="#{unidadeMB.filtroUnidades}"
+				emptyMessage="Sem registro!" paginator="true">
+
+				<p:column headerText="Código" width="40"
+					sortBy="#{filtroUnidades.codigo}">
 					<h:outputText value="#{filtroUnidades.codigo}" />
 				</p:column>
 
-				<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}" sortBy="#{filtroUnidades.nome}">
+				<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}"
+					sortBy="#{filtroUnidades.nome}">
 					<h:outputText value="#{filtroUnidades.nome}" />
 				</p:column>
 
@@ -86,12 +91,12 @@
 				</p:column>
 
 				<p:column headerText="Telefone" width="80">
-					<h:outputText value="#{filtroUnidades.telefone}"/>
+					<h:outputText value="#{filtroUnidades.telefone}" />
 				</p:column>
-				
+
 				<p:column headerText="Editar / Excluir" width="125">
-					<p:commandButton value = "Editar" action="#{unidadeMB.editar()}"/>
-					<p:commandButton value = "Excluir" action="#{unidadeMB.excluir()}"/>
+					<p:commandButton value="Editar" action="#{unidadeMB.editar()}" />
+					<p:commandButton value="Excluir" action="#{unidadeMB.excluir()}" />
 				</p:column>
 
 			</p:dataTable>

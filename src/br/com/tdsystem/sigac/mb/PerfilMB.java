@@ -15,12 +15,15 @@ public class PerfilMB implements Serializable {
 	public PerfilMB() {
 		listarPerfils();
 	}
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Perfil> listaPerfis = null;
 	private List<Perfil> filtroPerfis = null;
-	
+
+	private Perfil perfil = null;
+	private PerfilDAO perfilDAO = null;
+
 	public List<Perfil> getFiltroPerfis() {
 		return filtroPerfis;
 	}
@@ -29,11 +32,6 @@ public class PerfilMB implements Serializable {
 		this.filtroPerfis = filtroPerfis;
 	}
 
-	private Perfil perfil = null;
-	private PerfilDAO perfilDAO =  null;
-	
-	
-	
 	public List<Perfil> getListaperfis() {
 		return listaPerfis;
 	}
@@ -43,7 +41,7 @@ public class PerfilMB implements Serializable {
 	}
 
 	public Perfil getPerfil() {
-		if(perfil == null){
+		if (perfil == null) {
 			perfil = new Perfil();
 		}
 		return perfil;
@@ -64,7 +62,7 @@ public class PerfilMB implements Serializable {
 	public void salvar() {
 
 		try {
-			
+
 			perfilDAO = new PerfilDAO();
 			perfilDAO.salvar(perfil);
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
@@ -92,7 +90,7 @@ public class PerfilMB implements Serializable {
 	public void selecionaEdicao(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	
+
 	public void editar() {
 
 		try {

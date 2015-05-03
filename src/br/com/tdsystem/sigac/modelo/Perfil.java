@@ -16,26 +16,25 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table
 @NamedQueries({
-	@NamedQuery(name="Perfil.lista", query="Select perfil from Perfil perfil"),
-	@NamedQuery(name="Perfil.codigo", query="Select perfil from Perfil perfil where perfil.codigo = :codigo"),
-	@NamedQuery(name="Perfil.nome", query="Select perfil from Perfil perfil where perfil.nome = :nome"),
-	@NamedQuery(name="Perfil.status", query="Select perfil from Perfil perfil where perfil.status = :status")
-})
+		@NamedQuery(name = "Perfil.lista", query = "Select perfil from Perfil perfil"),
+		@NamedQuery(name = "Perfil.codigo", query = "Select perfil from Perfil perfil where perfil.codigo = :codigo"),
+		@NamedQuery(name = "Perfil.nome", query = "Select perfil from Perfil perfil where perfil.nome = :nome"),
+		@NamedQuery(name = "Perfil.status", query = "Select perfil from Perfil perfil where perfil.status = :status") })
 public class Perfil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@Column(name="codigo")
+
+	@Column(name = "codigo")
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
-	
-	@Column(name="nome")
-	@NotEmpty(message="Campo nome obrigatório")
+
+	@Column(name = "nome")
+	//@NotEmpty(message = "Campo Nome obrigatório")
 	private String nome;
-	
-	@Column(name="status")
-	@NotEmpty(message="Campo status obrigatório")
+
+	@Column(name = "status")
+	@NotEmpty(message = "Campo status obrigatório")
 	private String status;
 
 	public Long getCodigo() {
@@ -104,7 +103,5 @@ public class Perfil implements Serializable {
 		return "Perfil [codigo=" + codigo + ", nome=" + nome + ", status="
 				+ status + "]";
 	}
-	
-	
 
 }

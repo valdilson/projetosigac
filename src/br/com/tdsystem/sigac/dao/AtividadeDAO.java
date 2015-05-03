@@ -83,7 +83,7 @@ public void salvar(Atividade atividade){
 		List<Atividade> listaAtividades = null;
 		try {
 			
-			Query hql = secao.getNamedQuery("atividade.lista");
+			Query hql = secao.getNamedQuery("Atividade.lista");
 			listaAtividades = hql.list();
 			
 		} catch (RuntimeException e) {
@@ -100,7 +100,7 @@ public void salvar(Atividade atividade){
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		Atividade atividade = null;
 		try{
-			Query hql = secao.getNamedQuery("atividade.codido");
+			Query hql = secao.getNamedQuery("Atividade.codido");
 			hql.setLong("codigo", codigo);
 			atividade = (Atividade) hql.uniqueResult();
 			

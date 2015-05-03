@@ -2,8 +2,10 @@ package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.util.FacesUtil;
@@ -15,17 +17,28 @@ public class AtividadeMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private List<Atividade> listaAtividades = null;
+	private List<Atividade> filtroAtividades = null;
 	private Atividade atividade = null;
 	private AtividadeDAO atividadeDAO =  null;
 	
-	
-	
-	public List<Atividade> getlistaAtividades() {
+	public AtividadeMB() {
+		listarAtividades();
+	}
+
+	public List<Atividade> getListaAtividades() {
 		return listaAtividades;
 	}
 
-	public void setlistaAtividades(List<Atividade> listaAtividades) {
+	public void setListaAtividades(List<Atividade> listaAtividades) {
 		this.listaAtividades = listaAtividades;
+	}
+
+	public List<Atividade> getFiltroAtividades() {
+		return filtroAtividades;
+	}
+
+	public void setFiltroAtividades(List<Atividade> filtroAtividades) {
+		this.filtroAtividades = filtroAtividades;
 	}
 
 	public Atividade getAtividade() {
@@ -45,6 +58,10 @@ public class AtividadeMB implements Serializable {
 
 	public void setAtividadeDAO(AtividadeDAO atividadeDAO) {
 		this.atividadeDAO = atividadeDAO;
+	}
+	
+	public void selecionaEdicao(Atividade atividade){
+		this.atividade = atividade;
 	}
 
 	public void salvar() {
