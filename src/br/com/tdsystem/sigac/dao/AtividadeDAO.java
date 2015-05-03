@@ -36,7 +36,7 @@ public void salvar(Atividade atividade){
 		}
 	}//Fim salvar
 
-	public void exluir(Atividade atividade){
+	public void excluir(Atividade atividade){
 		
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -100,7 +100,7 @@ public void salvar(Atividade atividade){
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		Atividade atividade = null;
 		try{
-			Query hql = secao.getNamedQuery("Atividade.codido");
+			Query hql = secao.getNamedQuery("Atividade.codigo");
 			hql.setLong("codigo", codigo);
 			atividade = (Atividade) hql.uniqueResult();
 			

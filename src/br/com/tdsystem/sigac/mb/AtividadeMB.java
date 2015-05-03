@@ -82,7 +82,7 @@ public class AtividadeMB implements Serializable {
 
 		try {
 			atividadeDAO = new AtividadeDAO();
-			atividadeDAO.exluir(atividade);
+			atividadeDAO.excluir(atividade);
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
