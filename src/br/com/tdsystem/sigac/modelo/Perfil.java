@@ -10,16 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import br.com.tdsystem.sigac.util.Constante;
+
 @Entity
-@Table
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
 @NamedQueries({
-		@NamedQuery(name = "Perfil.lista", query = "Select perfil from Perfil perfil"),
-		@NamedQuery(name = "Perfil.codigo", query = "Select perfil from Perfil perfil where perfil.codigo = :codigo"),
-		@NamedQuery(name = "Perfil.nome", query = "Select perfil from Perfil perfil where perfil.nome = :nome"),
-		@NamedQuery(name = "Perfil.status", query = "Select perfil from Perfil perfil where perfil.status = :status") })
+		@NamedQuery(name = Constante.NamedQueries.PERFIL_LISTA, query = "Select perfil from Perfil perfil"),
+		@NamedQuery(name = Constante.NamedQueries.PERFIL_CODIGO, query = "Select perfil from Perfil perfil where perfil.codigo = :codigo"),
+		@NamedQuery(name = Constante.NamedQueries.PERFIL_NOME, query = "Select perfil from Perfil perfil where perfil.nome like :nome"),
+		@NamedQuery(name = Constante.NamedQueries.PERFIL_STATUS, query = "Select perfil from Perfil perfil where perfil.status = :status") })
 public class Perfil implements Serializable {
 
 	private static final long serialVersionUID = 1L;

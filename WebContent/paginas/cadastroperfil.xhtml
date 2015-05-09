@@ -22,16 +22,16 @@
 
 		<h:form id="cadastroPerfilfrm">
 
-			<h:panelGrid columns="2" cellspacing="10">
+			<h:panelGrid columns="2" cellspacing="10" id="cadastro">
 
 				<p:outputLabel value="Código:" />
 				<p:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
 
 				<p:outputLabel value="Nome:" />
-				<p:inputText value="#{perfilMB.perfil.nome}"/>
+				<p:inputText value="#{perfilMB.perfil.nome}" />
 
 				<h:outputLabel value="Status:" />
-				<p:selectOneMenu value="#{perfilMB.perfil.status}" effect="explode">
+				<p:selectOneMenu value="#{perfilMB.perfil.status}" effect="explode" >
 					<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
 					<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
 				</p:selectOneMenu>
@@ -39,8 +39,14 @@
 			</h:panelGrid>
 
 			<!-- Botão Gravar -->
-			<h:panelGrid columns="1">
+			<h:panelGrid columns="1" rendered="#{perfilMB.perfil.codigo == null}">
 				<p:commandButton value="Gravar" action="#{perfilMB.salvar}"
+					update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
+			</h:panelGrid>
+			
+			<!-- Botão Editar -->
+			<h:panelGrid columns="1" rendered="#{perfilMB.perfil.codigo != null}">
+				<p:commandButton value="Editar" action="#{perfilMB.editar}"
 					update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
 			</h:panelGrid>
 
@@ -69,58 +75,13 @@
 				<p:column headerText="Editar / Excluir" width="125">
 					<p:commandButton value="Editar"
 						action="#{perfilMB.selecionaEdicao(filtroPerfis)}"
-						immediate="true" update=":cadastroPerfilfrm:dialogEdit"
-						oncomplete="PF('edit').show();" />
+						update="@all" />
 					<p:commandButton value="Excluir"
 						action="#{perfilMB.excluir(filtroPerfis)}" immediate="true"
 						update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
 				</p:column>
 
 			</p:dataTable>
-
-			<!--Dialog para edição  -->
-			<p:dialog id="dialogEdit" header="Basic Dialog" widgetVar="edit"
-				minHeight="40" showEffect="explode" hideEffect="explode">
-				<p:outputLabel value="Dados Atuais:" />
-				<br />
-
-				<p:outputLabel value="Código: " />
-				<h:outputText value="#{perfilMB.perfil.codigo}" />
-				<br />
-
-				<p:outputLabel value="Nome: " />
-				<h:outputText value="#{perfilMB.perfil.nome}" />
-				<br />
-
-				<p:outputLabel value="Status: " />
-				<h:outputText value="#{perfilMB.perfil.status}" />
-				<br />
-
-				<p:separator />
-
-				<h:panelGrid columns="2" cellspacing="10">
-
-					<h:outputLabel value="Código:" />
-					<p:inputText value="#{perfilMB.perfil.codigo}" disabled="true" />
-
-					<h:outputLabel value="Nome:" />
-					<p:inputText value="#{perfilMB.perfil.nome}" />
-
-					<h:outputLabel value="Status:" />
-					<p:selectOneMenu value="#{perfilMB.perfil.status}" effect="explode">
-						<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
-						<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
-					</p:selectOneMenu>
-
-				</h:panelGrid>
-
-				<h:panelGrid columns="1">
-					<p:commandButton value="Editar" action="#{perfilMB.editar()}"
-						immediate="true"
-						update=":cadastroPerfilfrm :mgs :cadastroPerfilfrm:tabelaPerfil" />
-				</h:panelGrid>
-
-			</p:dialog>
 		</h:form>
 
 	</ui:define>

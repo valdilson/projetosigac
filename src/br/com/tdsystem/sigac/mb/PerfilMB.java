@@ -14,6 +14,7 @@ public class PerfilMB implements Serializable {
 
 	public PerfilMB() {
 		listarPerfils();
+		perfil = new Perfil();
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -41,9 +42,6 @@ public class PerfilMB implements Serializable {
 	}
 
 	public Perfil getPerfil() {
-		if (perfil == null) {
-			perfil = new Perfil();
-		}
 		return perfil;
 	}
 
@@ -65,6 +63,7 @@ public class PerfilMB implements Serializable {
 
 			perfilDAO = new PerfilDAO();
 			perfilDAO.salvar(perfil);
+			perfil = new Perfil();
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 		} catch (RuntimeException e) {
@@ -96,6 +95,7 @@ public class PerfilMB implements Serializable {
 		try {
 			perfilDAO = new PerfilDAO();
 			perfilDAO.editar(perfil);
+			perfil = new Perfil();
 			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
