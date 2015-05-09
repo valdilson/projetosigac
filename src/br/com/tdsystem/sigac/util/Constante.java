@@ -13,6 +13,7 @@ public interface Constante {
 		String PERFIL_CODIGO = "Perfil.codigo";
 		String PERFIL_NOME = "Perfil.nome";
 		String PERFIL_STATUS = "Perfil.status";
+		String ALUNO_RECUPERARPORLOGIN = "Aluno.recuperarPorLogin";
 	}
 	
 }

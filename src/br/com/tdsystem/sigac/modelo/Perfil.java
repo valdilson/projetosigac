@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,8 +39,8 @@ public class Perfil implements Serializable {
 	private String nome;
 
 	@Column(name = "status")
-	@NotEmpty(message = "Campo status obrigatório")
-	private String status;
+	@Enumerated(EnumType.ORDINAL)
+	private Status status;
 
 	public Long getCodigo() {
 		return codigo;
@@ -56,11 +58,11 @@ public class Perfil implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

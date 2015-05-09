@@ -23,7 +23,8 @@
 			<h:form>
 				<p:growl id="messages" />
 
-				<p:menubar>
+				<h:panelGroup rendered="#{loginMB.usuario != null}">
+					<p:menubar>
 					<p:submenu label="Cadastros" icon="ui-icon-document">
 						<p:submenu label="Usuários" icon="ui-icon-contact">
 							<p:menuitem value="Coordenador" url="#" />
@@ -77,9 +78,36 @@
 						<p:menuitem value="Sobre o Sistema" url="#" />
 					</p:submenu>
 
-					<p:menuitem value="Sair" url="#" icon="ui-icon-close" />
+					<p:menuitem value="Sair" url="#" icon="ui-icon-close" action="#{loginMB.sair}" update="@all" />
 
 				</p:menubar>
+				</h:panelGroup>
+				<h:panelGroup id="login" rendered="#{loginMB.usuario.perfil == null}">
+					<h:form>            
+					    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login"> teste
+					        <p:graphicImage name="#{facesContext.externalContext.requestContextPath}/resources/imagens/fundoMenu.jpg" />
+					    </h:outputLink>
+					 
+					    <p:dialog id="dialogLogin" header="Login" widgetVar="dlg" resizable="false">
+					        <h:panelGrid id="gridLoguin" columns="2" cellpadding="5">
+					            <h:outputLabel for="username" value="Perfil:" />
+					            <p:selectOneMenu value="#{loginMB.perfil}" effect="explode" >
+									<f:selectItems value="#{applicationMB.listaPerfis}" var="status" itemLabel="#{status.descricao}" itemValue="#{status}" />
+								</p:selectOneMenu>
+					            
+					            <h:outputLabel for="username" value="Username:" />
+					            <p:inputText id="username" value="#{loginMB.username}" required="true" label="username" />
+					 
+					            <h:outputLabel for="password" value="Password:" />
+					            <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
+					            
+					            <f:facet name="footer">
+					                <p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />
+					            </f:facet>  
+					        </h:panelGrid>
+					    </p:dialog>
+					</h:form>
+				</h:panelGroup>
 
 			</h:form>
 			<!-- <h:graphicImage alt="School" value="/resources/imagens/school.png" /> -->

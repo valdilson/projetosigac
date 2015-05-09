@@ -1,14 +1,19 @@
 package br.com.tdsystem.sigac.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -37,14 +42,18 @@ public class Atividade implements Serializable {
 	
 	@Column(name="horas")
 	@NotNull(message = "Campo horas Obrigatório!")
-	private Float horas;
+	private Integer horas;
 
 	@Column(name = "descricao")
 	@NotEmpty(message = "Campo descricao obrigatório!")
 	private String descricao;
 	
 	@Column(name = "status")
-	private String status;
+	@Enumerated(EnumType.ORDINAL)
+	private Status status;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="atividade")
+	private List<AtividadeRealizada> atividadesRealizadas;
 
 	public Long getCodigo() {
 		return codigo;
@@ -62,7 +71,7 @@ public class Atividade implements Serializable {
 		this.nome = nome;
 	}
 	
-	public void setHoras(Float horas) {
+	public void setHoras(Integer horas) {
 		this.horas = horas;
 	}
 	
@@ -123,7 +132,7 @@ public class Atividade implements Serializable {
 		return true;
 	}
 
-	public Float getHoras() {
+	public Integer getHoras() {
 		return horas;
 	}
 
@@ -135,13 +144,14 @@ public class Atividade implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+
+
 	
 }

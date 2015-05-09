@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
 import br.com.tdsystem.sigac.modelo.Atividade;
+import br.com.tdsystem.sigac.modelo.Status;
 
 public class TesteAtividade {
 
@@ -18,9 +19,9 @@ public class TesteAtividade {
 
 		atividade.setCodigo(1l);
 		atividade.setNome("Palestra T.I");
-		atividade.setHoras(2F);
+		atividade.setHoras(2);
 		atividade.setDescricao("Palestra sobre Desenvolvimento");
-		atividade.setStatus("Ativo");
+		atividade.setStatus(Status.ATIVO);
 		atividadeDAO.salvar(atividade);
 	}
 	

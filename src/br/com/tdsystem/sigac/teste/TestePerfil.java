@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import br.com.tdsystem.sigac.dao.PerfilDAO;
 import br.com.tdsystem.sigac.modelo.Perfil;
+import br.com.tdsystem.sigac.modelo.Status;
 
 public class TestePerfil {
 
@@ -18,7 +19,7 @@ public class TestePerfil {
 		
 			perfil.setCodigo(1l);
 			perfil.setNome("Teste");
-			perfil.setStatus("Ativo");
+			perfil.setStatus(Status.ATIVO);
 			perfilDAO.salvar(perfil);
 }
 	

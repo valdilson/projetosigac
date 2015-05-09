@@ -36,7 +36,10 @@
 		<mapping class="br.com.tdsystem.sigac.modelo.Unidade"/>
 		<mapping class="br.com.tdsystem.sigac.modelo.Perfil"/>
 		<mapping class="br.com.tdsystem.sigac.modelo.Atividade"/>
-		<mapping class="br.com.tdsystem.sigac.modelo.Turma"/>	
+		<mapping class="br.com.tdsystem.sigac.modelo.Turma"/>
+		<mapping class="br.com.tdsystem.sigac.modelo.Coordenador"/>
+		<mapping class="br.com.tdsystem.sigac.modelo.AtividadeRealizada"/>
+		<mapping class="br.com.tdsystem.sigac.modelo.Aluno"/>
 				
 	</session-factory>
 
