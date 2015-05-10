@@ -25,7 +25,8 @@ public class TurmaDAO {
 		try {
 			transaction = session.beginTransaction();
 			session.save(turma);
-			transaction.commit(); // comit confirma a transaction.
+			transaction.commit(); // commit confirma a transaction.
+			System.out.println("Gravou");
 			
 		// em caso de erro 
 		} catch (RuntimeException ex) {

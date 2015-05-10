@@ -12,17 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import org.hibernate.validator.constraints.NotEmpty;
+
+import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(name = "Turma")
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
 @NamedQueries({
-	@NamedQuery(name="Turma.lista", query="Select turma from Turma turma"),
-	@NamedQuery(name="Turma.codigo", query="Select turma from Turma turma where turma.codigo = :codigo"),
-	@NamedQuery(name="Turma.nome", query="Select turma from Turma turma where turma.nome = :nome"),
-	@NamedQuery(name="Turma.status", query="Select turma from Turma turma where turma.status = :status")
-})
+		@NamedQuery(name = Constante.NamedQueries.TURMA_LISTA, query = "Select turma from Turma turma"),
+		@NamedQuery(name = Constante.NamedQueries.TURMA_CODIGO, query = "Select turma from Turma turma where turma.codigo = :codigo"),
+		@NamedQuery(name = Constante.NamedQueries.TURMA_NOME, query = "Select turma from Turma turma where turma.nome like :nome"),
+		@NamedQuery(name = Constante.NamedQueries.TURMA_STATUS, query = "Select turma from Turma turma where turma.status = :status") })
+
 public class Turma implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,7 +38,6 @@ public class Turma implements Serializable {
 	private String nome;
 
 	@Column(name = "status")
-	@NotEmpty(message = "Campo status obrigatório")
 	@Enumerated(EnumType.ORDINAL)
 	private Status status;
 

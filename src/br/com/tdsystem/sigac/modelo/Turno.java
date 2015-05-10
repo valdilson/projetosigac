@@ -17,23 +17,22 @@ import javax.persistence.UniqueConstraint;
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome" }) })
 @NamedQueries({
-		@NamedQuery(name = Constante.NamedQueries.PERFIL_LISTA, query = "Select perfil from Perfil perfil"),
-		@NamedQuery(name = Constante.NamedQueries.PERFIL_CODIGO, query = "Select perfil from Perfil perfil where perfil.codigo = :codigo"),
-		@NamedQuery(name = Constante.NamedQueries.PERFIL_NOME, query = "Select perfil from Perfil perfil where perfil.nome like :nome"),
-		@NamedQuery(name = Constante.NamedQueries.PERFIL_STATUS, query = "Select perfil from Perfil perfil where perfil.status = :status") })
-public class Perfil implements Serializable {
+		@NamedQuery(name = Constante.NamedQueries.TURNO_LISTA, query = "Select turno from Turno turno"),
+		@NamedQuery(name = Constante.NamedQueries.TURNO_CODIGO, query = "Select turno from Turno turno where turno.codigo = :codigo"),
+		@NamedQuery(name = Constante.NamedQueries.TURNO_NOME, query = "Select turno from Turno turno where turno.nome like :nome"),
+		@NamedQuery(name = Constante.NamedQueries.TURNO_STATUS, query = "Select turno from Turno turno where turno.status = :status") })
+public class Turno implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "codigo")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "codigo")
 	private Long codigo;
 
-	@Column(name = "nome")
-	//@NotEmpty(message = "Campo Nome obrigatório")
+	@Column(name = "nome", length = 100, nullable = false)
 	private String nome;
 
 	@Column(name = "status")
@@ -65,6 +64,12 @@ public class Perfil implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "Turno [codigo=" + codigo + ", nome=" + nome + ", status="
+				+ status + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -82,7 +87,7 @@ public class Perfil implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Perfil other = (Perfil) obj;
+		Turno other = (Turno) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
@@ -93,18 +98,9 @@ public class Perfil implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
+		if (status != other.status)
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Perfil [codigo=" + codigo + ", nome=" + nome + ", status="
-				+ status + "]";
-	}
-
+	
 }
