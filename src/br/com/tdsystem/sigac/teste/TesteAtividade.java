@@ -12,7 +12,7 @@ import br.com.tdsystem.sigac.modelo.Status;
 public class TesteAtividade {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar() {
 		Atividade atividade = new Atividade();
 		AtividadeDAO atividadeDAO = new AtividadeDAO();
@@ -26,6 +26,7 @@ public class TesteAtividade {
 	}
 	
 	@Test
+	@Ignore
 	public void testeListarAtividade(){
 		AtividadeDAO atividadeDAO = new AtividadeDAO();
 		List<Atividade> listaAtividades = atividadeDAO.listaAtividade();

@@ -26,6 +26,10 @@ public interface Constante {
 		String PERIODO_CODIGO = "Periodo.codigo";
 		String PERIODO_NOME = "Periodo.nome";
 		String PERIODO_STATUS = "Periodo.status";
+		String ATIVIDADE_LISTA = "Atividade.lista";
+		String ATIVIDADE_CODIGO = "Atividade.codigo";
+		String ATIVIDADE_NOME = "Atividade.nome";
+		String ATIVIDADE_STATUS = "Atividade.status";
 	}
 	
 }

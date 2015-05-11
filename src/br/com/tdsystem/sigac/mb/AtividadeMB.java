@@ -78,7 +78,7 @@ public class AtividadeMB implements Serializable {
 		}
 	}
 
-	public void excluir() {
+	public void excluir(Atividade atividade) {
 
 		try {
 			atividadeDAO = new AtividadeDAO();
