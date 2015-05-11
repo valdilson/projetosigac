@@ -41,7 +41,8 @@
 		<mapping class="br.com.tdsystem.sigac.modelo.AtividadeRealizada"/>
 		<mapping class="br.com.tdsystem.sigac.modelo.Aluno"/>
 		<mapping class="br.com.tdsystem.sigac.modelo.Turno"/>
-		<mapping class="br.com.tdsystem.sigac.modelo.Periodo"/>		
+		<mapping class="br.com.tdsystem.sigac.modelo.Periodo"/>
+		<mapping class="br.com.tdsystem.sigac.modelo.Curso"/>		
 	</session-factory>
 
 </hibernate-configuration>
