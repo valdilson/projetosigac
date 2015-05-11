@@ -22,6 +22,10 @@ public interface Constante {
 		String TURNO_CODIGO = "Turno.codigo";
 		String TURNO_NOME = "Turno.nome";
 		String TURNO_STATUS = "Turno.status";
+		String PERIODO_LISTA = "Periodo.lista";
+		String PERIODO_CODIGO = "Periodo.codigo";
+		String PERIODO_NOME = "Periodo.nome";
+		String PERIODO_STATUS = "Periodo.status";
 	}
 	
 }
