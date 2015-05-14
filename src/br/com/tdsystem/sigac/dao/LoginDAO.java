@@ -1,5 +1,8 @@
 package br.com.tdsystem.sigac.dao;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.persistence.NoResultException;
 
 import org.hibernate.Query;
@@ -9,14 +12,16 @@ import br.com.tdsystem.sigac.modelo.IPessoa;
 import br.com.tdsystem.sigac.modelo.PerfilEnum;
 import br.com.tdsystem.sigac.modelo.Usuario;
 import br.com.tdsystem.sigac.util.Constante;
+import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
 public class LoginDAO {
 
-	public Usuario recuperarUsuario(String username, String password, PerfilEnum perfil) throws NoResultException {
+	@SuppressWarnings("unchecked")
+	public Usuario recuperarUsuario(String username, String password, PerfilEnum perfil) throws NoResultException, NoSuchAlgorithmException {
 		
 		Query hql = null;
-		IPessoa pessoa = null;
+		List<IPessoa> listaPessoa = null;
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		
 		switch (perfil) {
@@ -32,13 +37,17 @@ public class LoginDAO {
 		}
 		
 		hql.setString("username", username);
-		pessoa = (IPessoa) hql.uniqueResult();
-		if (pessoa != null && pessoa.getPassword().equals(password)) {
-			Usuario u = new Usuario();
-			u.setUsuario(pessoa);
-			u.setPerfil(perfil);
-			return u;
+		listaPessoa = hql.list();
+		
+		for (IPessoa iPessoa : listaPessoa) {
+			if (iPessoa != null && iPessoa.getPassword().equals(CriptografaSenhaMD5.converteSenhaMD5(password))) {
+				Usuario u = new Usuario();
+				u.setUsuario(iPessoa);
+				u.setPerfil(perfil);
+				return u;
+			}
 		}
+		
 		throw new NoResultException();
 	}
 	

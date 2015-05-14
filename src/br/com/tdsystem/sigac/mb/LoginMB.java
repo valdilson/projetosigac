@@ -1,5 +1,7 @@
 package br.com.tdsystem.sigac.mb;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -53,7 +55,7 @@ public class LoginMB {
         this.password = password;
     }
    
-    public void login(ActionEvent event) {
+    public void login(ActionEvent event) throws NoSuchAlgorithmException {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
         boolean loggedIn = false;

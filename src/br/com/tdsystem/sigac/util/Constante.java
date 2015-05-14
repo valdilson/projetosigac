@@ -14,6 +14,8 @@ public interface Constante {
 		String PERFIL_NOME = "Perfil.nome";
 		String PERFIL_STATUS = "Perfil.status";
 		String ALUNO_RECUPERARPORLOGIN = "Aluno.recuperarPorLogin";
+		String ALUNO_RECUPERA_LISTA = "Aluno.lista";
+		String ALUNO_RECUPERA_CODIGO = "Aluno.codigo";
 		String TURMA_LISTA = "Turma.lista";
 		String TURMA_CODIGO = "Turma.codigo";
 		String TURMA_NOME = "Turma.nome";
