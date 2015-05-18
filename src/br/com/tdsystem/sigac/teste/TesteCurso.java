@@ -12,20 +12,30 @@ import br.com.tdsystem.sigac.modelo.Curso;
 public class TesteCurso {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar() {
 		
 		Curso curso = new Curso();
 		CursoDAO cursoDAO = new CursoDAO();
 		
-		curso.setNome("Curso1");
+		curso.setNome("Sistemas de Informação");
+		curso.setStatus(Status.ATIVO);		
+		cursoDAO.salvar(curso);
+		
+		curso = new Curso();
+		curso.setNome("Técnologia em Análise e Desenvolvimento de Sistemas");
+		curso.setStatus(Status.ATIVO);		
+		cursoDAO.salvar(curso);
+		
+		curso = new Curso();
+		curso.setNome("Direito");
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	 public void testeListar(){
 		 
 		 CursoDAO cursoDAO = new CursoDAO();

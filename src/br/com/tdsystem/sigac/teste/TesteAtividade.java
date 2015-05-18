@@ -23,6 +23,13 @@ public class TesteAtividade {
 		atividade.setDescricao("Palestra sobre Desenvolvimento");
 		atividade.setStatus(Status.ATIVO);
 		atividadeDAO.salvar(atividade);
+		
+		atividade = new Atividade();
+		atividade.setNome("Passeio Ciclístico");
+		atividade.setHoras(5);
+		atividade.setDescricao("Passeio lagoa da Pampulha");
+		atividade.setStatus(Status.ATIVO);
+		atividadeDAO.salvar(atividade);
 	}
 	
 	@Test

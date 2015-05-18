@@ -18,7 +18,42 @@ public class TestePeriodo {
 		Periodo periodo = new Periodo();
 		PeriodoDAO periodoDAO = new PeriodoDAO();
 		
-		periodo.setNome("Periodo1");
+		periodo.setNome("1°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("2°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("3°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("4°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("5°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("6°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("7°");
+		periodo.setStatus(Status.ATIVO);		
+		periodoDAO.salvar(periodo);
+		
+		periodo = new Periodo();
+		periodo.setNome("8°");
 		periodo.setStatus(Status.ATIVO);		
 		periodoDAO.salvar(periodo);
 		

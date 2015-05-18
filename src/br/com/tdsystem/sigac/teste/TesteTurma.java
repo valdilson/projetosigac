@@ -12,16 +12,35 @@ import br.com.tdsystem.sigac.modelo.Turma;
 public class TesteTurma {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar() {
 		
 		Turma turma = new Turma();
 		TurmaDAO turmaDAO = new TurmaDAO();
 		
-		turma.setNome("Turma1");
+		turma.setNome("101");
 		turma.setStatus(Status.ATIVO);		
 		turmaDAO.salvar(turma);
 		
+		turma = new Turma();
+		turma.setNome("102");
+		turma.setStatus(Status.ATIVO);		
+		turmaDAO.salvar(turma);
+		
+		turma = new Turma();
+		turma.setNome("103");
+		turma.setStatus(Status.ATIVO);		
+		turmaDAO.salvar(turma);
+		
+		turma = new Turma();
+		turma.setNome("104");
+		turma.setStatus(Status.ATIVO);		
+		turmaDAO.salvar(turma);
+		
+		turma = new Turma();
+		turma.setNome("105");
+		turma.setStatus(Status.ATIVO);		
+		turmaDAO.salvar(turma);
 	}
 	
 	@Test

@@ -128,14 +128,14 @@ public class AlunoMB implements Serializable {
 			alunoDAO = new AlunoDAO();
 			aluno.setHorasExigidas(100);
 			String senha =	CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
-			if(aluno.getPassword().equals(aluno.getConfirmaPassword())){
+			if(aluno.getPassword() != "" && aluno.getPassword().equals(aluno.getConfirmaPassword())){
 				aluno.setPassword(senha);
 				alunoDAO.salvar(aluno);
 				aluno = new Aluno();
 				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 			}else{
-				FacesUtil.exibirMensagemSucesso("Senhas não conferem!");
+				FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 			}		
 
 		} catch (RuntimeException e) {
@@ -163,11 +163,15 @@ public class AlunoMB implements Serializable {
 	public void editar() {
 
 		try {
-
+			if(aluno.getPassword() != null && aluno.getPassword().equals(aluno.getConfirmaPassword())){
+			
 			alunoDAO = new AlunoDAO();
 			alunoDAO.editar(aluno);
 			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 			aluno = new Aluno();
+			}else{
+				FacesUtil.exibirMensagemSucesso("Senha não confere ou vazia!");
+			}
 
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar Aluno!"

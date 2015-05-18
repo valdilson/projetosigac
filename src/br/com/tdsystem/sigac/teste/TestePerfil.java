@@ -12,19 +12,25 @@ import br.com.tdsystem.sigac.modelo.Status;
 public class TestePerfil {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar(){
 		Perfil perfil = new Perfil();
 		PerfilDAO perfilDAO = new PerfilDAO();
 		
 			perfil.setCodigo(1l);
-			perfil.setNome("Teste");
+			perfil.setNome("Aluno");
+			perfil.setStatus(Status.ATIVO);
+			perfilDAO.salvar(perfil);
+			
+			perfil = new Perfil();
+			perfil.setCodigo(1l);
+			perfil.setNome("Coordenador");
 			perfil.setStatus(Status.ATIVO);
 			perfilDAO.salvar(perfil);
 }
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void testaLista(){
 		PerfilDAO perfilDAO = new PerfilDAO();
 		List<Perfil> listaPerfis = perfilDAO.listaPerfil();

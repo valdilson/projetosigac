@@ -12,13 +12,23 @@ import br.com.tdsystem.sigac.modelo.Turno;
 public class TesteTurno {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar() {
 		
 		Turno turno = new Turno();
 		TurnoDAO turnoDAO = new TurnoDAO();
 		
-		turno.setNome("Turno1");
+		turno.setNome("Manha");
+		turno.setStatus(Status.ATIVO);		
+		turnoDAO.salvar(turno);
+		
+		turno = new Turno();
+		turno.setNome("Tarde");
+		turno.setStatus(Status.ATIVO);		
+		turnoDAO.salvar(turno);
+		
+		turno = new Turno();
+		turno.setNome("Noite");
 		turno.setStatus(Status.ATIVO);		
 		turnoDAO.salvar(turno);
 		

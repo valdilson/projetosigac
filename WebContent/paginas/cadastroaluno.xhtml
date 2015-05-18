@@ -56,21 +56,21 @@
 					<p:password value="#{alunoMB.aluno.confirmaPassword}" />
 					
 					<!-- Select Curso -->
-					<h:outputLabel value="Curso:" />
+					<p:outputLabel value="Curso:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.curso}" effect="explode" converter="cursoConverter">
 						<f:selectItems value="#{cursoMB.listaCurso}" var="curso"
 							itemValue="#{curso}" itemLabel="#{curso.nome}" />
 					</p:selectOneMenu>
 					
 					<!-- Select Periodo -->
-					<h:outputLabel value="Periodo:" />
+					<p:outputLabel value="Periodo:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.periodo}" effect="explode" converter="periodoConverter">
 						<f:selectItems value="#{periodoMB.listaPeriodo}" var="periodo"
 							itemValue="#{periodo}" itemLabel="#{periodo.nome}" />
 					</p:selectOneMenu>
 					
 					<!-- Select Turno -->
-					<h:outputLabel value="Turno:" />
+					<p:outputLabel value="Turno:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.turno}" effect="explode" converter="turnoConverter">
 						<f:selectItems value="#{turnoMB.listaTurno}" var="turno"
 							itemValue="#{turno}" itemLabel="#{turno.nome}" />
@@ -78,14 +78,14 @@
 					
 
 					<!-- Select Turma -->
-					<h:outputLabel value="Turma:" />
+					<p:outputLabel value="Turma:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.turma}" effect="explode" converter="turmaConverter">
 						<f:selectItems value="#{turmaMB.listaTurma}" var="turma"
 							itemValue="#{turma}" itemLabel="#{turma.nome}" />
 					</p:selectOneMenu>
  					
  					<!-- Select Unidade -->
-					<h:outputLabel value="Unidade:" />
+					<p:outputLabel value="Unidade:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.unidade}" effect="explode" converter="unidadeConverter">
 						<f:selectItems value="#{unidadeMB.listaUnidades}" var="unidade"
 							itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
@@ -122,11 +122,16 @@
 					<h:outputText value="#{aluno.nome}" />
 				</p:column>
 
-
 				<p:column headerText="R.A" width="120"
 					filterBy="#{aluno.ra}"
 					sortBy="#{aluno.ra}">
 					<h:outputText value="#{aluno.ra}" />
+				</p:column>
+				
+				<p:column headerText="Curso" width="120"
+					filterBy="#{aluno.curso.nome}"
+					sortBy="#{aluno.curso.nome}">
+					<h:outputText value="#{aluno.curso.nome}" />
 				</p:column>
 
 				<!--Botão Editar / Excluir  -->
