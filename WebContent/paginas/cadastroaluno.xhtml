@@ -55,42 +55,35 @@
 					<p:outputLabel value="Confirmar Senha:" />
 					<p:password value="#{alunoMB.aluno.confirmaPassword}" />
 					
-					<!-- Select Curso -->
 					<p:outputLabel value="Curso:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.curso}" effect="explode" converter="cursoConverter">
 						<f:selectItems value="#{cursoMB.listaCurso}" var="curso"
 							itemValue="#{curso}" itemLabel="#{curso.nome}" />
 					</p:selectOneMenu>
 					
-					<!-- Select Periodo -->
 					<p:outputLabel value="Periodo:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.periodo}" effect="explode" converter="periodoConverter">
 						<f:selectItems value="#{periodoMB.listaPeriodo}" var="periodo"
 							itemValue="#{periodo}" itemLabel="#{periodo.nome}" />
 					</p:selectOneMenu>
 					
-					<!-- Select Turno -->
 					<p:outputLabel value="Turno:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.turno}" effect="explode" converter="turnoConverter">
 						<f:selectItems value="#{turnoMB.listaTurno}" var="turno"
 							itemValue="#{turno}" itemLabel="#{turno.nome}" />
 					</p:selectOneMenu>
 					
-
-					<!-- Select Turma -->
 					<p:outputLabel value="Turma:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.turma}" effect="explode" converter="turmaConverter">
 						<f:selectItems value="#{turmaMB.listaTurma}" var="turma"
 							itemValue="#{turma}" itemLabel="#{turma.nome}" />
 					</p:selectOneMenu>
  					
- 					<!-- Select Unidade -->
-					<p:outputLabel value="Unidade:" />
+ 		 		<p:outputLabel value="Unidade:" />
 					<p:selectOneMenu value="#{alunoMB.aluno.unidade}" effect="explode" converter="unidadeConverter">
 						<f:selectItems value="#{unidadeMB.listaUnidades}" var="unidade"
 							itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
-					</p:selectOneMenu>
- 					
+					</p:selectOneMenu>	
  					
 				</p:panelGrid>
 				
