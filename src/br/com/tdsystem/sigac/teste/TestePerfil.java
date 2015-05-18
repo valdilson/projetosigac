@@ -24,7 +24,7 @@ public class TestePerfil {
 }
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void testaLista(){
 		PerfilDAO perfilDAO = new PerfilDAO();
 		List<Perfil> listaPerfis = perfilDAO.listaPerfil();
@@ -35,6 +35,7 @@ public class TestePerfil {
 	}
 	
 	@Test
+	@Ignore
 	public void testaBuscaporCodigo(){
 		PerfilDAO perfilDAO = new PerfilDAO();
 		Perfil perfil = perfilDAO.pesquisaCodigo(1L);

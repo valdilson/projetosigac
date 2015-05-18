@@ -51,6 +51,9 @@ public class CursoDAO {
 													//Nome da NamedQuery criado no modelo 
 			Query consulta = session.getNamedQuery("Curso.lista");
 			cursos = consulta.list(); // variavel tipo lista que recebe a consulta 
+
+			System.out.println(cursos.toString());
+			
 		} catch (RuntimeException ex) {
 			throw ex;
 		} finally {

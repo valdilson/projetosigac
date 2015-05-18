@@ -12,7 +12,7 @@ import br.com.tdsystem.sigac.modelo.Curso;
 public class TesteCurso {
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void testeSalvar() {
 		
 		Curso curso = new Curso();
@@ -25,7 +25,7 @@ public class TesteCurso {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	 public void testeListar(){
 		 
 		 CursoDAO cursoDAO = new CursoDAO();

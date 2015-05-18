@@ -81,6 +81,7 @@ public class LoginMB {
     public void sair() {
     	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Valeu truta", "Volte sempre"));
+
     }
     
 	public PerfilEnum getPerfil() {
@@ -91,5 +92,14 @@ public class LoginMB {
 		this.perfil = perfil;
 	}
     
+	public void criarConta(ActionEvent actionEvent) {
+        addMessage("Criar nova conta");
+        
+    }
+     
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 	
 }

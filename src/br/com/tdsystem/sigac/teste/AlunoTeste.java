@@ -1,6 +1,7 @@
 package br.com.tdsystem.sigac.teste;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -43,7 +44,6 @@ public class AlunoTeste {
 		aluno.setNome("Thiago");
 		aluno.setRa("6273287272");
 		aluno.setEmail("thiago@gmail.com");
-		aluno.setHorasExigidas(100);
 		aluno.setPassword("123");
 		
 		aluno.setPassword(CriptografaSenhaMD5.converteSenhaMD5
@@ -63,6 +63,17 @@ public class AlunoTeste {
 	public void pesquisaCodigoTeste(){
 		AlunoDAO alunoDAO = new AlunoDAO();
 		Aluno aluno = alunoDAO.pesquisaCodigo(1l);
-		System.out.println(" " + aluno.toString());
+		System.out.println(aluno);
+	}
+	
+	@Test
+	@Ignore
+	public void retornaListaAlunosTeste(){
+		AlunoDAO alunoDAO = new AlunoDAO();
+		List<Aluno> listaAlunos = alunoDAO.listarAlunos();
+		
+		for (Aluno aluno : listaAlunos) {
+			System.out.println(" " + aluno);
+		}
 	}
 }

@@ -23,12 +23,13 @@
 			<h:form>
 				<p:growl id="messages" />
 
+				<!-- Menu Principal Usuario Logado -->
 				<h:panelGroup rendered="#{loginMB.usuario != null}">
 					<p:menubar>
 					<p:submenu label="Cadastros" icon="ui-icon-document">
 						<p:submenu label="Usuários" icon="ui-icon-contact">
 							<p:menuitem value="Coordenador" url="#" />
-							<p:menuitem value="Aluno" url="#" />
+							<p:menuitem value="Aluno" action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}"/>
 							<p:menuitem value="Perfil" action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}"/>
 						</p:submenu>
 
@@ -84,9 +85,11 @@
 
 				</p:menubar>
 				</h:panelGroup>
+				
+				<!-- Menu Login -->
 				<h:panelGroup id="login" rendered="#{loginMB.usuario.perfil == null}">
 					<h:form>            
-					    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login"> teste
+					    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login"> Efetuar Login
 					        <p:graphicImage name="#{facesContext.externalContext.requestContextPath}/resources/imagens/login.png" />
 					    </h:outputLink>
 					 
@@ -103,6 +106,11 @@
 					            <h:outputLabel for="password" value="Password:" />
 					            <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
 					            
+					            <p:growl id="growl" life="2000" />
+ 
+    							<p:commandLink id="ajax" update="growl" actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
+							        <h:outputText value="Criar Conta"/>
+							    </p:commandLink>
 					            <f:facet name="footer">
 					                <p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />
 					            </f:facet>  
@@ -112,7 +120,7 @@
 				</h:panelGroup>
 
 			</h:form>
-			<!-- <h:graphicImage alt="School" value="/resources/imagens/school.png" /> -->
+			
 		</p:layoutUnit>
 
 		<p:layoutUnit position="center"

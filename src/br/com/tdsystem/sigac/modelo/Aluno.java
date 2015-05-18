@@ -21,8 +21,8 @@ import br.com.tdsystem.sigac.util.Constante;
 @Entity
 @NamedQueries({
 	@NamedQuery(name  = Constante.NamedQueries.ALUNO_RECUPERA_LISTA, query = "Select aluno from Aluno aluno"),
-	@NamedQuery(name=Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query="Select aluno from Aluno aluno where aluno.username = :username"),
-	@NamedQuery(name=Constante.NamedQueries.ALUNO_RECUPERA_CODIGO, query="Select aluno from Aluno aluno where aluno.codigo = :codigo")
+	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query = "Select aluno from Aluno aluno where aluno.username = :username"),
+	@NamedQuery(name = "Aluno.codigo", query = "Select aluno from Aluno aluno where aluno.codigo = :codigo")
 })
 public class Aluno implements Serializable, IPessoa {
 
@@ -38,11 +38,22 @@ public class Aluno implements Serializable, IPessoa {
 	@JoinColumn(name = "codigo_unidade", referencedColumnName = "codigo")
 	private Unidade unidade;
 	private String email;
-	private Integer horasExigidas;
+	private Integer horasExigidas = 100;
 	private String username;
     private String password;
     
-    @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
+    @Transient
+    private String confirmaPassword;
+    
+    public String getConfirmaPassword() {
+		return confirmaPassword;
+	}
+
+	public void setConfirmaPassword(String confirmaPassword) {
+		this.confirmaPassword = confirmaPassword;
+	}
+
+	@ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "codigo_turma", referencedColumnName = "codigo")
     private Turma turma;
     
@@ -178,30 +189,21 @@ public class Aluno implements Serializable, IPessoa {
 	}
 
 	@Override
+	public String toString() {
+		return "Aluno [codigo=" + codigo + ", nome=" + nome + ", ra=" + ra
+				+ ", unidade=" + unidade + ", email=" + email
+				+ ", horasExigidas=" + horasExigidas + ", username=" + username
+				+ ", password=" + password + ", turma=" + turma + ", turno="
+				+ turno + ", curso=" + curso + ", periodo=" + periodo
+				+ ", horasRealizadas=" + horasRealizadas
+				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((atividadesRealizadas == null) ? 0 : atividadesRealizadas
-						.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result + ((curso == null) ? 0 : curso.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((horasExigidas == null) ? 0 : horasExigidas.hashCode());
-		result = prime * result
-				+ ((horasRealizadas == null) ? 0 : horasRealizadas.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((periodo == null) ? 0 : periodo.hashCode());
-		result = prime * result + ((ra == null) ? 0 : ra.hashCode());
-		result = prime * result + ((turma == null) ? 0 : turma.hashCode());
-		result = prime * result + ((turno == null) ? 0 : turno.hashCode());
-		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -214,87 +216,14 @@ public class Aluno implements Serializable, IPessoa {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		if (atividadesRealizadas == null) {
-			if (other.atividadesRealizadas != null)
-				return false;
-		} else if (!atividadesRealizadas.equals(other.atividadesRealizadas))
-			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
-		if (curso == null) {
-			if (other.curso != null)
-				return false;
-		} else if (!curso.equals(other.curso))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (horasExigidas == null) {
-			if (other.horasExigidas != null)
-				return false;
-		} else if (!horasExigidas.equals(other.horasExigidas))
-			return false;
-		if (horasRealizadas == null) {
-			if (other.horasRealizadas != null)
-				return false;
-		} else if (!horasRealizadas.equals(other.horasRealizadas))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (periodo == null) {
-			if (other.periodo != null)
-				return false;
-		} else if (!periodo.equals(other.periodo))
-			return false;
-		if (ra == null) {
-			if (other.ra != null)
-				return false;
-		} else if (!ra.equals(other.ra))
-			return false;
-		if (turma == null) {
-			if (other.turma != null)
-				return false;
-		} else if (!turma.equals(other.turma))
-			return false;
-		if (turno == null) {
-			if (other.turno != null)
-				return false;
-		} else if (!turno.equals(other.turno))
-			return false;
-		if (unidade == null) {
-			if (other.unidade != null)
-				return false;
-		} else if (!unidade.equals(other.unidade))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Aluno [codigo=" + codigo + ", nome=" + nome + ", ra=" + ra
-				+ ", unidade=" + unidade.getNome() + ", email=" + email
-				+ ", horasExigidas=" + horasExigidas + ", username=" + username
-				+ ", password=" + password + ", turma=" + turma.getNome() + ", turno="
-				+ turno.getNome() + ", curso=" + curso.getNome() + ", periodo=" + periodo.getNome()
-				+ ", horasRealizadas=" + horasRealizadas
-				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
-	}
+	
+	
 }
