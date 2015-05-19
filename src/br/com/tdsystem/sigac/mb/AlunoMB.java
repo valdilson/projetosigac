@@ -39,6 +39,7 @@ public class AlunoMB implements Serializable {
 	private PeriodoDAO periodoDAO = null;
 	private UnidadeDAO unidadeDAO = null;
 	private List<Aluno> listaDeAlunos = null;
+	private List<Aluno> filtroDeAlunos = null;
 	private List<Curso> listaDeCursos = null;
 	private List<Turno> listaDeTurnos = null;
 	private List<Turma> listaDeTurmas = null;
@@ -79,6 +80,15 @@ public class AlunoMB implements Serializable {
 
 	public void setListaDeAlunos(List<Aluno> listaDeAlunos) {
 		this.listaDeAlunos = listaDeAlunos;
+	}
+
+	
+	public List<Aluno> getFiltroDeAlunos() {
+		return filtroDeAlunos;
+	}
+
+	public void setFiltroDeAlunos(List<Aluno> filtroDeAlunos) {
+		this.filtroDeAlunos = filtroDeAlunos;
 	}
 
 	public List<Curso> getListaDeCursos() {
