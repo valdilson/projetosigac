@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Informando versão do xml usado e Linguagem adotada -->
+<!DOCTYPE html>
+
+<!-- Inportando Pacotes com os objetos -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	<ui:composition template="/templates/index.xhtml">
+	<ui:define name="metadata">
+	
+		<f:metadata>
+			<f:event listener="#{coordenadorMB.pesquisaListaCoordenadores()}"
+			 		 type="preRenderView" />
+		</f:metadata>
+		
+	</ui:define>
+	
+		<ui:define name="menuPrincipal">
+		
+		<h:form id="cadastroCoordenadorfrm">
+			<p:panel header="CADASTRO DE COORDENADOR">
+
+				<p:panelGrid columns="4" cellspacing="10" id="cadastro" >
+
+					<p:outputLabel value="Código:" />
+					<p:inputText value="#{coordenadorMB.coordenador.codigo}" disabled="true" />
+
+					<p:outputLabel value="Nome:" />
+					<p:inputText value="#{coordenadorMB.coordenador.nome}" />
+					
+					<p:outputLabel value="E-mail:" />
+					<p:inputText value="#{coordenadorMB.coordenador.email}" />
+					
+					<p:outputLabel value="Login:" />
+					<p:inputText value="#{coordenadorMB.coordenador.username}" />
+					
+					<p:outputLabel value="Senha:" />
+					<p:password value="#{coordenadorMB.coordenador.password}" />
+					
+					<p:outputLabel value="Confirmar Senha:" />
+					<p:password value="#{coordenadorMB.coordenador.confirmaPassword}" />
+ 					
+ 		 		<p:outputLabel value="Unidade:" />
+					<p:selectOneMenu value="#{coordenadorMB.coordenador.unidade}" effect="explode" converter="unidadeConverter">
+						<f:selectItems value="#{unidadeMB.listaUnidades}" var="unidade"
+							itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
+					</p:selectOneMenu>	
+ 					
+				</p:panelGrid>
+				
+				<!-- Botão Gravar -->
+			<h:panelGrid columns="1" rendered="#{coordenadorMB.coordenador.codigo == null}">
+				<p:commandButton value="Gravar" action="#{coordenadorMB.salvar}"
+					update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
+			</h:panelGrid>
+			
+			<!-- Botão Editar -->
+			<h:panelGrid columns="1" rendered="#{coordenadorMB.coordenador.codigo != null}">
+				<p:commandButton value="Editar" action="#{coordenadorMB.editar}"
+					update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
+			</h:panelGrid>
+			
+			<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
+			<p:dataTable id="tabelaCoordenador" widgetVar="tabelaCoordenadorWV"
+				var="coordenador" value="#{coordenadorMB.listaDeCoordenadores}"
+				rows="5" filteredValue="#{coordenadorMB.filtroDeCoordenadores}"
+				emptyMessage="Sem registro!" paginator="true">
+
+				<p:column headerText="Código" width="40"
+					sortBy="#{coordenador.codigo}">
+					<h:outputText value="#{coordenador.codigo}" />
+				</p:column>
+
+				<p:column headerText="Nome" filterBy="#{coordenador.nome}"
+					sortBy="#{coordenador.nome}">
+					<h:outputText value="#{coordenador.nome}" />
+				</p:column>
+
+				<p:column headerText="Unidade" width="120"
+					filterBy="#{coordenador.unidade.nome}"
+					sortBy="#{coordenador.unidade.nome}">
+					<h:outputText value="#{coordenador.unidade.nome}" />
+				</p:column>
+
+				<!--Botão Editar / Excluir  -->
+				<p:column headerText="Editar / Excluir" width="125">
+					<p:commandButton value="Editar"
+						action="#{coordenadorMB.selecionaEdicao(coordenador)}"
+						update="@all" />
+					<p:commandButton value="Excluir"
+						action="#{coordenadorMB.excluir(coordenador)}" immediate="true"
+						update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
+				</p:column>
+
+			</p:dataTable>
+			
+			</p:panel>
+			</h:form>
+		</ui:define>
+</ui:composition>
+</html>

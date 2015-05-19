@@ -13,13 +13,20 @@
 	<meta http-equiv="Content-Type" content="text/html" />
 	<title>SIGAC</title>
 	<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
+	
+		<style type="text/css">
+            body {background-color: #FFA500; font-size: 15px}
+        </style> 
+	
 </h:head>
 <h:body>
 	<p:growl id="mgs" sticky="true"/>
 	
 	<p:layout fullPage="true">
 
-		<p:layoutUnit position="north" size="50">
+		<p:layoutUnit position="north" size="50" style="background-image:url('#{facesContext.externalContext.requestContextPath}/resources/imagens/logoPrincipal.jpg');
+				background-position: 50% -50%;background-repeat:no-repeat">
+			
 			<h:form>
 				<p:growl id="messages" />
 
@@ -28,7 +35,7 @@
 					<p:menubar>
 					<p:submenu label="Cadastros" icon="ui-icon-document">
 						<p:submenu label="Usuários" icon="ui-icon-contact">
-							<p:menuitem value="Coordenador" url="#" />
+							<p:menuitem value="Coordenador" action="#{menuMB.navegar('/paginas/cadastrocoordenador.xhtml')}"/>
 							<p:menuitem value="Aluno" action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}"/>
 							<p:menuitem value="Perfil" action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}"/>
 						</p:submenu>
@@ -123,10 +130,13 @@
 			
 		</p:layoutUnit>
 
-		<p:layoutUnit position="center"
-			style="background-image:url('#{facesContext.externalContext.requestContextPath}/resources/imagens/fundoMenu.jpg');
-				background-position: 50% -50%;background-repeat:no-repeat">
-
+		<p:layoutUnit position="center" >
+			<style type="text/css">
+    			.ui-layout-unit-content{background-image:
+    			url('#{request.contextPath}/resources/imagens/fundoMenu.jpg');
+    			background-position: 50% -20%;background-repeat:no-repeat}
+			</style>
+			
 			<ui:insert name="menuPrincipal" />
 		</p:layoutUnit>
 

@@ -14,11 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
+@Table(name="Aluno")
 @NamedQueries({
 	@NamedQuery(name  = Constante.NamedQueries.ALUNO_RECUPERA_LISTA, query = "Select aluno from Aluno aluno"),
 	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query = "Select aluno from Aluno aluno where aluno.username = :username"),

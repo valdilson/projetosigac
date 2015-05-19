@@ -64,7 +64,7 @@ public class LoginMB {
             try {
             	loggedIn = true;
                 usuario = loginDAO.recuperarUsuario(username, password, perfil);
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bem vindo", username);
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bem vindo", usuario.getUsuario().getNome());
 			} catch (NoResultException e) {
 				loggedIn = false;
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");				

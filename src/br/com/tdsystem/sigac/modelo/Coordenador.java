@@ -5,14 +5,27 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import br.com.tdsystem.sigac.util.Constante;
+
 @Entity
+@Table(name="Coordenador")
+@NamedQueries({
+	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN, query="Select coordenador from Coordenador coordenador where coordenador.username = :username"),
+	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERA_LISTA, query="Select coordenador from Coordenador coordenador"),
+	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERA_CODIGO, query="Select coordenador from Coordenador coordenador where coordenador.codigo = :codigo")
+})
 public class Coordenador implements Serializable, IPessoa {
 
 	private static final long serialVersionUID = 1L;
@@ -24,13 +37,17 @@ public class Coordenador implements Serializable, IPessoa {
 	private String username;
     private String password;
 	
-	@ManyToOne(cascade=CascadeType.DETACH)
+    @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
+	@JoinColumn(name = "codigo_unidade", referencedColumnName = "codigo")
 	private Unidade unidade;
 	
 	private String email;
 	
 	@Transient
 	private Integer horasRealizadas;
+	
+	@Transient
+	private String confirmaPassword;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="aluno")
 	private List<AtividadeRealizada> atividadesRealizadas;
@@ -99,5 +116,50 @@ public class Coordenador implements Serializable, IPessoa {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getConfirmaPassword() {
+		return confirmaPassword;
+	}
+
+	public void setConfirmaPassword(String confirmaPassword) {
+		this.confirmaPassword = confirmaPassword;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Coordenador other = (Coordenador) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Coordenador [codigo=" + codigo + ", nome=" + nome
+				+ ", username=" + username + ", password=" + password
+				+ ", unidade=" + unidade + ", email=" + email
+				+ ", horasRealizadas=" + horasRealizadas
+				+ ", confirmaPassword=" + confirmaPassword
+				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
+	}
+	
+	
 	
 }
