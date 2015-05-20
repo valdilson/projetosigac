@@ -221,7 +221,7 @@ public class AlunoMB implements Serializable {
 			CursoDAO cursoDAO = new CursoDAO();
 			listaDeCursos = cursoDAO.listaCurso();
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			// TODO: handle exception
 		}
 	}

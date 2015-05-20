@@ -15,7 +15,7 @@ import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
 public class CoordenadorTeste {
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void salvarTeste() throws NoSuchAlgorithmException{
 		Coordenador coordenador = new Coordenador();
 		CoordenadorDAO coordenadorDAO = new CoordenadorDAO();

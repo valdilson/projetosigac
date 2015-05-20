@@ -42,6 +42,8 @@ public class CoordenadorMB implements Serializable {
 	public void pesquisaListaCoordenadores() {
 		try {
 			coordenadorDAO = new CoordenadorDAO();
+			unidadeDAO = new UnidadeDAO();
+			
 			listaDeCoordenadores = coordenadorDAO.listarCoordenadores();
 			listaDeUnidades = unidadeDAO.listarUnidade();
 
