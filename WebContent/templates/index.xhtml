@@ -116,8 +116,9 @@
 					            <p:growl id="growl" life="2000" />
  
     							<p:commandLink id="ajax" update="growl" actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
-							        <h:outputText value="Criar Conta"/>
+							        <h:outputText value="Criar Conta" />
 							    </p:commandLink>
+							    
 					            <f:facet name="footer">
 					                <p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />
 					            </f:facet>  
@@ -147,7 +148,6 @@
 			<h:graphicImage alt="Java" value="/resources/imagens/Java.png"></h:graphicImage>
 
 		</p:layoutUnit>
-
 
 	</p:layout>
 </h:body>
