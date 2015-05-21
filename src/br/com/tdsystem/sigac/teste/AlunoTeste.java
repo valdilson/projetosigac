@@ -54,7 +54,6 @@ public class AlunoTeste {
 		aluno.setTurma(turma);
 		aluno.setTurno(turno);
 		aluno.setUnidade(unidade);
-		aluno.setUsername("thiago");
 		alunoDAO.salvar(aluno);
 	}
 	

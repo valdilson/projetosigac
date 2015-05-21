@@ -9,8 +9,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-<h:head>
-</h:head> 
 <body bgcolor="#FFA500">
 <h:form id="preCadastroAlunofrm">
 	<p:panelGrid  id="precadastro" columns="2" cellspacing="10">
@@ -23,9 +21,6 @@
 		
 		<p:outputLabel value = "E-mail"/>
 		<p:inputText value = "#{alunoMB.aluno.email}"/>
-		
-		<p:outputLabel value = "Login"/>
-		<p:inputText value = "#{alunoMB.aluno.username}"/>
 		
 		<p:outputLabel value = "Senha"/>
 		<p:password value="#{alunoMB.aluno.password}" />

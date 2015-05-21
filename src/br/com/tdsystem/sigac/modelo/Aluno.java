@@ -23,7 +23,7 @@ import br.com.tdsystem.sigac.util.Constante;
 @Table(name="Aluno")
 @NamedQueries({
 	@NamedQuery(name  = Constante.NamedQueries.ALUNO_RECUPERA_LISTA, query = "Select aluno from Aluno aluno"),
-	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query = "Select aluno from Aluno aluno where aluno.username = :username"),
+	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query = "Select aluno from Aluno aluno where aluno.ra = :ra"),
 	@NamedQuery(name = "Aluno.codigo", query = "Select aluno from Aluno aluno where aluno.codigo = :codigo")
 })
 public class Aluno implements Serializable, IPessoa {
@@ -41,7 +41,6 @@ public class Aluno implements Serializable, IPessoa {
 	private Unidade unidade;
 	private String email;
 	private Integer horasExigidas = 100;
-	private String username;
     private String password;
     
     @Transient
@@ -142,14 +141,6 @@ public class Aluno implements Serializable, IPessoa {
 		this.atividadesRealizadas = atividadesRealizadas;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -190,14 +181,16 @@ public class Aluno implements Serializable, IPessoa {
 		this.periodo = periodo;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Aluno [codigo=" + codigo + ", nome=" + nome + ", ra=" + ra
 				+ ", unidade=" + unidade + ", email=" + email
-				+ ", horasExigidas=" + horasExigidas + ", username=" + username
-				+ ", password=" + password + ", turma=" + turma + ", turno="
-				+ turno + ", curso=" + curso + ", periodo=" + periodo
-				+ ", horasRealizadas=" + horasRealizadas
+				+ ", horasExigidas=" + horasExigidas + ", password=" + password
+				+ ", confirmaPassword=" + confirmaPassword + ", turma=" + turma
+				+ ", turno=" + turno + ", curso=" + curso + ", periodo="
+				+ periodo + ", horasRealizadas=" + horasRealizadas
 				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
 	}
 
@@ -225,7 +218,5 @@ public class Aluno implements Serializable, IPessoa {
 			return false;
 		return true;
 	}
-
-	
-	
+		
 }

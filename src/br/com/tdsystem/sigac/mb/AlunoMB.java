@@ -131,23 +131,37 @@ public class AlunoMB implements Serializable {
 	public void salvar() throws NoSuchAlgorithmException {
 
 		try {
-
+			
 			alunoDAO = new AlunoDAO();
-			aluno.setHorasExigidas(100);
-			String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno
-					.getPassword());
-			if (aluno.getPassword() != ""
-					&& aluno.getPassword().equals(aluno.getConfirmaPassword())) {
-				aluno.setPassword(senha);
-				alunoDAO.salvar(aluno);
-				aluno = new Aluno();
-				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+			
+			if(aluno.getPassword() != "" || aluno.getRa() != ""){
+				
+				listaDeAlunos = alunoDAO.listarAlunos();
+				
+				for (Aluno Foraluno : listaDeAlunos) {
+					if(Foraluno.getRa().equals(aluno.getRa())){
+						FacesUtil.exibirMensagemAlerta("R.A já cadastrado no sistema!");
+					}
+				}
+			}else if(aluno.getPassword() == "" || aluno.getRa() == ""){
+				FacesUtil.exibirMensagemErro("Campos não podem estar vazios");
+			}else{
+				
+				aluno.setHorasExigidas(100);
+				String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno
+						.getPassword());
+				if (aluno.getPassword().equals(aluno.getConfirmaPassword())) {
+					aluno.setPassword(senha);
+					alunoDAO.salvar(aluno);
+					aluno = new Aluno();
+					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
-			} else {
-				FacesUtil
-						.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+				} else {
+					FacesUtil
+							.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+				}
 			}
-
+			
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
 					+ e.getMessage());

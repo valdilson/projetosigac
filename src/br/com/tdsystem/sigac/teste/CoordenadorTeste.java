@@ -25,7 +25,6 @@ public class CoordenadorTeste {
 		coordenador.setEmail("efreim@anhanguera.com");
 		coordenador.setNome("Efreim Louzada");
 		coordenador.setUnidade(unidade);
-		coordenador.setUsername("efreim");
 		coordenador.setPassword(CriptografaSenhaMD5.converteSenhaMD5("123"));
 		coordenadorDAO.salvar(coordenador);
 	}
@@ -42,7 +41,6 @@ public class CoordenadorTeste {
 		coordenador.setEmail("editado efreim@anhanguera.com");
 		coordenador.setNome("Efreim Louzada Editado");
 		coordenador.setUnidade(unidade);
-		coordenador.setUsername("efreim");
 		coordenador.setPassword(CriptografaSenhaMD5.converteSenhaMD5("321"));
 		coordenadorDAO.editar(coordenador);
 	}

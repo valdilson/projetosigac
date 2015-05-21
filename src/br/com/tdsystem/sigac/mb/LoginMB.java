@@ -33,21 +33,22 @@ public class LoginMB {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	private String username;
+	private String ra;
     
     private String password;
     
     private PerfilEnum perfil;
- 
-    public String getUsername() {
-        return username;
-    }
- 
-    public void setUsername(String username) {
-        this.username = username;
-    }
- 
-    public String getPassword() {
+    
+    
+    public String getRa() {
+		return ra;
+	}
+
+	public void setRa(String ra) {
+		this.ra = ra;
+	}
+
+	public String getPassword() {
         return password;
     }
  
@@ -60,10 +61,10 @@ public class LoginMB {
         FacesMessage message = null;
         boolean loggedIn = false;
          
-        if(username != null && password != null) {
+        if(ra != null && password != null) {
             try {
             	loggedIn = true;
-                usuario = loginDAO.recuperarUsuario(username, password, perfil);
+                usuario = loginDAO.recuperarUsuario(ra, password, perfil);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bem vindo", usuario.getUsuario().getNome());
 			} catch (NoResultException e) {
 				loggedIn = false;

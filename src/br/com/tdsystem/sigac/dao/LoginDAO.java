@@ -18,7 +18,7 @@ import br.com.tdsystem.sigac.util.HibernateUtil;
 public class LoginDAO {
 
 	@SuppressWarnings("unchecked")
-	public Usuario recuperarUsuario(String username, String password, PerfilEnum perfil) throws NoResultException, NoSuchAlgorithmException {
+	public Usuario recuperarUsuario(String ra, String password, PerfilEnum perfil) throws NoResultException, NoSuchAlgorithmException {
 		
 		Query hql = null;
 		List<IPessoa> listaPessoa = null;
@@ -36,7 +36,7 @@ public class LoginDAO {
 			break;
 		}
 		
-		hql.setString("username", username);
+		hql.setString("ra", ra);
 		listaPessoa = hql.list();
 		
 		for (IPessoa iPessoa : listaPessoa) {

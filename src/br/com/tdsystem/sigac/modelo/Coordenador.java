@@ -22,7 +22,7 @@ import br.com.tdsystem.sigac.util.Constante;
 @Entity
 @Table(name="Coordenador")
 @NamedQueries({
-	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN, query="Select coordenador from Coordenador coordenador where coordenador.username = :username"),
+	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN, query="Select coordenador from Coordenador coordenador where coordenador.nome = :nome"),
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERA_LISTA, query="Select coordenador from Coordenador coordenador"),
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERA_CODIGO, query="Select coordenador from Coordenador coordenador where coordenador.codigo = :codigo")
 })
@@ -34,7 +34,6 @@ public class Coordenador implements Serializable, IPessoa {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
 	private String nome;
-	private String username;
     private String password;
 	
     @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
@@ -101,13 +100,6 @@ public class Coordenador implements Serializable, IPessoa {
 		this.atividadesRealizadas = atividadesRealizadas;
 	}
 	
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;
@@ -153,7 +145,7 @@ public class Coordenador implements Serializable, IPessoa {
 	@Override
 	public String toString() {
 		return "Coordenador [codigo=" + codigo + ", nome=" + nome
-				+ ", username=" + username + ", password=" + password
+				+ ", password=" + password
 				+ ", unidade=" + unidade + ", email=" + email
 				+ ", horasRealizadas=" + horasRealizadas
 				+ ", confirmaPassword=" + confirmaPassword
