@@ -56,7 +56,7 @@
 						<p:menuitem value="Voltar Tela Principal"
 							action="#{menuMB.navegar('/templates/index.xhtml')}" icon="ui-icon-refresh" />
 						<p:separator />
-						<p:menuitem value="Sair" url="#" />
+						<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" />
 					</p:submenu>
 
 					<p:submenu label="Consulta" icon="ui-icon-pencil">
@@ -88,7 +88,7 @@
 						<p:menuitem value="Sobre o Sistema" url="#" />
 					</p:submenu>
 
-					<p:menuitem value="Sair" url="#" icon="ui-icon-close" action="#{loginMB.sair}" update="@all" />
+					<p:menuitem value="Sair" icon="ui-icon-close" action="#{loginMB.sair}" update="@all" />
 
 				</p:menubar>
 				</h:panelGroup>
