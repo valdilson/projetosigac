@@ -24,7 +24,7 @@
 
 		<h:form id="cadastroAtividadefrm">
 
-			<p:panel id="basic" header="CADASTRO ATIVIDADE"
+			<p:panel id="basic" header="CADASTRO DE ATIVIDADE"
 				style="margin-bottom:15px">
 
 				<h:panelGrid columns="4" cellspacing="10">
@@ -34,8 +34,7 @@
 						disabled="true" />
 
 					<p:outputLabel value="Nome:" />
-					<p:inputText value="#{atividadeMB.atividade.nome}" 
-						 />
+					<p:inputText value="#{atividadeMB.atividade.nome}" />
 
 					<p:outputLabel value="Horas:" />
 					<p:inputText value="#{atividadeMB.atividade.horas}"
@@ -43,8 +42,7 @@
 
 					<p:outputLabel value="Descricao:" />
 					<p:inputTextarea value="#{atividadeMB.atividade.descricao}"
-						disabled="false"
-						 />
+						disabled="false" />
 
 					<p:outputLabel value="Status:" />
 					<p:selectOneMenu value="#{atividadeMB.atividade.status}"
@@ -56,16 +54,18 @@
 				</h:panelGrid>
 
 				<!-- Botão Gravar -->
-			<h:panelGrid columns="1" rendered="#{atividadeMB.atividade.codigo == null}">
-				<p:commandButton value="Gravar" action="#{atividadeMB.salvar}"
-					update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
-			</h:panelGrid>
-			
-			<!-- Botão Editar -->
-			<h:panelGrid columns="1" rendered="#{atividadeMB.atividade.codigo != null}">
-				<p:commandButton value="Editar" action="#{atividadeMB.editar}"
-					update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
-			</h:panelGrid>
+				<h:panelGrid columns="1"
+					rendered="#{atividadeMB.atividade.codigo == null}">
+					<p:commandButton value="Gravar" action="#{atividadeMB.salvar}"
+						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+				</h:panelGrid>
+
+				<!-- Botão Editar -->
+				<h:panelGrid columns="1"
+					rendered="#{atividadeMB.atividade.codigo != null}">
+					<p:commandButton value="Editar" action="#{atividadeMB.editar}"
+						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+				</h:panelGrid>
 			</p:panel>
 
 			<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
@@ -73,6 +73,20 @@
 				var="filtroAtividades" value="#{atividadeMB.listaAtividades}"
 				rows="6" filteredValue="#{atividadeMB.filtroAtividades}"
 				emptyMessage="Sem registro!" paginator="true">
+
+				<f:facet name="footer">
+					<h:commandLink>
+						<p:graphicImage library="imagens" name="excel.png" width="24" />
+						<p:dataExporter type="xls" target="tabelaAtividade"
+							fileName="Atividades" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage library="imagens" name="pdf.png" width="24" />
+						<p:dataExporter type="pdf" target="tabelaAtividade"
+							fileName="Atividades" encoding="ISO-8859-1" />
+					</h:commandLink>
+				</f:facet>
 
 				<p:column headerText="Código" width="40"
 					sortBy="#{filtroAtividades.codigo}">
@@ -97,7 +111,8 @@
 				</p:column>
 
 				<!--Botão Editar / Excluir  -->
-				<p:column headerText="Editar / Excluir" width="125">
+				<p:column headerText="Editar / Excluir" width="125"
+					exportable="false">
 					<p:commandButton value="Editar"
 						action="#{atividadeMB.selecionaEdicao(filtroAtividades)}"
 						update="@all" />

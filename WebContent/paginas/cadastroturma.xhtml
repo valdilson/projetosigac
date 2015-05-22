@@ -21,69 +21,85 @@
 	<ui:define name="menuPrincipal">
 
 		<h:form id="cadastroTurmafrm">
+			<p:panel header="CADASTRO DE TURMA">
+				<h:panelGrid columns="2" cellspacing="10" id="cadastro">
 
-			<h:panelGrid columns="2" cellspacing="10" id="cadastro">
+					<p:outputLabel value="Código:" />
+					<p:inputText value="#{turmaMB.turma.codigo}" disabled="true" />
 
-				<p:outputLabel value="Código:" />
-				<p:inputText value="#{turmaMB.turma.codigo}" disabled="true" />
+					<p:outputLabel value="Nome:" />
+					<p:inputText value="#{turmaMB.turma.nome}" />
 
-				<p:outputLabel value="Nome:" />
-				<p:inputText value="#{turmaMB.turma.nome}"/>
+					<h:outputLabel value="Status:" />
+					<p:selectOneMenu value="#{turmaMB.turma.status}" effect="explode">
+						<f:selectItems value="#{applicationMB.listaStatus}" var="status"
+							itemLabel="#{status.descricao}" itemValue="#{status}" />
+					</p:selectOneMenu>
 
-				<h:outputLabel value="Status:" />
-				<p:selectOneMenu value="#{turmaMB.turma.status}" effect="explode" >
-					<f:selectItems value="#{applicationMB.listaStatus}" var="status" itemLabel="#{status.descricao}" itemValue="#{status}" />
-				</p:selectOneMenu>
+				</h:panelGrid>
 
-			</h:panelGrid>
-
-			<!-- Botão Gravar -->
-			<h:panelGrid columns="1" rendered="#{turmaMB.turma.codigo == null}">
-				<p:commandButton value="Gravar" action="#{turmaMB.salvar}"
-					update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
-			</h:panelGrid>
-			
-			<!-- Botão Editar -->
-			<h:panelGrid columns="1" rendered="#{turmaMB.turma.codigo != null}">
-				<p:commandButton value="Editar" action="#{turmaMB.editar}"
-					update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
-			</h:panelGrid>
-
-			<!-- Começo tabela -->
-			<p:dataTable id="tabelaTurma" widgetVar="tabelaTurmaWV"
-				var="filtroTurmas" value="#{turmaMB.listaTurma}" rows="6"
-				filteredValue="#{turmaMB.filtroTurmas}"
-				emptyMessage="Sem registro!" paginator="true">
-
-				<p:column headerText="Código" width="40"
-					sortBy="#{filtroTurmas.codigo}">
-					<h:outputText value="#{filtroTurmas.codigo}" />
-				</p:column>
-
-				<p:column headerText="Nome" filterBy="#{filtroTurmas.nome}"
-					sortBy="#{filtroTurmas.nome}">
-					<h:outputText value="#{filtroTurmas.nome}" />
-				</p:column>
-
-				<p:column headerText="Status" filterBy="#{filtroTurmas.status}"
-					sortBy="#{filtroTurmas.status}">
-					<h:outputText value="#{filtroTurmas.status.descricao}" />
-				</p:column>
-
-				<!--Botão Editar / Excluir  -->
-				<p:column headerText="Editar / Excluir" width="125">
-					<p:commandButton value="Editar"
-						action="#{turmaMB.selecionaEdicao(filtroTurmas)}"
-						update="@all" />
-					<p:commandButton value="Excluir"
-						action="#{turmaMB.excluir(filtroTurmas)}" immediate="true"
+				<!-- Botão Gravar -->
+				<h:panelGrid columns="1" rendered="#{turmaMB.turma.codigo == null}">
+					<p:commandButton value="Gravar" action="#{turmaMB.salvar}"
 						update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
-				</p:column>
+				</h:panelGrid>
 
-			</p:dataTable>
+				<!-- Botão Editar -->
+				<h:panelGrid columns="1" rendered="#{turmaMB.turma.codigo != null}">
+					<p:commandButton value="Editar" action="#{turmaMB.editar}"
+						update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
+				</h:panelGrid>
+
+				<!-- Começo tabela -->
+				<p:dataTable id="tabelaTurma" widgetVar="tabelaTurmaWV"
+					var="filtroTurmas" value="#{turmaMB.listaTurma}" rows="6"
+					filteredValue="#{turmaMB.filtroTurmas}"
+					emptyMessage="Sem registro!" paginator="true">
+
+					<f:facet name="footer">
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="excel.png" width="24" />
+							<p:dataExporter type="xls" target="tabelaTurma" fileName="Turmas" />
+						</h:commandLink>
+
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="pdf.png" width="24" />
+							<p:dataExporter type="pdf" target="tabelaTurma" fileName="Turmas"
+								encoding="ISO-8859-1" />
+						</h:commandLink>
+					</f:facet>
+
+					<p:column headerText="Código" width="40"
+						sortBy="#{filtroTurmas.codigo}">
+						<h:outputText value="#{filtroTurmas.codigo}" />
+					</p:column>
+
+					<p:column headerText="Nome" filterBy="#{filtroTurmas.nome}"
+						sortBy="#{filtroTurmas.nome}">
+						<h:outputText value="#{filtroTurmas.nome}" />
+					</p:column>
+
+					<p:column headerText="Status" filterBy="#{filtroTurmas.status}"
+						sortBy="#{filtroTurmas.status}">
+						<h:outputText value="#{filtroTurmas.status.descricao}" />
+					</p:column>
+
+					<!--Botão Editar / Excluir  -->
+					<p:column headerText="Editar / Excluir" width="125"
+						exportable="false">
+						<p:commandButton value="Editar"
+							action="#{turmaMB.selecionaEdicao(filtroTurmas)}" update="@all" />
+						<p:commandButton value="Excluir"
+							action="#{turmaMB.excluir(filtroTurmas)}" immediate="true"
+							update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
+					</p:column>
+
+				</p:dataTable>
+
+			</p:panel>
 		</h:form>
 
-		
+
 
 	</ui:define>
 </ui:composition>
