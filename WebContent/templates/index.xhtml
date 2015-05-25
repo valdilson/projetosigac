@@ -13,131 +13,161 @@
 	<meta http-equiv="Content-Type" content="text/html" />
 	<title>SIGAC</title>
 	<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
-	
-		<style type="text/css">
-            body {background-color: #FFA500; font-size: 15px}
-        </style> 
-	
+
+	<style type="text/css">
+body {
+	background-color: #FFA500;
+	font-size: 15px
+}
+</style>
+
 </h:head>
 <h:body>
-	<p:growl id="mgs" sticky="true"/>
-	
+	<p:growl id="mgs" sticky="true" />
+
 	<p:layout fullPage="true">
 
-		<p:layoutUnit position="north" size="50" style="background-image:url('#{facesContext.externalContext.requestContextPath}/resources/imagens/logoPrincipal.jpg');
+		<p:layoutUnit position="north" size="50"
+			style="background-image:url('#{facesContext.externalContext.requestContextPath}/resources/imagens/logoPrincipal.jpg');
 				background-position: 50% -50%;background-repeat:no-repeat">
-			
-			<h:form>
+
+			<h:form id="forminicial">
 				<p:growl id="messages" />
 
 				<!-- Menu Principal Usuario Logado -->
-				<h:panelGroup rendered="#{loginMB.usuario != null}">
+				<h:panelGroup rendered="#{loginMB.usuario != null}" id="panel">
 					<p:menubar>
-					<p:submenu label="Cadastros" icon="ui-icon-document">
-						<p:submenu label="Usuários" icon="ui-icon-contact">
-							<p:menuitem value="Coordenador" action="#{menuMB.navegar('/paginas/cadastrocoordenador.xhtml')}"/>
-							<p:menuitem value="Aluno" action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}"/>
-							<p:menuitem value="Perfil" action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}"/>
-						</p:submenu>
+						<p:submenu label="Cadastros" icon="ui-icon-document">
+							<p:submenu label="Usuários" icon="ui-icon-contact">
+								<p:menuitem value="Coordenador"
+									action="#{menuMB.navegar('/paginas/cadastrocoordenador.xhtml')}" />
+								<p:menuitem value="Aluno"
+									action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}" />
+								<p:menuitem value="Perfil"
+									action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}" />
+							</p:submenu>
 
-						<p:menuitem value="Atividades" icon="ui-icon-gear"
-							action="#{menuMB.navegar('/paginas/cadastroatividade.xhtml')}" />
-						<p:separator />
-
-						<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact">
-							<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
-							<p:menuitem value="Periodo" action="#{menuMB.navegar('/paginas/cadastroperiodo.xhtml')}" />
-							<p:menuitem value="Turma" action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
-							<p:menuitem value="Turno" action="#{menuMB.navegar('/paginas/cadastroturno.xhtml')}" />
-							<p:menuitem value="Unidade" action="#{menuMB.navegar('/paginas/cadastrounidade.xhtml')}" />
-
-						</p:submenu>
-						<p:separator />
-						<p:menuitem value="Voltar Tela Principal"
-							action="#{menuMB.navegar('/templates/index.xhtml')}" icon="ui-icon-refresh" />
-						<p:separator />
-						<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" />
-					</p:submenu>
-
-					<p:submenu label="Consulta" icon="ui-icon-pencil">
-						<p:menuitem value="Atividades Realizadas" url="#"
-							icon="ui-icon-arrowreturnthick-1-w" />
-						<p:menuitem value="Area do Aluno" url="#"
-							icon="ui-icon-arrowreturnthick-1-e" />
-					</p:submenu>
-
-					<p:submenu label="Relatorios" icon="ui-icon-gear">
-						<p:submenu label="Cadastros Gerais" icon="ui-icon-refresh">
-							<p:menuitem value="Alunos" url="#" />
-							<p:menuitem value="Coordenadores" url="#" />
-							<p:menuitem value="Perfil" url="#" />
+							<p:menuitem value="Atividades" icon="ui-icon-gear"
+								action="#{menuMB.navegar('/paginas/cadastroatividade.xhtml')}" />
 							<p:separator />
-							<p:menuitem value="Curso" url="#" />
-							<p:menuitem value="Periodo" url="#" />
-							<p:menuitem value="Turma" url="#" />
-							<p:menuitem value="Turno" url="#" />
-							<p:menuitem value="Unidade" url="#" />
+
+							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact">
+								<p:menuitem value="Curso"
+									action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
+								<p:menuitem value="Periodo"
+									action="#{menuMB.navegar('/paginas/cadastroperiodo.xhtml')}" />
+								<p:menuitem value="Turma"
+									action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
+								<p:menuitem value="Turno"
+									action="#{menuMB.navegar('/paginas/cadastroturno.xhtml')}" />
+								<p:menuitem value="Unidade"
+									action="#{menuMB.navegar('/paginas/cadastrounidade.xhtml')}" />
+
+							</p:submenu>
+							<p:separator />
+							<p:menuitem value="Voltar Tela Principal"
+								action="#{menuMB.navegar('/templates/index.xhtml')}"
+								icon="ui-icon-refresh" />
+							<p:separator />
+							<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all"
+								actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
+								icon="ui-icon-refresh" />
 						</p:submenu>
-						<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-							<p:menuitem value="Delete" actionListener="#{menuView.delete}"
-								icon="ui-icon-close" update="messages" ajax="false" />
+
+						<p:submenu label="Consulta" icon="ui-icon-pencil">
+							<p:menuitem value="Atividades Realizadas" url="#"
+								icon="ui-icon-arrowreturnthick-1-w" />
+							<p:menuitem value="Area do Aluno" url="#"
+								icon="ui-icon-arrowreturnthick-1-e" />
 						</p:submenu>
-					</p:submenu>
 
-					<p:submenu label="Ajuda" icon="ui-icon-help">
-						<p:menuitem value="Sobre o Sistema" url="#" />
-					</p:submenu>
+						<p:submenu label="Relatorios" icon="ui-icon-gear">
+							<p:submenu label="Cadastros Gerais" icon="ui-icon-refresh">
+								<p:menuitem value="Alunos" url="#" />
+								<p:menuitem value="Coordenadores" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}" />
+								<p:menuitem value="Perfil" url="#" />
+								<p:separator />
+								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}"  />
+								<p:menuitem value="Periodo" url="#" />
+								<p:menuitem value="Turma" url="#" />
+								<p:menuitem value="Turno" url="#" />
+								<p:menuitem value="Unidade" url="#" />
+							</p:submenu>
+							<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+								<p:menuitem value="Delete" actionListener="#{menuView.delete}"
+									icon="ui-icon-close" update="messages" ajax="false" />
+							</p:submenu>
+						</p:submenu>
 
-					<p:menuitem value="Sair" icon="ui-icon-close" action="#{loginMB.sair}" update="@all" />
+						<p:submenu label="Ajuda" icon="ui-icon-help">
+							<p:menuitem value="Sobre o Sistema" url="#" />
+						</p:submenu>
 
-				</p:menubar>
+						<p:menuitem value="Sair" icon="ui-icon-close"
+							action="#{loginMB.sair}" update="@all"
+							actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
+							rendered="true" />
+
+					</p:menubar>
 				</h:panelGroup>
-				
+
 				<!-- Menu Login -->
-				<h:panelGroup id="login" rendered="#{loginMB.usuario.perfil == null}">
-					<h:form>            
-					    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login"> 
-					    	<h:graphicImage value="/resources/imagens/login.png" />
-					    </h:outputLink>
-					 
-					    <p:dialog id="dialogLogin" header="Login" widgetVar="dlg" resizable="false">
-					        <h:panelGrid id="gridLoguin" columns="2" cellpadding="5">
-					            <h:outputLabel for="ra" value="Perfil:" />
-					            <p:selectOneMenu value="#{loginMB.perfil}" effect="explode" >
-									<f:selectItems value="#{applicationMB.listaPerfis}" var="status" itemLabel="#{status.descricao}" itemValue="#{status}" />
+				<h:panelGroup id="login"
+					rendered="#{loginMB.usuario.perfil == null}">
+					<h:form>
+						<h:outputLink value="javascript:void(0)"
+							onclick="PF('dlg').show();" title="login">
+							<h:graphicImage value="/resources/imagens/login.png" />
+						</h:outputLink>
+
+						<p:dialog id="dialogLogin" header="Login" widgetVar="dlg"
+							resizable="false">
+							<h:panelGrid id="gridLoguin" columns="2" cellpadding="5">
+								<h:outputLabel for="ra" value="Perfil:" />
+								<p:selectOneMenu value="#{loginMB.perfil}" effect="explode">
+									<f:selectItems value="#{applicationMB.listaPerfis}"
+										var="status" itemLabel="#{status.descricao}"
+										itemValue="#{status}" />
 								</p:selectOneMenu>
-					            
-					            <h:outputLabel for="ra" value="R.A:" />
-					            <p:inputText id="ra" value="#{loginMB.ra}" required="true" label="ra" />
-					 
-					            <h:outputLabel for="password" value="Password:" />
-					            <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
-					            
-					            <p:growl id="growl" life="2000" />
- 
-    							<p:commandLink id="ajax" update="growl" actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
-							        <h:outputText value="Criar Conta" />
-							    </p:commandLink>
-							    
-					            <f:facet name="footer">
-					                <p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />
-					            </f:facet>  
-					        </h:panelGrid>
-					    </p:dialog>
+
+								<h:outputLabel for="ra" value="R.A:" />
+								<p:inputText id="ra" value="#{loginMB.ra}" required="true"
+									label="ra" />
+
+								<h:outputLabel for="password" value="Password:" />
+								<p:password id="password" value="#{loginMB.password}"
+									required="true" label="password" />
+
+								<p:growl id="growl" life="2000" />
+
+								<p:commandLink id="ajax" update="growl"
+									actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
+									<h:outputText value="Criar Conta" />
+								</p:commandLink>
+
+								<f:facet name="footer">
+									<p:commandButton value="Login"
+										actionListener="#{loginMB.login}" update="@all" />
+								</f:facet>
+							</h:panelGrid>
+						</p:dialog>
 					</h:form>
 				</h:panelGroup>
 
 			</h:form>
-			
+
 		</p:layoutUnit>
 
-		<p:layoutUnit position="center" >
+		<p:layoutUnit position="center">
 			<style type="text/css">
-    			.ui-layout-unit-content{background-image:
-    			url('#{request.contextPath}/resources/imagens/fundoMenu.jpg');
-    			background-position: 50% -20%;background-repeat:no-repeat}
-			</style>
-			
+.ui-layout-unit-content {
+	background-image:
+		url('#{request.contextPath}/resources/imagens/fundoMenu.jpg');
+	background-position: 50% -20%;
+	background-repeat: no-repeat
+}
+</style>
+
 			<ui:insert name="menuPrincipal" />
 		</p:layoutUnit>
 
