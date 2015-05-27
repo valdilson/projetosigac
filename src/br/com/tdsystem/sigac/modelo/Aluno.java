@@ -198,7 +198,28 @@ public class Aluno implements Serializable, IPessoa {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ ((atividadesRealizadas == null) ? 0 : atividadesRealizadas
+						.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime
+				* result
+				+ ((confirmaPassword == null) ? 0 : confirmaPassword.hashCode());
+		result = prime * result + ((curso == null) ? 0 : curso.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result
+				+ ((horasExigidas == null) ? 0 : horasExigidas.hashCode());
+		result = prime * result
+				+ ((horasRealizadas == null) ? 0 : horasRealizadas.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((periodo == null) ? 0 : periodo.hashCode());
+		result = prime * result + ((ra == null) ? 0 : ra.hashCode());
+		result = prime * result + ((turma == null) ? 0 : turma.hashCode());
+		result = prime * result + ((turno == null) ? 0 : turno.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
 	}
 
@@ -208,15 +229,81 @@ public class Aluno implements Serializable, IPessoa {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Aluno))
 			return false;
 		Aluno other = (Aluno) obj;
+		if (atividadesRealizadas == null) {
+			if (other.atividadesRealizadas != null)
+				return false;
+		} else if (!atividadesRealizadas.equals(other.atividadesRealizadas))
+			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		if (confirmaPassword == null) {
+			if (other.confirmaPassword != null)
+				return false;
+		} else if (!confirmaPassword.equals(other.confirmaPassword))
+			return false;
+		if (curso == null) {
+			if (other.curso != null)
+				return false;
+		} else if (!curso.equals(other.curso))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (horasExigidas == null) {
+			if (other.horasExigidas != null)
+				return false;
+		} else if (!horasExigidas.equals(other.horasExigidas))
+			return false;
+		if (horasRealizadas == null) {
+			if (other.horasRealizadas != null)
+				return false;
+		} else if (!horasRealizadas.equals(other.horasRealizadas))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (periodo == null) {
+			if (other.periodo != null)
+				return false;
+		} else if (!periodo.equals(other.periodo))
+			return false;
+		if (ra == null) {
+			if (other.ra != null)
+				return false;
+		} else if (!ra.equals(other.ra))
+			return false;
+		if (turma == null) {
+			if (other.turma != null)
+				return false;
+		} else if (!turma.equals(other.turma))
+			return false;
+		if (turno == null) {
+			if (other.turno != null)
+				return false;
+		} else if (!turno.equals(other.turno))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
+			return false;
 		return true;
 	}
-		
+
+	
 }

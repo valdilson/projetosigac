@@ -33,7 +33,6 @@ public class AlunoMB implements Serializable {
 	private Aluno aluno = null;
 	private AlunoDAO alunoDAO = null;
 	private PerfilEnum perfil;
-
 	private TurnoDAO turnoDAO = null;
 	private TurmaDAO turmaDAO = null;
 	private PeriodoDAO periodoDAO = null;
@@ -45,6 +44,8 @@ public class AlunoMB implements Serializable {
 	private List<Turma> listaDeTurmas = null;
 	private List<Periodo> listaDePeriodos = null;
 	private List<Unidade> listaDeUnidades = null;
+	String password = null;
+	String cpassword = null;
 
 	public AlunoMB() {
 		aluno = new Aluno();
@@ -129,39 +130,39 @@ public class AlunoMB implements Serializable {
 	}
 
 	public void salvar() throws NoSuchAlgorithmException {
-
+		String password = aluno.getPassword();
+		String cpassword = aluno.getConfirmaPassword();
+		
 		try {
-			
 			alunoDAO = new AlunoDAO();
-			
-			if(aluno.getPassword() != "" || aluno.getRa() != ""){
-				
-				listaDeAlunos = alunoDAO.listarAlunos();
-				
-				for (Aluno Foraluno : listaDeAlunos) {
-					if(Foraluno.getRa().equals(aluno.getRa())){
-						FacesUtil.exibirMensagemAlerta("R.A já cadastrado no sistema!");
+			listaDeAlunos = alunoDAO.listarAlunos();
+			Boolean grava = true;
+				password = aluno.getPassword();
+			    cpassword = aluno.getConfirmaPassword();
+			    
+			    for (Aluno listaAluno : listaDeAlunos) {
+					if(listaAluno.getRa().equals(aluno.getRa())){
+						FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");
+						grava = false;
+						break;
 					}
 				}
-			}else if(aluno.getPassword() == "" || aluno.getRa() == ""){
-				FacesUtil.exibirMensagemErro("Campos não podem estar vazios");
-			}else{
+			    
+				if (!password.equals(cpassword)) {
+				FacesUtil
+						.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 				
+			} else if(grava){
 				aluno.setHorasExigidas(100);
 				String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno
 						.getPassword());
-				if (aluno.getPassword().equals(aluno.getConfirmaPassword())) {
-					aluno.setPassword(senha);
-					alunoDAO.salvar(aluno);
-					aluno = new Aluno();
-					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-
-				} else {
-					FacesUtil
-							.exibirMensagemSucesso("Senhas não conferem ou vazias!");
-				}
-			}
+				aluno.setPassword(senha);
+				alunoDAO.salvar(aluno);
+				aluno = new Aluno();
+				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 			
+			}
+
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
 					+ e.getMessage());
@@ -191,7 +192,7 @@ public class AlunoMB implements Serializable {
 					.getPassword());
 			if (aluno.getPassword() != ""
 					&& aluno.getPassword().equals(aluno.getConfirmaPassword())) {
-				
+
 				aluno.setPassword(senha);
 				alunoDAO = new AlunoDAO();
 				alunoDAO.editar(aluno);
@@ -244,4 +245,39 @@ public class AlunoMB implements Serializable {
 		this.aluno = aluno;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((cpassword == null) ? 0 : cpassword.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AlunoMB))
+			return false;
+		AlunoMB other = (AlunoMB) obj;
+		if (cpassword == null) {
+			if (other.cpassword != null)
+				return false;
+		} else if (!cpassword.equals(other.cpassword))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		return true;
+	}
+
+	
+	
 }

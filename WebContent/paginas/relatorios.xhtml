@@ -9,50 +9,50 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-	
-	
+
+
 <ui:composition template="/templates/index.xhtml">
 	<ui:define name="metadata">
 
 		<f:metadata>
-			<f:event listener="#{fabricaRelatorioMB.listarCoordenador}" type="preRenderView" />
-			
+			<f:event listener="#{fabricaRelatorioMB.listarCoordenador}"
+				type="preRenderView" />
+
 		</f:metadata>
 	</ui:define>
 	<ui:define name="menuPrincipal">
 
 		<h:form id="relatoriofrm">
-			<p:panel header="RELATORIO">	
+			<p:panel header="RELATORIO">
 
-				
-				<p:dataTable id="tabela" widgetVar="tabelaWV"
-					var="objeto" value="#{fabricaRelatorioMB.lista}"
-					rows="2" filteredValue="#{fabricaRelatorioMB.filtro}"
+
+				<p:dataTable id="tabela" widgetVar="tabelaWV" var="objeto"
+					value="#{fabricaRelatorioMB.lista}" rows="2"
+					filteredValue="#{fabricaRelatorioMB.filtro}"
 					emptyMessage="Sem registro!" paginator="true">
 
 					<f:facet name="footer">
 						<h:commandLink>
 							<p:graphicImage library="imagens" name="excel.png" width="24" />
-							<p:dataExporter type="xls" target="tabela"
-								fileName="filtro" />
+							<p:dataExporter type="xls" target="tabela" fileName="filtro" />
 						</h:commandLink>
 
 						<h:commandLink>
 							<p:graphicImage library="imagens" name="pdf.png" width="24" />
-							<p:dataExporter type="pdf" target="tabela"
-								fileName="filtro" encoding="ISO-8859-1" />
+							<p:dataExporter type="pdf" target="tabela" fileName="filtro"
+								encoding="ISO-8859-1" />
 						</h:commandLink>
 					</f:facet>
 
 					<p:column headerText="Código" width="40"
-						sortBy="#{objeto.codigo}">
-						<h:outputText value="#{coordenador.codigo}" />
+						filterBy="#{objeto.codigo}" sortBy="#{objeto.codigo}">
+						<h:outputText value="#{objeto.codigo}" />
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{objeto.nome}"
-						sortBy="#{coordenador.nome}">
+						sortBy="#{objeto.nome}">
 						<h:outputText value="#{objeto.nome}" />
-					</p:column>					
+					</p:column>
 
 				</p:dataTable>
 
