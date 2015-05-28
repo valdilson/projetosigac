@@ -5,9 +5,6 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;

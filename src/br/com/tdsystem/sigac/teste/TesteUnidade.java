@@ -1,7 +1,5 @@
 package br.com.tdsystem.sigac.teste;
 
-import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -11,7 +9,7 @@ import br.com.tdsystem.sigac.modelo.Unidade;
 public class TesteUnidade {
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void testeSalvar(){
 		Unidade unidade = new Unidade();
 		UnidadeDAO unidadeDAO = new UnidadeDAO();
@@ -35,18 +33,6 @@ public class TesteUnidade {
 			unidade.setTelefone("3196937955");
 			unidadeDAO.salvar(unidade);
 	}
-	
-	/*@Test
-	@Ignore
-	public List<Unidade> testarListar(){
-		UnidadeDAO unidadeDAO = new UnidadeDAO();
-		List<Unidade> listaUnidades = unidadeDAO.listarUnidade();
-		
-		for (Unidade unidade : listaUnidades) {
-			JOptionPane.showMessageDialog(null, ": " + unidade.toString());
-		}
-		return listaUnidades;
-	}*/
 	
 	@Test
 	@Ignore

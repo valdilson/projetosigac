@@ -68,11 +68,11 @@ public class LoginMB {
 				loggedIn = true;
 				usuario = loginDAO.recuperarUsuario(ra, password, perfil);
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Bem vindo", usuario.getUsuario().getNome());
+						"Bem vindo(a) ", usuario.getUsuario().getNome());
 			} catch (NoResultException e) {
 				loggedIn = false;
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
-						"Loggin Error", "Invalid credentials");
+						"Loggin Error", "Verifique usuário e senha!");
 			}
 		} else {
 			loggedIn = false;
@@ -111,7 +111,6 @@ public class LoginMB {
 
 	public void criarConta(ActionEvent actionEvent) {
 		addMessage("Criar nova conta");
-
 	}
 
 	public void addMessage(String summary) {

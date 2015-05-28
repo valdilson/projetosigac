@@ -66,9 +66,12 @@ public class CoordenadorTeste {
 	}
 	
 	@Test
+	@Ignore
 	public void pesquisaCodigoTeste(){
 		CoordenadorDAO coordenadorDAO = new CoordenadorDAO();
 		Coordenador coordenador = coordenadorDAO.pesquisaCodigo(2l);
+		
+		System.out.println(" " + coordenador);
 	}
 	
 }

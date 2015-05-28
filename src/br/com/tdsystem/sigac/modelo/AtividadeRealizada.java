@@ -31,11 +31,11 @@ public class AtividadeRealizada {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name="codigo_aluno", referencedColumnName = "codigo")
 	private Aluno aluno;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name="codigo_atividade", referencedColumnName = "codigo")
 	private Atividade atividade;
 	
