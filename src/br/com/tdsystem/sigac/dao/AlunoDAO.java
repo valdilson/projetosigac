@@ -87,6 +87,26 @@ public class AlunoDAO {
 		return aluno;
 	}
 	
+	public Aluno pesquisaRA(String ra){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Aluno aluno = null;
+		try {
+			
+			Query hql = session.getNamedQuery(Constante.NamedQueries.ALUNO_RECUPERA_RA);
+			hql.setString("ra", ra);
+			
+			aluno = (Aluno) hql.uniqueResult();
+			System.out.println(aluno);
+			
+		} catch (RuntimeException e) {
+			System.out.println("Erro: " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		
+		return aluno;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Aluno> listarAlunos(){
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -109,6 +129,4 @@ public class AlunoDAO {
 		return listaAlunos;
 		
 	}
-	
-	
 }

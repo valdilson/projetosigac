@@ -18,7 +18,7 @@ import br.com.tdsystem.sigac.modelo.Usuario;
 import br.com.tdsystem.sigac.util.FacesUtil;
 
 @SessionScoped
-@ManagedBean
+@ManagedBean(name="Login")
 public class LoginMB {
 
 	private Usuario usuario;
@@ -72,7 +72,8 @@ public class LoginMB {
 			} catch (NoResultException e) {
 				loggedIn = false;
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
-						"Loggin Error", "Verifique usuário e senha!");
+						"Loggin Error", "Verifique usuário e senha!\n"
+								+ " Ou contate administrador.");
 			}
 		} else {
 			loggedIn = false;

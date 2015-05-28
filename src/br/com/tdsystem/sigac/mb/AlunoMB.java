@@ -3,8 +3,6 @@ package br.com.tdsystem.sigac.mb;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 

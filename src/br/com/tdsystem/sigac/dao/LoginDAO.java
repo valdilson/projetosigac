@@ -28,8 +28,9 @@ public class LoginDAO {
 			case ALUNO:
 				hql = secao.getNamedQuery(Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN);
 				break;
+				
 			case COORDENADOR:
-				hql = secao.getNamedQuery("Coordenador.recuperarPorLogin");
+				hql = secao.getNamedQuery(Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN);
 				break;
 	
 			default:

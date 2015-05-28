@@ -24,7 +24,8 @@ import br.com.tdsystem.sigac.util.Constante;
 @NamedQueries({
 	@NamedQuery(name  = Constante.NamedQueries.ALUNO_RECUPERA_LISTA, query = "Select aluno from Aluno aluno"),
 	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query = "Select aluno from Aluno aluno where aluno.ra = :ra"),
-	@NamedQuery(name = "Aluno.codigo", query = "Select aluno from Aluno aluno where aluno.codigo = :codigo")
+	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERA_CODIGO, query = "Select aluno from Aluno aluno where aluno.codigo = :codigo"),
+	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERA_RA, query = "Select aluno from Aluno aluno where aluno.ra = :ra")
 })
 public class Aluno implements Serializable, IPessoa {
 
