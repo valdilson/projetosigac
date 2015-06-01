@@ -18,7 +18,7 @@ import br.com.tdsystem.sigac.modelo.Usuario;
 import br.com.tdsystem.sigac.util.FacesUtil;
 
 @SessionScoped
-@ManagedBean(name="Login")
+@ManagedBean(name="loginMB")
 public class LoginMB {
 
 	private Usuario usuario;

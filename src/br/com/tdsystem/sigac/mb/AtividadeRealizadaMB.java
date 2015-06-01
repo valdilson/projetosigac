@@ -25,8 +25,8 @@ public class AtividadeRealizadaMB implements Serializable {
 		preencheListas();
 	}
 	
-	@ManagedProperty(value="#{LoginMB}")
-	private LoginMB login;
+	@ManagedProperty(value="#{loginMB}")
+	private LoginMB loginMB;
 	
 	private AtividadeRealizada atividadeRealizada = null;
 	private Aluno aluno = null;
@@ -40,7 +40,7 @@ public class AtividadeRealizadaMB implements Serializable {
 	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
 	
 	public String pegarUsuario(){
-		return login.getRa();
+		return loginMB.getRa();
 	}
 
 	public void preencheListas(){
