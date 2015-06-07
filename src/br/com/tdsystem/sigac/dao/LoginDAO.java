@@ -30,7 +30,7 @@ public class LoginDAO {
 				break;
 				
 			case COORDENADOR:
-				hql = secao.getNamedQuery(Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN);
+				hql = secao.getNamedQuery(Constante.NamedQueries.COORDENADOR_RECUPERAR_RA);
 				break;
 	
 			default:

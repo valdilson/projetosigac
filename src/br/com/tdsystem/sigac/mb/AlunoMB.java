@@ -50,11 +50,6 @@ public class AlunoMB implements Serializable {
 		pesquisarListaAlunos();
 	}
 
-	/*
-	 * @PostConstruct private void init() { aluno = new Aluno();
-	 * pesquisarListaAlunos(); //pesquisaListaCurso(); }
-	 */
-
 	public Aluno getAluno() {
 		return aluno;
 	}

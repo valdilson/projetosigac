@@ -20,6 +20,7 @@ public interface Constante {
 		String ALUNO_RECUPERA_RA = "Aluno.ra";
 		
 		String COORDENADOR_RECUPERARPORLOGIN = "Coordenador.recuperarPorLogin";
+		String COORDENADOR_RECUPERAR_RA = "Coordenador.recuperarPorRA";
 		String COORDENADOR_RECUPERA_LISTA = "Coordenador.lista";
 		String COORDENADOR_RECUPERA_CODIGO = "Coordenador.codigo";
 		

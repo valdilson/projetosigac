@@ -23,6 +23,7 @@ import br.com.tdsystem.sigac.util.Constante;
 @Table(name="Coordenador")
 @NamedQueries({
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN, query="Select coordenador from Coordenador coordenador where coordenador.nome = :nome"),
+	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERAR_RA, query="Select coordenador from Coordenador coordenador where coordenador.ra = :ra"),
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERA_LISTA, query="Select coordenador from Coordenador coordenador"),
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERA_CODIGO, query="Select coordenador from Coordenador coordenador where coordenador.codigo = :codigo")
 })
@@ -35,6 +36,7 @@ public class Coordenador implements Serializable, IPessoa {
 	private Long codigo;
 	private String nome;
     private String password;
+    private String ra;
 	
     @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
 	@JoinColumn(name = "codigo_unidade", referencedColumnName = "codigo")
@@ -117,6 +119,23 @@ public class Coordenador implements Serializable, IPessoa {
 		this.confirmaPassword = confirmaPassword;
 	}
 
+	public String getRa() {
+		return ra;
+	}
+
+	public void setRa(String ra) {
+		this.ra = ra;
+	}
+
+	@Override
+	public String toString() {
+		return "Coordenador [codigo=" + codigo + ", nome=" + nome
+				+ ", password=" + password + ", ra=" + ra + ", unidade="
+				+ unidade + ", email=" + email + ", horasRealizadas="
+				+ horasRealizadas + ", confirmaPassword=" + confirmaPassword
+				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -141,17 +160,5 @@ public class Coordenador implements Serializable, IPessoa {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Coordenador [codigo=" + codigo + ", nome=" + nome
-				+ ", password=" + password
-				+ ", unidade=" + unidade + ", email=" + email
-				+ ", horasRealizadas=" + horasRealizadas
-				+ ", confirmaPassword=" + confirmaPassword
-				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
-	}
-	
-	
 	
 }

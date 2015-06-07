@@ -2,6 +2,7 @@ package br.com.tdsystem.sigac.dao;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,7 +23,7 @@ public class AtividadeRealizadaDAO {
 			session.save(atividadeRealizada);
 			transaction.commit();
 			System.out.println("Gravou!");
-		} catch (RuntimeException e) {
+		} catch (HibernateException e) {
 			System.out.println("Erro :" + e.getMessage());
 			transaction.rollback();
 		} finally {

@@ -1,10 +1,15 @@
 package br.com.tdsystem.sigac.teste;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.formula.eval.UnaryPlusEval;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.primefaces.model.UploadedFile;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
@@ -17,23 +22,34 @@ import br.com.tdsystem.sigac.util.FormataData;
 public class AtividadeRealizadaTeste {
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void salvarTeste(){
 		try{			
 			AlunoDAO alunoDAO = new AlunoDAO();
-			Aluno aluno = alunoDAO.pesquisaCodigo(1l);
+			Aluno aluno = alunoDAO.pesquisaCodigo(3l);
+			
+			File file = new File("C:/Thiaguitos.pdf");
+			byte[] bFile = new byte[(int) file.length()];
+			
+			try {
+	            FileInputStream fileInputStream = new FileInputStream(file);
+	            fileInputStream.read(bFile);
+	            fileInputStream.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 			
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
-			Atividade atividade = atividadeDAO.pesquisaCodigo(2l);
+			Atividade atividade = atividadeDAO.pesquisaCodigo(1l);
 			
 			AtividadeRealizadaDAO atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			AtividadeRealizada atividadeRealizada = new AtividadeRealizada();
 			atividadeRealizada.setHorasRestantes(98);
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
-			atividadeRealizada.setDataRealizacao(FormataData.formataData(new Date()));
-			atividadeRealizada.setEnderecoComprovante("D:/comprovantes/"+aluno.getNome()+
-														"/"+atividadeRealizada.getDataRealizacao()+"");
+			atividadeRealizada.setDataEvento("05/06/15");
+			atividadeRealizada.setDataUpload("05/06/15");
+			atividadeRealizada.setComprovante(bFile);
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			
 		}catch(Exception e){
@@ -53,8 +69,6 @@ public class AtividadeRealizadaTeste {
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
 			Atividade atividade = atividadeDAO.pesquisaCodigo(2l);
 			
-			atividadeRealizada.setDataRealizacao("Editado");
-			atividadeRealizada.setEnderecoComprovante("Editado");
 			atividadeRealizada.setHorasRestantes(60);
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);

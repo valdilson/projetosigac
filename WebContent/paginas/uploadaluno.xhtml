@@ -11,36 +11,88 @@
 
 <ui:composition template="/templates/index.xhtml">
 	<ui:define name="metadata">
-	
-	<f:metadata>
+
+		<f:metadata>
 			<f:event listener="#{atividadeRealizadaMB.preencheListas()}"
 				type="preRenderView" />
-	</f:metadata>
+
+		</f:metadata>
 	</ui:define>
-	
+
 	<ui:define name="menuPrincipal">
+		<script type="text/javascript">
+					function start() {
+					    PF('statusDialog').show();
+					}
+					 
+					function stop() {
+					    PF('statusDialog').hide();
+					}
+				</script>
 
-		<h:form id="uploadAlunofrm">
+		<h:form id="uploadAlunofrm" enctype="multipart/form-data">
 			<p:panel header="UPLOAD ALUNO">
-
 				<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 
-					<p:outputLabel value="RA:" />
+					<p:outputLabel value="Nome:" />
+					<p:selectOneMenu
+						value="#{atividadeRealizadaMB.atividadeRealizada.aluno}"
+						effect="explode" converter="alunoConverter">
+						<f:selectItems value="#{alunoMB.listaDeAlunos}" var="aluno"
+							itemValue="#{aluno}" itemLabel="#{aluno.nome}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="RA Teste:" />
 					<p:inputText value="#{loginMB.ra}" disabled="true" />
 
-					<p:outputLabel value="Nome:" />
-					<p:inputText value="#{loginMB.usuario.usuario.nome}" />
-					
 					<p:outputLabel value="Atividade:" />
-					<p:selectOneMenu value="#{atividadeRealizadaMB.atividadeRealizada.atividade}" 
-									 effect="explode" converter="atividadeConverter">
-						<f:selectItems value="#{atividadeMB.listaAtividades}" var="atividade"
-							itemValue="#{atividade}" itemLabel="#{atividade.nome}" />
+					<p:selectOneMenu
+						value="#{atividadeRealizadaMB.atividadeRealizada.atividade}"
+						effect="explode" converter="atividadeConverter">
+						<f:selectItems value="#{atividadeMB.listaAtividades}"
+							var="atividade" itemValue="#{atividade}"
+							itemLabel="#{atividade.nome}" />
 					</p:selectOneMenu>
+
+					<p:outputLabel value="Horas Atividade:" />
+					<p:inputText
+						value="#{atividadeRealizadaMB.atividadeRealizada.horasRestantes}"
+						disabled="true" />
+					
+					<p:outputLabel value="Comprovante:" />
+					<p:fileUpload
+						fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}"
+						mode="advanced" dragDropSupport="false" update="messages"
+						sizeLimit="300000" fileLimit="1"
+						allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" 
+						fileLimitMessage="Já existe um documento na memória!"/>
+					
+					<p:outputLabel value="Data Evento:" />
+					<p:calendar id="dataEvento"
+						value="#{atividadeRealizadaMB.atividadeRealizada.dataEvento}" />
 				</p:panelGrid>
+				<p:growl id="messages" showDetail="true" />
+				
+				<!-- Botão Gravar -->
+				<p:commandButton value="Gravar" ajax="false"
+					action="#{atividadeRealizadaMB.salvar()}"
+					update=":uploadAlunofrm :mgs :uploadAlunofrm" />
+
+				<!-- Botão Download Modelo -->
+				<p:commandButton value="Download" ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="ui-icon-arrowthick-1-s">
+					<p:fileDownload value="#{atividadeRealizadaMB.file}" />
+				</p:commandButton>
 			</p:panel>
 		</h:form>
+
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false" resizable="true">
+			<p:graphicImage name="/resources/imagens/ajax-loader.gif" />
+
+		</p:dialog>
 	</ui:define>
 </ui:composition>
-	
+
 </html>

@@ -26,6 +26,7 @@ public class CoordenadorTeste {
 		coordenador.setNome("Efreim Louzada");
 		coordenador.setUnidade(unidade);
 		coordenador.setPassword(CriptografaSenhaMD5.converteSenhaMD5("123"));
+		coordenador.setRa("6273281273");
 		coordenadorDAO.salvar(coordenador);
 	}
 	

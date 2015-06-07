@@ -17,8 +17,8 @@ import br.com.tdsystem.sigac.modelo.PerfilEnum;
 import br.com.tdsystem.sigac.modelo.Usuario;
 import br.com.tdsystem.sigac.util.FacesUtil;
 
-@SessionScoped
 @ManagedBean(name="loginMB")
+@SessionScoped
 public class LoginMB {
 
 	private Usuario usuario;
@@ -59,7 +59,8 @@ public class LoginMB {
 	}
 
 	public void login(ActionEvent event) throws NoSuchAlgorithmException {
-		RequestContext context = RequestContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
+		RequestContext requestContext = RequestContext.getCurrentInstance();
 		FacesMessage message = null;
 		boolean loggedIn = false;
 
@@ -67,8 +68,11 @@ public class LoginMB {
 			try {
 				loggedIn = true;
 				usuario = loginDAO.recuperarUsuario(ra, password, perfil);
+				HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+				//ESTOU COLOCANDO O USER AQUI NA SESSÃO  
+	            session.setAttribute("USUARIO", this.usuario);  
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Bem vindo(a) ", usuario.getUsuario().getNome());
+						"Bem vindo(a) " + usuario.getUsuario().getNome(), "");
 			} catch (NoResultException e) {
 				loggedIn = false;
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -82,7 +86,7 @@ public class LoginMB {
 		}
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		context.addCallbackParam("loggedIn", loggedIn);
+		requestContext.addCallbackParam("loggedIn", loggedIn);
 	}
 
 	public String sair() {
