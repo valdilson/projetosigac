@@ -2,22 +2,15 @@ package br.com.tdsystem.sigac.teste;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
-import org.apache.poi.ss.formula.eval.UnaryPlusEval;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.primefaces.model.UploadedFile;
-
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
 import br.com.tdsystem.sigac.dao.AtividadeRealizadaDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
-import br.com.tdsystem.sigac.util.FormataData;
 
 public class AtividadeRealizadaTeste {
 	

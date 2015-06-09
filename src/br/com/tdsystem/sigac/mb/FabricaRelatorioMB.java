@@ -2,12 +2,8 @@ package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import br.com.tdsystem.sigac.dao.CoordenadorDAO;
-import br.com.tdsystem.sigac.dao.UnidadeDAO;
-import br.com.tdsystem.sigac.modelo.Coordenador;
 import br.com.tdsystem.sigac.relatorios.CoordenadorRelatorio;
 import br.com.tdsystem.sigac.relatorios.CursoRelatorio;
 import br.com.tdsystem.sigac.util.FabricaRelatorio;

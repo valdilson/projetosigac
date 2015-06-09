@@ -60,12 +60,11 @@
 						disabled="true" />
 					
 					<p:outputLabel value="Comprovante:" />
-					<p:fileUpload
-						fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}"
+					<p:fileUpload fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}" 
+						label="Arquivo..." uploadLabel="Carregar" cancelLabel="Cancelar"
 						mode="advanced" dragDropSupport="false" update="messages"
-						sizeLimit="300000" fileLimit="1"
-						allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" 
-						fileLimitMessage="Já existe um documento na memória!"/>
+						sizeLimit="300000" fileLimit="1" allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" 
+						fileLimitMessage="Já existe um documento na memória!" />
 					
 					<p:outputLabel value="Data Evento:" />
 					<p:calendar id="dataEvento"
@@ -77,13 +76,6 @@
 				<p:commandButton value="Gravar" ajax="false"
 					action="#{atividadeRealizadaMB.salvar()}"
 					update=":uploadAlunofrm :mgs :uploadAlunofrm" />
-
-				<!-- Botão Download Modelo -->
-				<p:commandButton value="Download" ajax="false"
-					onclick="PrimeFaces.monitorDownload(start, stop);"
-					icon="ui-icon-arrowthick-1-s">
-					<p:fileDownload value="#{atividadeRealizadaMB.file}" />
-				</p:commandButton>
 			</p:panel>
 		</h:form>
 

@@ -16,7 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import org.primefaces.model.UploadedFile;
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
@@ -47,7 +47,7 @@ public class AtividadeRealizada {
 	private String dataUpload;
 	
 	@Transient
-	private String uploadfile;
+	private UploadedFile uploadfile;
 	
 	@Transient
 	private File file;
@@ -57,11 +57,11 @@ public class AtividadeRealizada {
 	private byte[] comprovante;
 	
 
-	public String getUploadfile() {
+	public UploadedFile getUploadfile() {
 		return uploadfile;
 	}
 
-	public void setUploadfile(String uploadfile) {
+	public void setUploadfile(UploadedFile uploadfile) {
 		this.uploadfile = uploadfile;
 	}
 

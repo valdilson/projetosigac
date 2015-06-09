@@ -1,17 +1,19 @@
 package br.com.tdsystem.sigac.mb;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.Servlet;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
@@ -21,7 +23,6 @@ import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 import br.com.tdsystem.sigac.util.FacesUtil;
 
-import javax.servlet.ServletContext;
 
 @ManagedBean
 @ViewScoped
@@ -29,14 +30,10 @@ public class AtividadeRealizadaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public AtividadeRealizadaMB() {
-		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance()
-				.getExternalContext().getContext()).getResourceAsStream("/resources/imagens/logoPrincipal.jpg");
-        file = new DefaultStreamedContent(stream, "image/jpg", "downloaded_logoPrincipal.jpg");
+		
 		atividadeRealizada = new AtividadeRealizada();
 		preencheListas();
 	}
-
-	private StreamedContent file;
 	
 	private AtividadeRealizada atividadeRealizada = null;
 	private Aluno aluno = null;
@@ -49,10 +46,27 @@ public class AtividadeRealizadaMB implements Serializable {
 	private AtividadeDAO atividadeDAO = null;
 	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
 
-
-	 public void handleFileUpload(FileUploadEvent event) {
-	        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+	public void handleFileUpload(FileUploadEvent event) {
+	        
+	        try {
+	        	atividadeRealizada.setUploadfile(event.getFile());
+	        	File file = new File(atividadeRealizada.getUploadfile().getInputstream().toString());
+	        	//String caminho = file.getParent();
+	        	
+	        	FacesUtil.exibirMensagemAlerta("Parent " + file.getParent());
+	        	FacesUtil.exibirMensagemAlerta("Absolute Path " + file.getAbsolutePath());
+	        	FacesUtil.exibirMensagemAlerta("Name " + file.getName());
+	        	
+				byte[] bFile = new byte[(int) file.length()];
+	        	atividadeRealizada.setComprovante(bFile);
+	        	FacesMessage message = new FacesMessage("Succeso", event.getFile().getFileName()
+	        			+ atividadeRealizada.getComprovante().length);
+		        FacesContext.getCurrentInstance().addMessage(null, message);
+	        	 
+	        	 } catch (Exception ex) {
+	        	 Logger.getLogger(AtividadeRealizadaMB.class.getName()).log(Level.SEVERE, null, ex);
+	        	 FacesUtil.exibirMensagemErro("try :"+ex.getMessage());
+	        	 }
 	    }
 	
 	public void preencheListas() {
@@ -71,7 +85,8 @@ public class AtividadeRealizadaMB implements Serializable {
     
 	public void salvar() {
 		
-		try {			
+		try {
+            //código usando Apache Commons IO
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			FacesUtil

@@ -1,6 +1,5 @@
 package br.com.tdsystem.sigac.util;
 
-import java.awt.MenuShortcut;
 import java.util.Map;
 
 import javax.el.ExpressionFactory;

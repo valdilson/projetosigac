@@ -37,7 +37,9 @@
 					<p:inputText value="#{alunoMB.aluno.codigo}" disabled="true" />
 
 					<p:outputLabel value="Nome:" />
-					<p:inputText value="#{alunoMB.aluno.nome}" />
+					<p:inputText value="#{alunoMB.aluno.nome}">
+						<p:ajax event="keyup" update="cadastroAlunofrm" />
+					</p:inputText>
 
 					<p:outputLabel value="R.A.:" />
 					<p:inputText value="#{alunoMB.aluno.ra}" />
