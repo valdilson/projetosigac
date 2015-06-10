@@ -1,7 +1,5 @@
 package br.com.tdsystem.sigac.modelo;
 
-import java.io.File;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.primefaces.model.UploadedFile;
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
@@ -45,34 +41,11 @@ public class AtividadeRealizada {
 	private String dataEvento;
 	
 	private String dataUpload;
-	
-	@Transient
-	private UploadedFile uploadfile;
-	
-	@Transient
-	private File file;
 
 	@Lob
 	@Column(name = "comprovante", nullable = false, columnDefinition = "mediumblob")
 	private byte[] comprovante;
 	
-
-	public UploadedFile getUploadfile() {
-		return uploadfile;
-	}
-
-	public void setUploadfile(UploadedFile uploadfile) {
-		this.uploadfile = uploadfile;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public void setFile(File file) {
-		this.file = file;
-	}
-
 	public String getDataUpload() {
 		return dataUpload;
 	}

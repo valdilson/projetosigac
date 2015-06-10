@@ -15,6 +15,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 //import javax.validation.constraints.NotNull;
 import br.com.tdsystem.sigac.util.Constante;
 //import org.hibernate.validator.constraints.NotEmpty;

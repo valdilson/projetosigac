@@ -1,19 +1,21 @@
 package br.com.tdsystem.sigac.mb;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.Servlet;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
@@ -22,17 +24,24 @@ import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 import br.com.tdsystem.sigac.util.FacesUtil;
-
+import br.com.tdsystem.sigac.util.FormataData;
 
 @ManagedBean
 @ViewScoped
 public class AtividadeRealizadaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private UploadedFile uploadfile;
+	private Date dataEvento = null, dataUpload = null;
+	
 	public AtividadeRealizadaMB() {
-		
 		atividadeRealizada = new AtividadeRealizada();
 		preencheListas();
+	}
+	
+	private void initObj(){
+		dataEvento = new Date();
+		dataUpload = new Date();
 	}
 	
 	private AtividadeRealizada atividadeRealizada = null;
@@ -45,35 +54,49 @@ public class AtividadeRealizadaMB implements Serializable {
 	private AlunoDAO alunoDAO = null;
 	private AtividadeDAO atividadeDAO = null;
 	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
+	
+	@ManagedProperty(value="#{loginMB}")
+	private LoginMB loginMB;
 
 	public void handleFileUpload(FileUploadEvent event) {
-	        
-	        try {
-	        	atividadeRealizada.setUploadfile(event.getFile());
-	        	File file = new File(atividadeRealizada.getUploadfile().getInputstream().toString());
-	        	//String caminho = file.getParent();
-	        	
-	        	FacesUtil.exibirMensagemAlerta("Parent " + file.getParent());
-	        	FacesUtil.exibirMensagemAlerta("Absolute Path " + file.getAbsolutePath());
-	        	FacesUtil.exibirMensagemAlerta("Name " + file.getName());
-	        	
-				byte[] bFile = new byte[(int) file.length()];
-	        	atividadeRealizada.setComprovante(bFile);
-	        	FacesMessage message = new FacesMessage("Succeso", event.getFile().getFileName()
-	        			+ atividadeRealizada.getComprovante().length);
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-	        	 
-	        	 } catch (Exception ex) {
-	        	 Logger.getLogger(AtividadeRealizadaMB.class.getName()).log(Level.SEVERE, null, ex);
-	        	 FacesUtil.exibirMensagemErro("try :"+ex.getMessage());
-	        	 }
-	    }
+
+		try {
+
+			InputStream is = event.getFile().getInputstream();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			int next = is.read();
+			while (next > -1 ) {
+				bos.write(next);
+				next = is.read();
+			}
+			bos.flush();
+			//aqui estão os bytes do documento upado
+			byte[] btFile = bos.toByteArray();
+			atividadeRealizada.setComprovante(btFile); 
+			
+			FacesMessage message = new FacesMessage("Succeso", event.getFile()
+					.getFileName() + atividadeRealizada.getComprovante());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+
+		} catch (Exception ex) {
+			Logger.getLogger(AtividadeRealizadaMB.class.getName()).log(
+					Level.SEVERE, null, ex);
+			FacesUtil.exibirMensagemErro("try :" + ex.getMessage());
+		}
+	}
 	
+	public String formataData(){
+		Date dataAtual =  new Date();
+		String data = FormataData.formataData(dataAtual);
+		return data;
+	}
+
 	public void preencheListas() {
 		try {
+			initObj();
 			alunoDAO = new AlunoDAO();
 			atividadeDAO = new AtividadeDAO();
-			
+
 			listaDeAlunos = alunoDAO.listarAlunos();
 			listaDeAtividades = atividadeDAO.listaAtividade();
 		} catch (Exception e) {
@@ -82,18 +105,35 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
 
 	}
-    
+
+	private void abateHoras(){
+		atividadeRealizada.setHorasRestantes(atividadeRealizada.getAluno()
+				.getHorasExigidas() - atividadeRealizada.getAtividade().getHoras());
+	}
+	
+	private void extornahoras(){
+		atividadeRealizada.setHorasRestantes(atividadeRealizada.getAluno()
+				.getHorasExigidas() + atividadeRealizada.getAtividade().getHoras());
+	}
+	
 	public void salvar() {
 		
+		atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
+		atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 		try {
-            //código usando Apache Commons IO
-			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+			
+			// código usando Apache Commons IO
+			atividadeRealizadaDAO = new AtividadeRealizadaDAO(); 
+			atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
+			abateHoras();
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
-			FacesUtil
-					.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
+			FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
+			preencheListas();
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
-					+ e.getMessage());
+					+ e.getMessage()+e.getCause());
+			FacesUtil.exibirMensagemErro("Cause!"
+					+ e.getCause());
 		}
 
 	}
@@ -153,5 +193,38 @@ public class AtividadeRealizadaMB implements Serializable {
 	public void setListaDeAlunos(List<Aluno> listaDeAlunos) {
 		this.listaDeAlunos = listaDeAlunos;
 	}
+
+	public UploadedFile getUploadfile() {
+		return uploadfile;
+	}
+
+	public void setUploadfile(UploadedFile uploadfile) {
+		this.uploadfile = uploadfile;
+	}
+
+	public LoginMB getLoginMB() {
+		return loginMB;
+	}
+
+	public void setLoginMB(LoginMB loginMB) {
+		this.loginMB = loginMB;
+	}
+
+	public Date getDataEvento() {
+		return dataEvento;
+	}
+
+	public void setDataEvento(Date dataEvento) {
+		this.dataEvento = dataEvento;
+	}
+
+	public Date getDataUpload() {
+		return dataUpload;
+	}
+
+	public void setDataUpload(Date dataUpload) {
+		this.dataUpload = dataUpload;
+	}
+	
 
 }

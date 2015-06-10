@@ -35,15 +35,7 @@
 				<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 
 					<p:outputLabel value="Nome:" />
-					<p:selectOneMenu
-						value="#{atividadeRealizadaMB.atividadeRealizada.aluno}"
-						effect="explode" converter="alunoConverter">
-						<f:selectItems value="#{alunoMB.listaDeAlunos}" var="aluno"
-							itemValue="#{aluno}" itemLabel="#{aluno.nome}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel value="RA Teste:" />
-					<p:inputText value="#{loginMB.ra}" disabled="true" />
+ 					<p:outputLabel value="#{loginMB.usuario.usuario.nome}" />
 
 					<p:outputLabel value="Atividade:" />
 					<p:selectOneMenu
@@ -53,22 +45,20 @@
 							var="atividade" itemValue="#{atividade}"
 							itemLabel="#{atividade.nome}" />
 					</p:selectOneMenu>
-
-					<p:outputLabel value="Horas Atividade:" />
-					<p:inputText
-						value="#{atividadeRealizadaMB.atividadeRealizada.horasRestantes}"
-						disabled="true" />
 					
 					<p:outputLabel value="Comprovante:" />
-					<p:fileUpload fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}" 
+					<p:fileUpload fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}"
 						label="Arquivo..." uploadLabel="Carregar" cancelLabel="Cancelar"
 						mode="advanced" dragDropSupport="false" update="messages"
-						sizeLimit="300000" fileLimit="1" allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" 
+						sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" 
 						fileLimitMessage="Já existe um documento na memória!" />
 					
 					<p:outputLabel value="Data Evento:" />
 					<p:calendar id="dataEvento"
-						value="#{atividadeRealizadaMB.atividadeRealizada.dataEvento}" />
+						value="#{atividadeRealizadaMB.dataEvento}" />
+					
+					<p:outputLabel value="Data Upload:" />
+					<p:inputText value="#{atividadeRealizadaMB.formataData()}" disabled="true" /> 
 				</p:panelGrid>
 				<p:growl id="messages" showDetail="true" />
 				
@@ -82,8 +72,8 @@
 		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 			draggable="false" closable="false" resizable="true">
 			<p:graphicImage name="/resources/imagens/ajax-loader.gif" />
-
 		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
 

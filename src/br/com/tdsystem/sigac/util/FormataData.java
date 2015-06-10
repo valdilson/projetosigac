@@ -6,8 +6,20 @@ import java.util.Date;
 public class FormataData {
 	
 	public static String formataData(Date data){
-		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		return format.format(data);
+	}
+	
+	public static String dataAtual(){
+		Date dataAtual =  new Date();
+		String data = formataData(dataAtual);
+		return data;
+	}
+	
+	public String retornaDataAtual(){
+		Date dataAtual =  new Date();
+		String data = formataData(dataAtual);
+		return data;
 	}
 
 }
