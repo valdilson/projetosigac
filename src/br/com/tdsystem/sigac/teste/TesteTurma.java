@@ -12,7 +12,7 @@ import br.com.tdsystem.sigac.modelo.Turma;
 public class TesteTurma {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar() {
 		
 		Turma turma = new Turma();

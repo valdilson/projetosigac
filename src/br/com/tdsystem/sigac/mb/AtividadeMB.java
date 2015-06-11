@@ -22,6 +22,7 @@ public class AtividadeMB implements Serializable {
 	private AtividadeDAO atividadeDAO =  null;
 	
 	public AtividadeMB() {
+		atividade = new Atividade();
 		listarAtividades();
 	}
 
@@ -70,6 +71,7 @@ public class AtividadeMB implements Serializable {
 			
 			atividadeDAO = new AtividadeDAO();
 			atividadeDAO.salvar(atividade);
+			atividade = new Atividade();
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 		} catch (RuntimeException e) {
@@ -97,7 +99,7 @@ public class AtividadeMB implements Serializable {
 			atividadeDAO = new AtividadeDAO();
 			atividadeDAO.editar(atividade);
 			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
-
+			atividade = new Atividade();
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
 					+ e.getMessage());

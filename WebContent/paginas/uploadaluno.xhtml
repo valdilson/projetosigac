@@ -15,7 +15,6 @@
 		<f:metadata>
 			<f:event listener="#{atividadeRealizadaMB.preencheListas()}"
 				type="preRenderView" />
-
 		</f:metadata>
 	</ui:define>
 
@@ -35,7 +34,7 @@
 				<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 
 					<p:outputLabel value="Nome:" />
- 					<p:outputLabel value="#{loginMB.usuario.usuario.nome}" />
+					<p:outputLabel value="#{loginMB.usuario.usuario.nome}" />
 
 					<p:outputLabel value="Atividade:" />
 					<p:selectOneMenu
@@ -45,27 +44,40 @@
 							var="atividade" itemValue="#{atividade}"
 							itemLabel="#{atividade.nome}" />
 					</p:selectOneMenu>
-					
-					<p:outputLabel value="Comprovante:" />
-					<p:fileUpload fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}"
+
+					<p:outputLabel value="Comprovante: (.pdf, .jpg, .png ou .docx)" />
+					<p:fileUpload
+						fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}"
 						label="Arquivo..." uploadLabel="Carregar" cancelLabel="Cancelar"
 						mode="advanced" dragDropSupport="false" update="messages"
-						sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" 
-						fileLimitMessage="Já existe um documento na memória!" />
-					
+						sizeLimit="500000" fileLimit="1"
+						allowTypes="/(\.|\/)(pdf|jpe?g|png)$/"
+						fileLimitMessage="Já existe um documento na memória!"
+						invalidFileMessage="Tipo de Arquivo inválido!" />
+
 					<p:outputLabel value="Data Evento:" />
 					<p:calendar id="dataEvento"
 						value="#{atividadeRealizadaMB.dataEvento}" />
-					
+
 					<p:outputLabel value="Data Upload:" />
-					<p:inputText value="#{atividadeRealizadaMB.formataData()}" disabled="true" /> 
+					<p:inputText value="#{atividadeRealizadaMB.formataData()}"
+						disabled="true" />
 				</p:panelGrid>
 				<p:growl id="messages" showDetail="true" />
-				
+
 				<!-- Botão Gravar -->
 				<p:commandButton value="Gravar" ajax="false"
 					action="#{atividadeRealizadaMB.salvar()}"
 					update=":uploadAlunofrm :mgs :uploadAlunofrm" />
+				<p:separator />
+
+				<p:outputLabel value="Modelo de Documento: " />
+				<p:commandButton value="Download" ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="ui-icon-arrowthick-1-s">
+					<p:fileDownload value="#{atividadeRealizadaMB.file}" />
+				</p:commandButton>
+
 			</p:panel>
 		</h:form>
 
@@ -73,7 +85,7 @@
 			draggable="false" closable="false" resizable="true">
 			<p:graphicImage name="/resources/imagens/ajax-loader.gif" />
 		</p:dialog>
-		
+
 	</ui:define>
 </ui:composition>
 

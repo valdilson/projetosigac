@@ -14,7 +14,7 @@ import br.com.tdsystem.sigac.util.FabricaRelatorio;
 public class TesteRelatorio {
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void TesteCoordenador() {
 		CoordenadorRelatorio c = new CoordenadorRelatorio();		
 		FabricaRelatorio relatorio = new FabricaRelatorio();
@@ -23,6 +23,7 @@ public class TesteRelatorio {
 	}
 
 	@Test
+	@Ignore
 	public void TesteCurso() {
 
 		CursoRelatorio c = new CursoRelatorio();

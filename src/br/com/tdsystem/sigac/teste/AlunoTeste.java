@@ -41,9 +41,9 @@ public class AlunoTeste {
 		Turno turno = turnoDAO.pesquisaCodigo(1l);
 		Periodo periodo = periodoDAO.pesquisaCodigo(1l);
 		
-		aluno.setNome("Valdilson");
-		aluno.setRa("6814003469");
-		aluno.setEmail("valdilson@gmail.com");
+		aluno.setNome("Thiago Oliveira");
+		aluno.setRa("6273281272");
+		aluno.setEmail("thiago.krathos@gmail.com");
 		aluno.setPassword("123");
 		
 		aluno.setPassword(CriptografaSenhaMD5.converteSenhaMD5

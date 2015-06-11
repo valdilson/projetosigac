@@ -13,8 +13,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
@@ -33,10 +36,15 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	private UploadedFile uploadfile;
 	private Date dataEvento = null, dataUpload = null;
+	private StreamedContent file;
 	
 	public AtividadeRealizadaMB() {
 		atividadeRealizada = new AtividadeRealizada();
 		preencheListas();
+		
+		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
+				.getResourceAsStream("/resources/download/modeloAC.pdf");
+        file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
 	}
 	
 	private void initObj(){
@@ -46,6 +54,7 @@ public class AtividadeRealizadaMB implements Serializable {
 	
 	private AtividadeRealizada atividadeRealizada = null;
 	private Aluno aluno = null;
+	private Atividade atividade = null;
 
 	private List<Aluno> listaDeAlunos = null;
 	private List<Atividade> listaDeAtividades = null;
@@ -106,15 +115,7 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	}
 
-	private void abateHoras(){
-		atividadeRealizada.setHorasRestantes(atividadeRealizada.getAluno()
-				.getHorasExigidas() - atividadeRealizada.getAtividade().getHoras());
-	}
 	
-	private void extornahoras(){
-		atividadeRealizada.setHorasRestantes(atividadeRealizada.getAluno()
-				.getHorasExigidas() + atividadeRealizada.getAtividade().getHoras());
-	}
 	
 	public void salvar() {
 		
@@ -123,9 +124,11 @@ public class AtividadeRealizadaMB implements Serializable {
 		try {
 			
 			// código usando Apache Commons IO
-			atividadeRealizadaDAO = new AtividadeRealizadaDAO(); 
+			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+			atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
+			atividadeRealizada.setHorasAtividade(atividade.getHoras());
 			atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
-			abateHoras();
+			
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
 			preencheListas();
@@ -137,6 +140,10 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
 
 	}
+	
+	public StreamedContent getFile() {
+        return file;
+    }
 
 	public AtividadeRealizada getAtividadeRealizada() {
 		return atividadeRealizada;

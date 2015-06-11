@@ -9,17 +9,17 @@ import br.com.tdsystem.sigac.modelo.Unidade;
 public class TesteUnidade {
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void testeSalvar(){
 		Unidade unidade = new Unidade();
 		UnidadeDAO unidadeDAO = new UnidadeDAO();
 		
-			unidade.setBairro("Nova vista");
-			unidade.setEndereco("Rua Teste 123");
+			unidade.setBairro("Lourdes");
+			unidade.setEndereco("Rua Guajajaras 1000");
 			unidade.setCep("31060450");
 			unidade.setCidade("BH");
 			unidade.setEstado("MG");
-			unidade.setNome("Teste");
+			unidade.setNome("Unidade BH III");
 			unidade.setTelefone("3196937955");
 			unidadeDAO.salvar(unidade);
 			

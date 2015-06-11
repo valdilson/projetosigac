@@ -35,8 +35,8 @@ public class AtividadeRealizada {
 	@JoinColumn(name = "codigo_atividade", referencedColumnName = "codigo")
 	private Atividade atividade;
 
-	@Column(name = "horas_restantes")
-	private Integer horasRestantes;
+	@Column(name = "horas_atividade")
+	private Integer horasAtividade;
 
 	private String dataEvento;
 	
@@ -62,12 +62,12 @@ public class AtividadeRealizada {
 		this.codigo = codigo;
 	}
 
-	public Integer getHorasRestantes() {
-		return horasRestantes;
+	public Integer getHorasAtividade() {
+		return horasAtividade;
 	}
 
-	public void setHorasRestantes(Integer horasRestantes) {
-		this.horasRestantes = horasRestantes;
+	public void setHorasAtividade(Integer horasAtividade) {
+		this.horasAtividade = horasAtividade;
 	}
 
 	public Aluno getAluno() {

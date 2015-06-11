@@ -21,7 +21,7 @@ public class AtividadeRealizadaTeste {
 			AlunoDAO alunoDAO = new AlunoDAO();
 			Aluno aluno = alunoDAO.pesquisaCodigo(3l);
 			
-			File file = new File("C:/Thiaguitos.pdf");
+			File file = new File("C:/wathsapp.png");
 			byte[] bFile = new byte[(int) file.length()];
 			
 			try {
@@ -37,7 +37,7 @@ public class AtividadeRealizadaTeste {
 			
 			AtividadeRealizadaDAO atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			AtividadeRealizada atividadeRealizada = new AtividadeRealizada();
-			atividadeRealizada.setHorasRestantes(98);
+			atividadeRealizada.setHorasAtividade((atividade.getHoras()));
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
 			atividadeRealizada.setDataEvento("05/06/15");
@@ -62,7 +62,7 @@ public class AtividadeRealizadaTeste {
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
 			Atividade atividade = atividadeDAO.pesquisaCodigo(2l);
 			
-			atividadeRealizada.setHorasRestantes(60);
+			atividadeRealizada.setHorasAtividade(atividade.getHoras());
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
 			atividadeRealizadaDAO.editar(atividadeRealizada);
