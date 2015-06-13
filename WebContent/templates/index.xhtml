@@ -15,11 +15,14 @@
 	<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
 
 	<style type="text/css">
-body {
-	background-color: #FFA500;
-	font-size: 15px
-}
-</style>
+		body {
+			background-color: #FFA500;
+			font-size: 15px
+		}
+		.label-nome {	
+			float: right !important;
+		}
+	</style>
 
 </h:head>
 <h:body>
@@ -75,7 +78,7 @@ body {
 						</p:submenu>
 
 						<p:submenu label="Consulta" icon="ui-icon-pencil">
-							<p:menuitem value="Atividades Realizadas" url="#"
+							<p:menuitem value="Atividades Realizadas" action="#{menuMB.navegar('/paginas/downloadatividade.xhtml')}"
 								icon="ui-icon-arrowreturnthick-1-w" />
 							<p:menuitem value="Area do Aluno" action="#{menuMB.navegar('/paginas/uploadaluno.xhtml')}"
 								icon="ui-icon-arrowreturnthick-1-e" />
@@ -107,7 +110,12 @@ body {
 							action="#{loginMB.sair}" update="@all"
 							actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
 							rendered="true" />
-
+							
+						<p:menuitem containerStyleClass="label-nome" id="nomeUsuario" 
+							value="#{loginMB.usuario.usuario.nome}" update="@all"
+							action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}"
+							rendered="true" />
+							
 					</p:menubar>
 				</h:panelGroup>
 
@@ -160,13 +168,13 @@ body {
 
 		<p:layoutUnit position="center">
 			<style type="text/css">
-.ui-layout-unit-content {
-	background-image:
-		url('#{request.contextPath}/resources/imagens/fundoMenu.jpg');
-	background-position: 50% -20%;
-	background-repeat: no-repeat
-}
-</style>
+				.ui-layout-unit-content {
+					background-image:
+						url('#{request.contextPath}/resources/imagens/fundoMenu.jpg');
+					background-position: 50% -20%;
+					background-repeat: no-repeat
+				}
+			</style>
 
 			<ui:insert name="menuPrincipal" />
 		</p:layoutUnit>

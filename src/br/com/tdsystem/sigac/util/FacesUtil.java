@@ -12,6 +12,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.tdsystem.sigac.mb.LoginMB;
+import br.com.tdsystem.sigac.modelo.Usuario;
+
 /**
  * Classe utilit�ria para desenvolvimento JSF
  */
@@ -22,6 +25,14 @@ public class FacesUtil {
 				.getRequestParameterMap().get(name);
 	}
 
+	public static Usuario getUsuarioLogado() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		HttpServletRequest request = (HttpServletRequest)externalContext.getRequest();
+		LoginMB loginMB = (LoginMB) request.getSession().getAttribute("loginMB");
+		return loginMB.getUsuario();
+	}
+	
 	public static void exibirMensagemSucesso(String mensagem) {
 		exibirMensagem(FacesMessage.SEVERITY_INFO, mensagem);
 	}

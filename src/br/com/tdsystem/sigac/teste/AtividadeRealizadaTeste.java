@@ -15,13 +15,13 @@ import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 public class AtividadeRealizadaTeste {
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void salvarTeste(){
 		try{			
 			AlunoDAO alunoDAO = new AlunoDAO();
 			Aluno aluno = alunoDAO.pesquisaCodigo(3l);
 			
-			File file = new File("C:/wathsapp.png");
+			File file = new File("C:/Thiaguitos.jpg");
 			byte[] bFile = new byte[(int) file.length()];
 			
 			try {
@@ -84,7 +84,22 @@ public class AtividadeRealizadaTeste {
 	@Ignore
 	public void listarAtividadesRealizadasTeste(){
 		AtividadeRealizadaDAO  atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-		List<AtividadeRealizada> listaAtividades = atividadeRealizadaDAO.listarAtividadesRealizadas();
+		Aluno l = new Aluno();
+		l.setCodigo(2L);
+		List<AtividadeRealizada> listaAtividades = atividadeRealizadaDAO.listarAtividadesRealizadas(l);
+		
+		for (AtividadeRealizada atividadeRealizada : listaAtividades) {
+			System.out.println(" " + atividadeRealizada);
+		}
+	}
+	
+	@Test
+	//@Ignore
+	public void listarAtividadesRealizadasIndividualTeste(){
+		AtividadeRealizadaDAO  atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		Aluno l = new Aluno();
+		l.setCodigo(2L);
+		List<AtividadeRealizada> listaAtividades = atividadeRealizadaDAO.listarAtividadesRealizadas(l);
 		
 		for (AtividadeRealizada atividadeRealizada : listaAtividades) {
 			System.out.println(" " + atividadeRealizada);

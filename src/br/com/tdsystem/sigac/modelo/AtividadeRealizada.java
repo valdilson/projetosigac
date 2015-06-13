@@ -19,6 +19,9 @@ import br.com.tdsystem.sigac.util.Constante;
 @Table(name = "AtividadeRealizada")
 @NamedQueries({
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada"),
+		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL, 
+					query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada"
+							+ " where atividadeRealizada.aluno.codigo = :codigo_aluno"),
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_CODIGO, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada "
 				+ "where atividadeRealizada.codigo = :codigo"), })
 public class AtividadeRealizada {

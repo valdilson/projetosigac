@@ -19,15 +19,6 @@
 	</ui:define>
 
 	<ui:define name="menuPrincipal">
-		<script type="text/javascript">
-					function start() {
-					    PF('statusDialog').show();
-					}
-					 
-					function stop() {
-					    PF('statusDialog').hide();
-					}
-				</script>
 
 		<h:form id="uploadAlunofrm" enctype="multipart/form-data">
 			<p:panel header="UPLOAD ALUNO">
@@ -71,20 +62,68 @@
 					update=":uploadAlunofrm :mgs :uploadAlunofrm" />
 				<p:separator />
 
+				<!-- Botão Download -->
 				<p:outputLabel value="Modelo de Documento: " />
 				<p:commandButton value="Download" ajax="false"
-					onclick="PrimeFaces.monitorDownload(start, stop);"
-					icon="ui-icon-arrowthick-1-s">
+					icon="ui-icon-arrowthick-1-s" update=":uploadAlunofrm">
 					<p:fileDownload value="#{atividadeRealizadaMB.file}" />
 				</p:commandButton>
+				<p:separator />
+				
+				<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
+				<p:dataTable id="tabelaAtividadeRealizada"
+					widgetVar="tabelaAtividadeRealizadaWV" var="atividadeRealizada"
+					value="#{atividadeRealizadaMB.listaDeAtividadesRealizadas}"
+					rows="4" emptyMessage="Sem registro!" paginator="true">
+	
+					<p:column headerText="Código" width="40"
+						sortBy="#{atividadeRealizada.codigo}">
+						<h:outputText value="#{atividadeRealizada.codigo}" />
+					</p:column>
+	
+					<p:column headerText="Atividade" width="120"
+						filterBy="#{atividadeRealizada.atividade.nome}"
+						sortBy="#{atividadeRealizada.atividade.nome}">
+						<h:outputText value="#{atividadeRealizada.atividade.nome}" />
+					</p:column>
+	
+					<p:column headerText="Data Upload" width="120"
+						filterBy="#{atividadeRealizada.dataUpload}"
+						sortBy="#{atividadeRealizada.dataUpload}">
+						<h:outputText value="#{atividadeRealizada.dataUpload}" />
+					</p:column>
+	
+					<f:facet name="footer">
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="excel.png" width="24" />
+							<p:dataExporter type="xls" target="tabelaAtividadeRealizada"
+								fileName="AtividadesRealizadas" />
+						</h:commandLink>
+	
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="pdf.png" width="24" />
+							<p:dataExporter type="pdf" target="tabelaAtividadeRealizada"
+								fileName="AtividadesRealizadas" encoding="ISO-8859-1" />
+						</h:commandLink>
+					</f:facet>
+	
+					<!--Botão Editar / Excluir  -->
+					<p:column headerText="Editar / Excluir" width="125"
+						exportable="false">
+						<p:commandButton value="Editar"
+							action="#{atividadeRealizadaMB.selecionaEdicao(atividadeRealizada)}"
+							update="@all" />
+						<p:commandButton value="Excluir"
+							action="#{atividadeRealizadaMB.excluir(atividadeRealizada)}"
+							immediate="true"
+							update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" />
+					</p:column>
+	
+				</p:dataTable>
 
 			</p:panel>
-		</h:form>
 
-		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
-			draggable="false" closable="false" resizable="true">
-			<p:graphicImage name="/resources/imagens/ajax-loader.gif" />
-		</p:dialog>
+		</h:form>
 
 	</ui:define>
 </ui:composition>

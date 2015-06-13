@@ -23,6 +23,7 @@ public class LoginMB {
 
 	private Usuario usuario;
 	private LoginDAO loginDAO;
+	private Boolean loggedIn;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -30,6 +31,7 @@ public class LoginMB {
 
 	public LoginMB() {
 		loginDAO = new LoginDAO();
+		loggedIn = Boolean.FALSE;
 	}
 
 	public void setUsuario(Usuario usuario) {
@@ -59,45 +61,36 @@ public class LoginMB {
 	}
 
 	public void login(ActionEvent event) throws NoSuchAlgorithmException {
-		FacesContext context = FacesContext.getCurrentInstance();
+
 		RequestContext requestContext = RequestContext.getCurrentInstance();
 		FacesMessage message = null;
-		boolean loggedIn = false;
+		loggedIn = Boolean.FALSE;
 
 		if (ra != null && password != null) {
 			try {
-				loggedIn = true;
+				loggedIn = Boolean.TRUE;
 				usuario = loginDAO.recuperarUsuario(ra, password, perfil);
-				HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-				//ESTOU COLOCANDO O USER AQUI NA SESSÃO  
-	            session.setAttribute("USUARIO", this.usuario);  
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Bem vindo(a) " + usuario.getUsuario().getNome(), "");
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Bem vindo(a) " + usuario.getUsuario().getNome(), "");
 			} catch (NoResultException e) {
-				loggedIn = false;
+				loggedIn = Boolean.FALSE;
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"Loggin Error", "Verifique usuário e senha!\n"
 								+ " Ou contate administrador.");
 			}
 		} else {
-			loggedIn = false;
+			loggedIn = Boolean.FALSE;
 			message = new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Loggin Error", "Infrorme usuario e senha");
 		}
-
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		requestContext.addCallbackParam("loggedIn", loggedIn);
 	}
 
 	public String sair() {
-
 		String retorno = "sair";
-
 		try {
-
 			FacesContext facesContext = FacesContext.getCurrentInstance();
-			HttpSession session = (HttpSession) facesContext
-					.getExternalContext().getSession(false);
+			HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
 			session.invalidate();
 			FacesUtil.exibirMensagemErro("Sessão Finalizada");
 		} catch (Exception e) {
@@ -122,6 +115,14 @@ public class LoginMB {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public Boolean getLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(Boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
 
 }

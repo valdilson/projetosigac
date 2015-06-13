@@ -107,6 +107,7 @@ public class AlunoDAO {
 		return aluno;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	public List<Aluno> listarAlunos(){
 		Session session = HibernateUtil.getSessionFactory().openSession();

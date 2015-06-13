@@ -42,8 +42,8 @@ public class AlunoMB implements Serializable {
 	private List<Turma> listaDeTurmas = null;
 	private List<Periodo> listaDePeriodos = null;
 	private List<Unidade> listaDeUnidades = null;
-	String password = null;
-	String cpassword = null;
+	private String password = null;
+	private String cpassword = null;
 
 	public AlunoMB() {
 		aluno = new Aluno();

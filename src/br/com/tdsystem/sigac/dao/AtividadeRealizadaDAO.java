@@ -7,7 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
+import br.com.tdsystem.sigac.modelo.Coordenador;
+import br.com.tdsystem.sigac.modelo.IPessoa;
 import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
@@ -68,23 +71,27 @@ public class AtividadeRealizadaDAO {
 	}
 	
 	@SuppressWarnings({ "unchecked" })
-	public List<AtividadeRealizada> listarAtividadesRealizadas(){
+	public List<AtividadeRealizada> listarAtividadesRealizadas(IPessoa usuario){
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		List<AtividadeRealizada> listaDeAtividadesRealizadas = null;
+		List<AtividadeRealizada> atividade = null;
 		try {
-			Query hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA);
-			listaDeAtividadesRealizadas = hql.list();
-			
-			for (AtividadeRealizada atividadeRealizada : listaDeAtividadesRealizadas) {
-				System.out.println("" + atividadeRealizada);
+			Query hql = null;
+			if (usuario instanceof Aluno) {
+				hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL);
+				hql.setLong("codigo_aluno", usuario.getCodigo());
+			} else if (usuario instanceof Coordenador) {	
+				hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA);
+			} else {
+				throw new IllegalArgumentException();
 			}
+			atividade = hql.list();
 		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
-		}finally{
+		} finally {
 			session.close();
 		}
-		return listaDeAtividadesRealizadas;
+		return atividade;
 	}
 	
 	public AtividadeRealizada pesquisaCodigo(Long codigo){
