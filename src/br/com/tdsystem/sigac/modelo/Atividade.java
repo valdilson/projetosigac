@@ -15,8 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
 //import javax.validation.constraints.NotNull;
 import br.com.tdsystem.sigac.util.Constante;
@@ -29,9 +29,7 @@ import br.com.tdsystem.sigac.util.Constante;
 	@NamedQuery(name = Constante.NamedQueries.ATIVIDADE_CODIGO, query = "Select atividade from Atividade atividade where atividade.codigo = :codigo"),
 	@NamedQuery(name = Constante.NamedQueries.ATIVIDADE_NOME, query = "Select atividade from Atividade atividade where atividade.nome like :nome"),
 	@NamedQuery(name = Constante.NamedQueries.ATIVIDADE_STATUS, query = "Select atividade from Atividade atividade where atividade.status = :status") 
-	})
-
-
+})
 public class Atividade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -57,6 +55,22 @@ public class Atividade implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private Status status;
 	
+	@Transient
+	private Integer quantidadeVezesExec;
+	
+	
+	public Atividade() {
+		super();
+	}
+
+	public Atividade(String nome, Integer quantidadeVezesExec) {
+		super();
+		this.nome = nome;
+		this.quantidadeVezesExec = quantidadeVezesExec;
+	}
+
+
+
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="atividade")
 	private List<AtividadeRealizada> atividadesRealizadas;
 
@@ -157,6 +171,12 @@ public class Atividade implements Serializable {
 		this.status = status;
 	}
 
+	public Integer getQuantidadeVezesExec() {
+		return quantidadeVezesExec;
+	}
 
+	public void setQuantidadeVezesExec(Integer quantidadeVezesExec) {
+		this.quantidadeVezesExec = quantidadeVezesExec;
+	}
 	
 }

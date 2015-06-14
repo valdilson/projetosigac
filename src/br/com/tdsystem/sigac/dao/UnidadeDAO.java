@@ -1,5 +1,6 @@
 package br.com.tdsystem.sigac.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -9,7 +10,9 @@ import org.hibernate.Transaction;
 import br.com.tdsystem.sigac.modelo.Unidade;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
-public class UnidadeDAO {
+public class UnidadeDAO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public void salvar(Unidade unidade){
 		

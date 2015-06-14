@@ -7,11 +7,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.tdsystem.sigac.modelo.Atividade;
+import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
+@SuppressWarnings("unchecked")
 public class AtividadeDAO {
 	
-public void salvar(Atividade atividade){
+	public void salvar(Atividade atividade){
 		
 		//Abre a fabrica de Sessao e cria uma sessao
 		Session secao = HibernateUtil.getSessionFactory().openSession();
@@ -34,7 +36,7 @@ public void salvar(Atividade atividade){
 		}finally{
 			secao.close();
 		}
-	}//Fim salvar
+	}
 
 	public void excluir(Atividade atividade){
 		
@@ -76,14 +78,13 @@ public void salvar(Atividade atividade){
 		}
 	}//Fim Editar
 
-	@SuppressWarnings("unchecked")
 	public List<Atividade> listaAtividade(){
 		
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		List<Atividade> listaAtividades = null;
 		try {
 			
-			Query hql = secao.getNamedQuery("Atividade.lista");
+			Query hql = secao.getNamedQuery(Constante.NamedQueries.ATIVIDADE_LISTA);
 			listaAtividades = hql.list();
 			
 		} catch (RuntimeException e) {

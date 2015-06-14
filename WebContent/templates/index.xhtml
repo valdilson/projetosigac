@@ -3,32 +3,39 @@
 <!DOCTYPE html>
 
 <!-- Inportando Pacotes com os objetos -->
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" 
+	  xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui" 
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html" />
 	<title>SIGAC&#160;<ui:insert name="title" /></title>
-	<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
+	<h:outputStylesheet library="css" name="estilos.css" />
 
 	<style type="text/css">
 		body {
 			background-color: #FFA500;
 			font-size: 15px
 		}
-		.label-nome {	
+		
+		.label-nome {
 			float: right !important;
 		}
 	</style>
-
+	<script type="text/javascript">
+		jQuery( document ).ready(function( $ ) {
+			//alert("onload");
+		});
+	</script>
 </h:head>
 <h:body>
 
-	<p:growl id="mgs" sticky="true" />
+	<script type="text/javascript">
+		//alert('');
+	</script>
 
+	<p:growl id="mgs" sticky="true" />
+	
 	<p:layout fullPage="true">
 
 		<p:layoutUnit position="north" size="50"
@@ -43,46 +50,38 @@
 					<p:menubar>
 						<p:submenu label="Cadastros" icon="ui-icon-document">
 							<p:submenu label="Usuários" icon="ui-icon-contact">
-								<p:menuitem value="Coordenador"
-									action="#{menuMB.navegar('/paginas/cadastrocoordenador.xhtml')}" />
-								<p:menuitem value="Aluno"
-									action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}" />
-								<p:menuitem value="Perfil"
-									action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}" />
+								<p:menuitem value="Coordenador" action="#{menuMB.navegar('/paginas/cadastrocoordenador.xhtml')}" 
+											rendered="#{loginMB.perfil == 'COORDENADOR'}"/>
+								<p:menuitem value="Aluno" action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}" />
+								<p:menuitem value="Perfil" action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}" 
+											rendered="#{loginMB.perfil == 'COORDENADOR'}"/>
 							</p:submenu>
 
-							<p:menuitem value="Atividades" icon="ui-icon-gear"
-								action="#{menuMB.navegar('/paginas/cadastroatividade.xhtml')}" />
+							<p:menuitem value="Atividades" icon="ui-icon-gear" action="#{menuMB.navegar('/paginas/cadastroatividade.xhtml')}" 
+										rendered="#{loginMB.perfil == 'COORDENADOR'}" />
 							<p:separator />
 
-							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact">
-								<p:menuitem value="Curso"
-									action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
-								<p:menuitem value="Periodo"
-									action="#{menuMB.navegar('/paginas/cadastroperiodo.xhtml')}" />
-								<p:menuitem value="Turma"
-									action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
-								<p:menuitem value="Turno"
-									action="#{menuMB.navegar('/paginas/cadastroturno.xhtml')}" />
-								<p:menuitem value="Unidade"
-									action="#{menuMB.navegar('/paginas/cadastrounidade.xhtml')}" />
+							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact" rendered="#{loginMB.perfil == 'COORDENADOR'}">
+								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
+								<p:menuitem value="Periodo" action="#{menuMB.navegar('/paginas/cadastroperiodo.xhtml')}" />
+								<p:menuitem value="Turma" action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
+								<p:menuitem value="Turno" action="#{menuMB.navegar('/paginas/cadastroturno.xhtml')}" />
+								<p:menuitem value="Unidade" action="#{menuMB.navegar('/paginas/cadastrounidade.xhtml')}" />
 
 							</p:submenu>
 							<p:separator />
-							<p:menuitem value="Voltar Tela Principal"
-								action="#{menuMB.navegar('/templates/index.xhtml')}"
-								icon="ui-icon-refresh" />
+							<p:menuitem value="Voltar Tela Principal" action="#{menuMB.navegar('/templates/index.xhtml')}" icon="ui-icon-refresh" />
 							<p:separator />
-							<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all"
-								actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
-								icon="ui-icon-refresh" />
+							<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
+										icon="ui-icon-refresh" />
 						</p:submenu>
 
 						<p:submenu label="Consulta" icon="ui-icon-pencil">
 							<p:menuitem value="Atividades Realizadas" action="#{menuMB.navegar('/paginas/downloadatividade.xhtml')}"
 								icon="ui-icon-arrowreturnthick-1-w" />
-							<p:menuitem value="Area do Aluno" action="#{menuMB.navegar('/paginas/uploadaluno.xhtml')}"
-								icon="ui-icon-arrowreturnthick-1-e" />
+							<p:menuitem value="Area do Aluno" rendered="#{loginMB.perfil == 'ALUNO'}"
+										action="#{menuMB.navegar('/paginas/uploadaluno.xhtml')}" 
+										icon="ui-icon-arrowreturnthick-1-e" />
 						</p:submenu>
 
 						<p:submenu label="Relatorios" icon="ui-icon-gear">
@@ -91,15 +90,14 @@
 								<p:menuitem value="Coordenadores" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}" />
 								<p:menuitem value="Perfil" url="#" />
 								<p:separator />
-								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}"  />
+								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}" />
 								<p:menuitem value="Periodo" url="#" />
 								<p:menuitem value="Turma" url="#" />
 								<p:menuitem value="Turno" url="#" />
 								<p:menuitem value="Unidade" url="#" />
 							</p:submenu>
 							<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-								<p:menuitem value="Delete" actionListener="#{menuView.delete}"
-									icon="ui-icon-close" update="messages" ajax="false" />
+								<p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false" />
 							</p:submenu>
 						</p:submenu>
 
@@ -107,56 +105,46 @@
 							<p:menuitem value="Sobre o Sistema" url="#" />
 						</p:submenu>
 
-						<p:menuitem value="Sair" icon="ui-icon-close"
-							action="#{loginMB.sair}" update="@all"
-							actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
-							rendered="true" />
-							
+						<p:menuitem value="Sair" icon="ui-icon-close" action="#{loginMB.sair}" rendered="true" />
+						
+						<c:set var="tipoAluno" value="#{loginMB.perfil.descricao}" />
+						<c:set var="nomeAluno" value="#{loginMB.usuario.usuario.nome}" />
+						
 						<p:menuitem containerStyleClass="label-nome" id="nomeUsuario" 
-							value="#{loginMB.usuario.usuario.nome}" update="@all"
-							action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}"
-							rendered="true" />
-							
+									value="${tipoAluno}: ${nomeAluno}" update="@all"
+							action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}" rendered="true" />
+
 					</p:menubar>
 				</h:panelGroup>
 
 				<!-- Menu Login -->
-				<h:panelGroup id="login"
-					rendered="#{loginMB.usuario.perfil == null}">
+				<h:panelGroup id="login" rendered="#{loginMB.usuario.perfil == null}">
 					<h:form>
-						<h:outputLink value="javascript:void(0)"
-							onclick="PF('dlg').show();" title="login">
+						<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
 							<h:graphicImage value="/resources/imagens/login.png" />
 						</h:outputLink>
 
-						<p:dialog id="dialogLogin" header="Login" widgetVar="dlg"
-							resizable="false">
+						<p:dialog id="dialogLogin" header="Login" widgetVar="dlg" resizable="false">
 							<h:panelGrid id="gridLoguin" columns="2" cellpadding="5">
 								<h:outputLabel for="ra" value="Perfil:" />
 								<p:selectOneMenu value="#{loginMB.perfil}" effect="explode">
-									<f:selectItems value="#{applicationMB.listaPerfis}"
-										var="status" itemLabel="#{status.descricao}"
-										itemValue="#{status}" />
+									<f:selectItems value="#{applicationMB.listaPerfis}" var="status" itemLabel="#{status.descricao}" itemValue="#{status}" />
 								</p:selectOneMenu>
 
 								<h:outputLabel for="ra" value="R.A:" />
-								<p:inputText id="ra" value="#{loginMB.ra}" required="true"
-									label="ra" />
+								<p:inputText id="ra" value="#{loginMB.ra}" required="true" label="ra" />
 
 								<h:outputLabel for="password" value="Password:" />
-								<p:password id="password" value="#{loginMB.password}"
-									required="true" label="password" />
+								<p:password id="password" value="#{loginMB.password}" required="true" label="password" />
 
 								<p:growl id="growl" life="2000" />
 
-								<p:commandLink id="ajax" update="growl"
-									actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
+								<p:commandLink id="ajax" update="growl" actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
 									<h:outputText value="Criar Conta" />
 								</p:commandLink>
 
 								<f:facet name="footer">
-									<p:commandButton value="Login"
-										actionListener="#{loginMB.login}" update="@all" />
+									<p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />
 								</f:facet>
 							</h:panelGrid>
 						</p:dialog>
@@ -180,14 +168,13 @@
 			<ui:insert name="menuPrincipal" />
 		</p:layoutUnit>
 
-		<p:layoutUnit position="south" size="50" resizable="true"
-			closable="false" collapsible="false">
-			<h:outputText
-				value="SIGAC - Sistema de Gestão de Atividades Complementares " />
+		<p:layoutUnit position="south" size="50" resizable="true" closable="false" collapsible="false">
+			<h:outputText value="SIGAC - Sistema de Gestão de Atividades Complementares " />
 			<h:graphicImage alt="Java" value="/resources/imagens/Java.png"></h:graphicImage>
 
 		</p:layoutUnit>
 
 	</p:layout>
+
 </h:body>
 </html>

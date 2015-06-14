@@ -5,7 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +24,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.chart.PieChartModel;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
@@ -48,6 +53,7 @@ public class AtividadeRealizadaMB implements Serializable {
 		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/download/modeloAC.pdf");
         file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
+        atualizarGrafico();
 	}
 	
 	private void initObj(){
@@ -69,6 +75,8 @@ public class AtividadeRealizadaMB implements Serializable {
 	private AlunoDAO alunoDAO = null;
 	private AtividadeDAO atividadeDAO = null;
 	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
+	
+	private PieChartModel graficoAtividades;
 	
 	@ManagedProperty(value="#{loginMB}")
 	private LoginMB loginMB;
@@ -126,8 +134,6 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
 
 	}
-
-	
 	
 	public void salvar() {
 		
@@ -165,6 +171,36 @@ public class AtividadeRealizadaMB implements Serializable {
 					+ e.getMessage());
 		}
 	}
+	
+	public void atualizarGrafico() {
+        graficoAtividades = new PieChartModel();
+         
+        graficoAtividades.setTitle("Relação de Atividades");
+        graficoAtividades.setLegendPosition("w");
+        graficoAtividades.setShowDataLabels(Boolean.TRUE);
+        Map<String, Integer> filter = new HashMap<String, Integer>();
+        
+        
+        List<Atividade> atividades = atividadeDAO.listaAtividade();
+        List<AtividadeRealizada> atividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(FacesUtil.getUsuarioLogado().getUsuario());
+        
+        //TODO nao permitir nomes de atividades repetidas
+        for (Atividade atividade : atividades) {
+        	filter.put(atividade.getNome(), 0);
+        }
+        Integer cont = null;
+        for (AtividadeRealizada atividade : atividadesRealizadas) {
+        	cont = filter.get(atividade.getAtividade().getNome());
+        	filter.put(atividade.getAtividade().getNome(), ++cont);
+		}
+        
+        Set<Entry<String, Integer>> entrySet = filter.entrySet();
+        for (Entry<String, Integer> entry : entrySet) {
+			graficoAtividades.set(entry.getKey(), entry.getValue());
+		}
+        
+        
+    }
 	
 	public void download(AtividadeRealizada atividadeRealizada) {
 		InputStream stream = new ByteArrayInputStream(atividadeRealizada.getComprovante());
@@ -288,7 +324,13 @@ public class AtividadeRealizadaMB implements Serializable {
 	public void setFileDownload(StreamedContent fileDownload) {
 		this.fileDownload = fileDownload;
 	}
-	
-	
+
+	public PieChartModel getGraficoAtividades() {
+		return graficoAtividades;
+	}
+
+	public void setGraficoAtividades(PieChartModel graficoAtividades) {
+		this.graficoAtividades = graficoAtividades;
+	}
 
 }

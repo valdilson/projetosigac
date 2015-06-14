@@ -24,6 +24,9 @@ public class LoginMB {
 	private Usuario usuario;
 	private LoginDAO loginDAO;
 	private Boolean loggedIn;
+	private String ra;
+	private String password;
+	private PerfilEnum perfil;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -37,12 +40,6 @@ public class LoginMB {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	private String ra;
-
-	private String password;
-
-	private PerfilEnum perfil;
 
 	public String getRa() {
 		return ra;
@@ -87,7 +84,7 @@ public class LoginMB {
 	}
 
 	public String sair() {
-		String retorno = "sair";
+		String retorno = "/templates/index.xhtml";
 		try {
 			FacesContext facesContext = FacesContext.getCurrentInstance();
 			HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);

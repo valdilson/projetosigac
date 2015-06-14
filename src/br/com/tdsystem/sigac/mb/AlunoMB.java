@@ -3,6 +3,7 @@ package br.com.tdsystem.sigac.mb;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -13,7 +14,9 @@ import br.com.tdsystem.sigac.dao.TurmaDAO;
 import br.com.tdsystem.sigac.dao.TurnoDAO;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
+import br.com.tdsystem.sigac.modelo.Coordenador;
 import br.com.tdsystem.sigac.modelo.Curso;
+import br.com.tdsystem.sigac.modelo.IPessoa;
 import br.com.tdsystem.sigac.modelo.PerfilEnum;
 import br.com.tdsystem.sigac.modelo.Periodo;
 import br.com.tdsystem.sigac.modelo.Turma;
@@ -42,8 +45,6 @@ public class AlunoMB implements Serializable {
 	private List<Turma> listaDeTurmas = null;
 	private List<Periodo> listaDePeriodos = null;
 	private List<Unidade> listaDeUnidades = null;
-	private String password = null;
-	private String cpassword = null;
 
 	public AlunoMB() {
 		aluno = new Aluno();
@@ -125,36 +126,27 @@ public class AlunoMB implements Serializable {
 	public void salvar() throws NoSuchAlgorithmException {
 		String password = aluno.getPassword();
 		String cpassword = aluno.getConfirmaPassword();
-		
+
 		try {
 			alunoDAO = new AlunoDAO();
-			listaDeAlunos = alunoDAO.listarAlunos();
-			Boolean grava = true;
-				password = aluno.getPassword();
-			    cpassword = aluno.getConfirmaPassword();
-			    
-			    for (Aluno listaAluno : listaDeAlunos) {
-					if(listaAluno.getRa().equals(aluno.getRa())){
-						FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");
-						grava = false;
-						break;
-					}
-				}
-			    
-				if (!password.equals(cpassword)) {
-				FacesUtil
-						.exibirMensagemSucesso("Senhas não conferem ou vazias!");
-				
-			} else if(grava){
-				aluno.setHorasExigidas(100);
-				String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno
-						.getPassword());
-				aluno.setPassword(senha);
-				alunoDAO.salvar(aluno);
-				aluno = new Aluno();
-				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 			
+			Aluno other = alunoDAO.pesquisaRA(aluno.getRa());
+			
+			if(other == null) {
+				if (!password.equals(cpassword)) {
+					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+				} else {
+					aluno.setHorasExigidas(100);
+					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
+					aluno.setPassword(senha);
+					alunoDAO.salvar(aluno);
+					aluno = new Aluno();
+					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+				}
+			} else {
+				FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");				
 			}
+
 
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
@@ -209,14 +201,19 @@ public class AlunoMB implements Serializable {
 			turmaDAO = new TurmaDAO();
 			turnoDAO = new TurnoDAO();
 			unidadeDAO = new UnidadeDAO();
-
-			listaDeAlunos = alunoDAO.listarAlunos();
+			
+			IPessoa pessoaLogada = FacesUtil.getUsuarioLogado().getUsuario();
+			if (pessoaLogada instanceof Coordenador) {
+				listaDeAlunos = alunoDAO.listarAlunos();				
+			} else {
+				aluno = (Aluno) pessoaLogada;
+			}
 
 			listaDePeriodos = periodoDAO.listaPeriodo();
 			listaDeTurmas = turmaDAO.listaTurma();
 			listaDeTurnos = turnoDAO.listaTurno();
 			listaDeUnidades = unidadeDAO.listarUnidade();
-
+			
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemAlerta("Nao retornou registro"
 					+ e.getMessage());
@@ -238,39 +235,4 @@ public class AlunoMB implements Serializable {
 		this.aluno = aluno;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((cpassword == null) ? 0 : cpassword.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof AlunoMB))
-			return false;
-		AlunoMB other = (AlunoMB) obj;
-		if (cpassword == null) {
-			if (other.cpassword != null)
-				return false;
-		} else if (!cpassword.equals(other.cpassword))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		return true;
-	}
-
-	
-	
 }

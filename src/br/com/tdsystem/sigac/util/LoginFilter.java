@@ -44,18 +44,22 @@ public class LoginFilter implements Filter {
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpSession session = req.getSession();
-        
-        LoginMB mbLogin = (LoginMB) session.getAttribute("loginMB");
-         
-        if (mbLogin == null || !mbLogin.getLoggedIn()) {
-            RequestDispatcher rd = req.getRequestDispatcher("/templates/index.xhtml");
-            rd.forward(request, response);
-        } else {
-        	chain.doFilter(request, response);        	
-        }
-        
-    }
+    	HttpServletRequest req = (HttpServletRequest) request;
+    	HttpSession session = req.getSession();
 
+    	LoginMB mbLogin = (LoginMB) session.getAttribute("loginMB");
+    	System.out.println(req.getRequestURI());
+    	if (req.getRequestURI().startsWith("/sigac2/*/javax.faces.resource/") || 
+    			req.getRequestURI().startsWith("/sigac2/resources/imagens/") || 
+    			req.getRequestURI().startsWith("/sigac2/javax.faces.resource/")) {
+    	    chain.doFilter(request, response);
+    	} else {
+    		if (mbLogin == null || !mbLogin.getLoggedIn()) {
+    			RequestDispatcher rd = req.getRequestDispatcher("/templates/index.xhtml");
+    			rd.forward(request, response);
+    		} else {
+    			chain.doFilter(request, response);        	
+    		}    		
+    	}
+    }
 }

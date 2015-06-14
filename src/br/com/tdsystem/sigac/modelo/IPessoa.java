@@ -17,4 +17,7 @@ public interface IPessoa {
 	public String getPassword();
 	public void setPassword(String password);
 
+	public String getRa();
+	public void setRa(String codigo);
+	
 }

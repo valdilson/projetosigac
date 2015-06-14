@@ -10,17 +10,15 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
 
+	<ui:define name="metadata">
 		<f:metadata>
-			<f:event listener="#{atividadeRealizadaMB.preencheListas()}"
-				type="preRenderView" />
+			<f:event listener="#{atividadeRealizadaMB.preencheListas()}" type="preRenderView" />
 		</f:metadata>
 	</ui:define>
 
 	<ui:define name="menuPrincipal">
-
-		<h:form id="uploadAlunofrm" enctype="multipart/form-data">
+		<h:form id="uploadAlunofrm" enctype="multipart/form-data" rendered="#{loginMB.perfil == 'ALUNO'}">
 			<p:panel header="UPLOAD ALUNO">
 				<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 
@@ -42,7 +40,7 @@
 						label="Arquivo..." uploadLabel="Carregar" cancelLabel="Cancelar"
 						mode="advanced" dragDropSupport="false" update="messages"
 						sizeLimit="500000" fileLimit="1"
-						allowTypes="/(\.|\/)(pdf|jpe?g|png)$/"
+						allowTypes="/(\.|\/)(pdf)$/"
 						fileLimitMessage="Já existe um documento na memória!"
 						invalidFileMessage="Tipo de Arquivo inválido!" />
 
@@ -124,7 +122,7 @@
 			</p:panel>
 
 		</h:form>
-
+		
 	</ui:define>
 </ui:composition>
 

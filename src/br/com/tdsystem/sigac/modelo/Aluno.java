@@ -182,19 +182,6 @@ public class Aluno implements Serializable, IPessoa {
 		this.periodo = periodo;
 	}
 
-	
-
-	@Override
-	public String toString() {
-		return "Aluno [codigo=" + codigo + ", nome=" + nome + ", ra=" + ra
-				+ ", unidade=" + unidade + ", email=" + email
-				+ ", horasExigidas=" + horasExigidas + ", password=" + password
-				+ ", confirmaPassword=" + confirmaPassword + ", turma=" + turma
-				+ ", turno=" + turno + ", curso=" + curso + ", periodo="
-				+ periodo + ", horasRealizadas=" + horasRealizadas
-				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

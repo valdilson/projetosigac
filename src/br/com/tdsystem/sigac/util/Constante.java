@@ -43,6 +43,7 @@ public interface Constante {
 		String ATIVIDADE_CODIGO = "Atividade.codigo";
 		String ATIVIDADE_NOME = "Atividade.nome";
 		String ATIVIDADE_STATUS = "Atividade.status";
+		String ATIVIDADE_QUANTIDADE_EXECUCAO = "Atividade.QuantidadeExecucoes";
 		
 		String CURSO_LISTA = "Curso.lista";
 		String CURSO_CODIGO = "Curso.codigo";

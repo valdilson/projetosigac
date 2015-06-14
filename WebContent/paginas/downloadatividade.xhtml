@@ -13,8 +13,8 @@
 	<ui:define name="metadata">
 
 		<f:metadata>
-			<f:event listener="#{atividadeRealizadaMB.preencheListas()}"
-				type="preRenderView" />
+			<f:event listener="#{atividadeRealizadaMB.preencheListas()}" type="preRenderView" />
+			<f:event listener="#{atividadeRealizadaMB.atualizarGrafico()}" type="preRenderView" />
 		</f:metadata>
 	</ui:define>
 
@@ -70,15 +70,17 @@
 					<p:column headerText="Documento" width="125"
 						exportable="false">
 						<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s" 
-										 action="#{atividadeRealizadaMB.download(atividadeRealizada)}">
+										 action="#{atividadeRealizadaMB.download(atividadeRealizada)}" 
+										 update=":uploadAlunofrm">
 							<p:fileDownload value="#{atividadeRealizadaMB.fileDownload}" />
 						</p:commandButton>
 					</p:column>
-	
+					
 				</p:dataTable>
-
+				<p:chart id="grafico" type="pie" model="#{atividadeRealizadaMB.graficoAtividades}"
+						 style="width:400px;height:300px" />
 			</p:panel>
-
+			
 		</h:form>
 
 	</ui:define>

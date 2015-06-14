@@ -15,13 +15,13 @@ import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 public class AtividadeRealizadaTeste {
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void salvarTeste(){
 		try{			
 			AlunoDAO alunoDAO = new AlunoDAO();
-			Aluno aluno = alunoDAO.pesquisaCodigo(3l);
+			Aluno aluno = alunoDAO.pesquisaCodigo(1l);
 			
-			File file = new File("C:/Thiaguitos.jpg");
+			File file = new File("C:/Boletos.pdf");
 			byte[] bFile = new byte[(int) file.length()];
 			
 			try {
@@ -94,7 +94,7 @@ public class AtividadeRealizadaTeste {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void listarAtividadesRealizadasIndividualTeste(){
 		AtividadeRealizadaDAO  atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 		Aluno l = new Aluno();
