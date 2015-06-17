@@ -27,23 +27,11 @@ public class TurnoMB implements Serializable {
 		
 
 	public Turno getTurno() {
-		if (turno == null) {
-			turno = new Turno();
-		}
-
 		return turno;
 	}
 
 	public void setTurno(Turno turno) {
 		this.turno = turno;
-	}
-
-	public TurnoDAO getTurnoDAO() {
-		return turnoDAO;
-	}
-
-	public void setTurnoDAO(TurnoDAO turnoDAO) {
-		this.turnoDAO = turnoDAO;
 	}
 
 	public List<Turno> getListaTurno() {
@@ -74,8 +62,12 @@ public class TurnoMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao gravar registro!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
+			
 		}
 	}
 
@@ -88,8 +80,12 @@ public class TurnoMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao excluir registro!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+						+ "verifique!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 

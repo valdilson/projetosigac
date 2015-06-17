@@ -2,33 +2,27 @@ package br.com.tdsystem.sigac.teste;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.tdsystem.sigac.modelo.Coordenador;
-import br.com.tdsystem.sigac.modelo.Curso;
-import br.com.tdsystem.sigac.relatorios.CoordenadorRelatorio;
-import br.com.tdsystem.sigac.relatorios.CursoRelatorio;
-import br.com.tdsystem.sigac.util.FabricaRelatorio;
+import br.com.tdsystem.sigac.dao.UnidadeDAO;
+import br.com.tdsystem.sigac.modelo.Unidade;
+import br.com.tdsystem.sigac.relatorios.FabricaRelatorio;
 
 public class TesteRelatorio {
 	
 	@Test
-	//@Ignore
-	public void TesteCoordenador() {
-		CoordenadorRelatorio c = new CoordenadorRelatorio();		
-		FabricaRelatorio relatorio = new FabricaRelatorio();
-		List<Coordenador> lista = relatorio.listarDados(c);
-		System.out.println(lista);
-	}
-
-	@Test
-	@Ignore
-	public void TesteCurso() {
-
-		CursoRelatorio c = new CursoRelatorio();
-		FabricaRelatorio relatorio = new FabricaRelatorio();
-		List<Curso> lista = relatorio.listarDados(c);
-		System.out.println(lista);
+	public void testaRelatório() throws Exception{
+		UnidadeDAO unidadeDAO = new UnidadeDAO();
+		List<Unidade> listaDeUnidades = unidadeDAO.listarUnidade();
+		
+		try {
+			FabricaRelatorio fabricaRelatorio = new FabricaRelatorio();
+			
+			fabricaRelatorio.imprimirUnidades(listaDeUnidades);
+		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
+		
+		
 	}
 }

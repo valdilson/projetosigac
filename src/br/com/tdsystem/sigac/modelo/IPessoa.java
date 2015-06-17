@@ -20,4 +20,7 @@ public interface IPessoa {
 	public String getRa();
 	public void setRa(String codigo);
 	
+	public Status getStatus();
+	public void setStatus(Status status);
+	
 }

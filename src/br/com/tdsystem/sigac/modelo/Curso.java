@@ -17,7 +17,7 @@ import javax.persistence.UniqueConstraint;
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
+@Table(name = "Curso", uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
 @NamedQueries({
 		@NamedQuery(name = Constante.NamedQueries.CURSO_LISTA, query = "Select curso from Curso curso"),
 		@NamedQuery(name = Constante.NamedQueries.CURSO_CODIGO, query = "Select curso from Curso curso where curso.codigo = :codigo"),
@@ -32,9 +32,12 @@ public class Curso implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
 
-	@Column(name = "nome")
+	@Column(name = "nome", nullable = false, length = 150)
 	//@NotEmpty(message = "Campo Nome obrigatório")
 	private String nome;
+	
+	@Column(name = "horasExigidas", nullable = false)
+	private Integer horasExigidas;
 
 	@Column(name = "status")
 	@Enumerated(EnumType.ORDINAL)
@@ -64,10 +67,12 @@ public class Curso implements Serializable {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "Curso [codigo=" + codigo + ", nome=" + nome + ", status="
-				+ status + "]";
+	public Integer getHorasExigidas() {
+		return horasExigidas;
+	}
+
+	public void setHorasExigidas(Integer horasExigidas) {
+		this.horasExigidas = horasExigidas;
 	}
 
 	@Override
@@ -94,7 +99,5 @@ public class Curso implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

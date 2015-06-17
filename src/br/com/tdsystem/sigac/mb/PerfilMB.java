@@ -67,8 +67,11 @@ public class PerfilMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao gravar registro!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 
@@ -81,8 +84,12 @@ public class PerfilMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao excluir registro!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+						+ "verifique!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 

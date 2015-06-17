@@ -23,6 +23,8 @@ public class AlunoDAO {
 			System.out.println("Gravou");
 
 		} catch (Exception e) {
+			System.out.println("ErroDAO: "+e.getCause());
+			System.out.println("Gravou");
 			transaction.rollback();
 			e.getMessage();
 		} finally {

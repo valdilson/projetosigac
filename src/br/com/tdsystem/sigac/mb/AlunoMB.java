@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
@@ -24,6 +25,7 @@ import br.com.tdsystem.sigac.modelo.Turno;
 import br.com.tdsystem.sigac.modelo.Unidade;
 import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
 import br.com.tdsystem.sigac.util.FacesUtil;
+import br.com.tdsystem.sigac.util.Validacao;
 
 @ManagedBean
 @ViewScoped
@@ -45,6 +47,17 @@ public class AlunoMB implements Serializable {
 	private List<Turma> listaDeTurmas = null;
 	private List<Periodo> listaDePeriodos = null;
 	private List<Unidade> listaDeUnidades = null;
+	
+	@ManagedProperty(value = "#{loginMB}")
+	private LoginMB loginMB;
+
+	public LoginMB getLoginMB() {
+		return loginMB;
+	}
+
+	public void setLoginMB(LoginMB loginMB) {
+		this.loginMB = loginMB;
+	}
 
 	public AlunoMB() {
 		aluno = new Aluno();
@@ -123,6 +136,14 @@ public class AlunoMB implements Serializable {
 		this.listaDeUnidades = listaDeUnidades;
 	}
 
+	public void validaCampos() throws NoSuchAlgorithmException{
+		if(Validacao.validaCampoNumerico(aluno.getNome())){
+			salvar();
+		}else{
+			FacesUtil.exibirMensagemAlerta("Verifique Campos Vazios!");
+		}
+	}
+	
 	public void salvar() throws NoSuchAlgorithmException {
 		String password = aluno.getPassword();
 		String cpassword = aluno.getConfirmaPassword();
@@ -136,7 +157,7 @@ public class AlunoMB implements Serializable {
 				if (!password.equals(cpassword)) {
 					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 				} else {
-					aluno.setHorasExigidas(100);
+
 					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
 					aluno.setPassword(senha);
 					alunoDAO.salvar(aluno);
@@ -149,8 +170,11 @@ public class AlunoMB implements Serializable {
 
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 

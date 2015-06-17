@@ -19,16 +19,19 @@ public class TesteCurso {
 		CursoDAO cursoDAO = new CursoDAO();
 		
 		curso.setNome("Sistemas de Informação");
+		curso.setHorasExigidas(100);
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		
 		curso = new Curso();
 		curso.setNome("Técnologia em Análise e Desenvolvimento de Sistemas");
+		curso.setHorasExigidas(100);
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		
 		curso = new Curso();
 		curso.setNome("Direito");
+		curso.setHorasExigidas(100);
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		

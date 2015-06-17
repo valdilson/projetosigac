@@ -73,8 +73,11 @@ public class CoordenadorMB implements Serializable {
 			}
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao cadastrar Coordenador!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 
@@ -112,8 +115,12 @@ public class CoordenadorMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao excluir Coordenador!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+						+ "verifique!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 

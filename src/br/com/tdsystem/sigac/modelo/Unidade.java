@@ -10,95 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import br.com.tdsystem.sigac.util.Constante;
+
 @Entity
-@Table(name="Unidade")
+@Table(name="Unidade", uniqueConstraints = { @UniqueConstraint(columnNames = { "nome" }) })
 @NamedQueries({
-	@NamedQuery(name = "Unidade.lista", query = "Select unidade from Unidade unidade"),
-	@NamedQuery(name = "Unidade.buscarCodigo", query = "Select unidade from Unidade unidade where unidade.codigo = :codigo"),
-	@NamedQuery(name = "Unidade.nome", query = "Select unidade from Unidade unidade where unidade.nome = :nome")
-	
+	@NamedQuery(name = Constante.NamedQueries.UNIDADE_LISTA, query = "Select unidade from Unidade unidade"),
+	@NamedQuery(name = Constante.NamedQueries.UNIDADE_CODIGO, query = "Select unidade from Unidade unidade where unidade.codigo = :codigo"),
+	@NamedQuery(name = Constante.NamedQueries.UNIDADE_NOME, query = "Select unidade from Unidade unidade where unidade.nome = :nome")
 })
 public class Unidade implements Serializable {
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
-		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
-		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result
-				+ ((endereco == null) ? 0 : endereco.hashCode());
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result
-				+ ((telefone == null) ? 0 : telefone.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Unidade other = (Unidade) obj;
-		if (bairro == null) {
-			if (other.bairro != null)
-				return false;
-		} else if (!bairro.equals(other.bairro))
-			return false;
-		if (cep == null) {
-			if (other.cep != null)
-				return false;
-		} else if (!cep.equals(other.cep))
-			return false;
-		if (cidade == null) {
-			if (other.cidade != null)
-				return false;
-		} else if (!cidade.equals(other.cidade))
-			return false;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		if (endereco == null) {
-			if (other.endereco != null)
-				return false;
-		} else if (!endereco.equals(other.endereco))
-			return false;
-		if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (telefone == null) {
-			if (other.telefone != null)
-				return false;
-		} else if (!telefone.equals(other.telefone))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Unidade [codigo=" + codigo + ", nome=" + nome + ", endereco="
-				+ endereco + ", bairro=" + bairro + ", cidade=" + cidade
-				+ ", estado=" + estado + ", cep=" + cep + ", telefone="
-				+ telefone + "]";
-	}
 
 	private static final long serialVersionUID = 1L;
 	
@@ -107,19 +33,19 @@ public class Unidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
 	
-	@Column(nullable = false, name="nome")
+	@Column(nullable = false, name="nome", length = 150)
 	@NotEmpty(message = "Campo nome Obrigatório!")
 	private String nome;
 	
-	@Column(nullable = false, name="endereco")
+	@Column(nullable = false, name="endereco", length = 200)
 	@NotEmpty(message = "Campo endereco Obrigatório!")
 	private String endereco;
 	
-	@Column(nullable = false, name="bairro")
+	@Column(nullable = false, name="bairro", length = 100)
 	@NotEmpty(message = "Campo bairro Obrigatório!")
 	private String bairro;
 	
-	@Column(nullable = false, name="cidade")
+	@Column(nullable = false, name="cidade", length = 100)
 	@NotEmpty(message = "Campo cidade Obrigatório!")
 	private String cidade;
 	
@@ -130,8 +56,12 @@ public class Unidade implements Serializable {
 	@Column(name="cep")
 	private String cep;
 	
-	@Column(name="telefone")
+	@Column(name="telefone", length = 12)
 	private String telefone;
+	
+	@Email
+	@Column(name="email", length = 80)
+	private String email;
 
 	public Long getCodigo() {
 		return codigo;
@@ -146,7 +76,7 @@ public class Unidade implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 
 	public String getEndereco() {
@@ -155,7 +85,7 @@ public class Unidade implements Serializable {
 
 	public void setEndereco(String endereco) {
 		
-		this.endereco = endereco;
+		this.endereco = endereco.toUpperCase();
 	}
 
 	public String getBairro() {
@@ -163,7 +93,7 @@ public class Unidade implements Serializable {
 	}
 
 	public void setBairro(String bairro) {
-		this.bairro = bairro;
+		this.bairro = bairro.toUpperCase();
 	}
 
 	public String getCidade() {
@@ -171,7 +101,7 @@ public class Unidade implements Serializable {
 	}
 
 	public void setCidade(String cidade) {
-		this.cidade = cidade;
+		this.cidade = cidade.toUpperCase();
 	}
 
 	public String getEstado() {
@@ -179,7 +109,7 @@ public class Unidade implements Serializable {
 	}
 
 	public void setEstado(String estado) {
-		this.estado = estado;
+		this.estado = estado.toUpperCase();
 	}
 
 	public String getCep() {
@@ -197,6 +127,38 @@ public class Unidade implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email.toLowerCase();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Unidade other = (Unidade) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+	
 }

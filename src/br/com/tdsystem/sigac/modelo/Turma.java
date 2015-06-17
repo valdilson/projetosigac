@@ -15,10 +15,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 
+
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
+@Table(name = "Turma", uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
 @NamedQueries({
 		@NamedQuery(name = Constante.NamedQueries.TURMA_LISTA, query = "Select turma from Turma turma"),
 		@NamedQuery(name = Constante.NamedQueries.TURMA_CODIGO, query = "Select turma from Turma turma where turma.codigo = :codigo"),
@@ -62,15 +63,7 @@ public class Turma implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	
-	
-	@Override
-	public String toString() {
-		return "Turma [codigo=" + codigo + ", nome=" + nome + ", status="
-				+ status + "]";
+		this.nome = nome.toUpperCase();
 	}
 
 	@Override
@@ -78,8 +71,6 @@ public class Turma implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -96,16 +87,6 @@ public class Turma implements Serializable {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
 			return false;
 		return true;
 	}

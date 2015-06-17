@@ -15,6 +15,7 @@ import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.modelo.Periodo;
+import br.com.tdsystem.sigac.modelo.Status;
 import br.com.tdsystem.sigac.modelo.Turma;
 import br.com.tdsystem.sigac.modelo.Turno;
 import br.com.tdsystem.sigac.modelo.Unidade;
@@ -45,6 +46,7 @@ public class AlunoTeste {
 		aluno.setRa("6273281272");
 		aluno.setEmail("thiago.krathos@gmail.com");
 		aluno.setPassword("123");
+		aluno.setStatus(Status.ATIVO);
 		
 		aluno.setPassword(CriptografaSenhaMD5.converteSenhaMD5
 				(aluno.getPassword()));

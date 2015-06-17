@@ -26,7 +26,6 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.chart.PieChartModel;
 
-import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
 import br.com.tdsystem.sigac.dao.AtividadeRealizadaDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
@@ -45,11 +44,13 @@ public class AtividadeRealizadaMB implements Serializable {
 	private Date dataEvento = null, dataUpload = null;
 	private StreamedContent file;
 	private StreamedContent fileDownload;
+	private InputStream is = null;
+	private ByteArrayOutputStream bos = null;
 	
 	public AtividadeRealizadaMB() {
 		atividadeRealizada = new AtividadeRealizada();
 		preencheListas();
-
+		
 		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/download/modeloAC.pdf");
         file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
@@ -72,7 +73,6 @@ public class AtividadeRealizadaMB implements Serializable {
 	private List<AtividadeRealizada> listaDeAtividadesRealizadas = null;
 	private List<AtividadeRealizada> filtroDeAtividadesRealizadas = null;
 
-	private AlunoDAO alunoDAO = null;
 	private AtividadeDAO atividadeDAO = null;
 	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
 	
@@ -85,8 +85,8 @@ public class AtividadeRealizadaMB implements Serializable {
 
 		try {
 
-			InputStream is = event.getFile().getInputstream();
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			is = event.getFile().getInputstream();
+			bos = new ByteArrayOutputStream();
 			int next = is.read();
 			while (next > -1 ) {
 				bos.write(next);
@@ -100,7 +100,7 @@ public class AtividadeRealizadaMB implements Serializable {
 			FacesMessage message = new FacesMessage("Succeso", event.getFile()
 					.getFileName() + atividadeRealizada.getComprovante());
 			FacesContext.getCurrentInstance().addMessage(null, message);
-
+			
 		} catch (Exception ex) {
 			Logger.getLogger(AtividadeRealizadaMB.class.getName()).log(
 					Level.SEVERE, null, ex);
@@ -121,7 +121,6 @@ public class AtividadeRealizadaMB implements Serializable {
 	public void preencheListas() {
 		try {
 			initObj();
-			alunoDAO = new AlunoDAO();
 			atividadeDAO = new AtividadeDAO();
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			listaDeAtividades = atividadeDAO.listaAtividade();
@@ -135,13 +134,30 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	}
 	
+	public void verificaAtividadeRepetida(){
+		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
+		Boolean grava = Boolean.TRUE;
+		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		List<AtividadeRealizada> listaDeAtividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(usuario);
+		for (AtividadeRealizada ForAtividadeRealizada : listaDeAtividadesRealizadas) {
+			if(ForAtividadeRealizada.getAtividade().getCodigo() == atividadeRealizada.getAtividade().getCodigo()){
+				grava = Boolean.FALSE;
+			}
+		}
+		if(grava){
+			salvar();
+		}else{
+			FacesUtil.exibirMensagemAlerta("Atividade já lançada!");
+		}
+	}
+	
 	public void salvar() {
 		
 		atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
 		atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 		try {
 			
-			// código usando Apache Commons IO
+			
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
 			atividadeRealizada.setHorasAtividade(atividade.getHoras());
@@ -149,6 +165,8 @@ public class AtividadeRealizadaMB implements Serializable {
 			
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
+			atividadeRealizada = new AtividadeRealizada();
+			is = null;
 			preencheListas();
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
@@ -173,7 +191,8 @@ public class AtividadeRealizadaMB implements Serializable {
 	}
 	
 	public void atualizarGrafico() {
-        graficoAtividades = new PieChartModel();
+        
+		graficoAtividades = new PieChartModel();
          
         graficoAtividades.setTitle("Relação de Atividades");
         graficoAtividades.setLegendPosition("w");
@@ -182,7 +201,8 @@ public class AtividadeRealizadaMB implements Serializable {
         
         
         List<Atividade> atividades = atividadeDAO.listaAtividade();
-        List<AtividadeRealizada> atividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(FacesUtil.getUsuarioLogado().getUsuario());
+        List<AtividadeRealizada> atividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(
+        		FacesUtil.getUsuarioLogado().getUsuario());
         
         //TODO nao permitir nomes de atividades repetidas
         for (Atividade atividade : atividades) {
@@ -198,7 +218,6 @@ public class AtividadeRealizadaMB implements Serializable {
         for (Entry<String, Integer> entry : entrySet) {
 			graficoAtividades.set(entry.getKey(), entry.getValue());
 		}
-        
         
     }
 	
@@ -261,17 +280,6 @@ public class AtividadeRealizadaMB implements Serializable {
 		this.filtroDeAtividades = filtroDeAtividades;
 	}
 
-	public AlunoDAO getAlunoDAO() {
-		return alunoDAO;
-	}
-
-	public void setAlunoDAO(AlunoDAO alunoDAO) {
-		this.alunoDAO = alunoDAO;
-	}
-
-	public AtividadeDAO getAtividadeDAO() {
-		return atividadeDAO;
-	}
 
 	public void setAtividadeDAO(AtividadeDAO atividadeDAO) {
 		this.atividadeDAO = atividadeDAO;

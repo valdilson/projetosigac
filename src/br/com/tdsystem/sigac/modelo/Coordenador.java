@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +19,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(name="Coordenador")
+@Table(name="Coordenador", uniqueConstraints={@UniqueConstraint(columnNames={"ra"})})
 @NamedQueries({
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERARPORLOGIN, query="Select coordenador from Coordenador coordenador where coordenador.nome = :nome"),
 	@NamedQuery(name = Constante.NamedQueries.COORDENADOR_RECUPERAR_RA, query="Select coordenador from Coordenador coordenador where coordenador.ra = :ra"),
@@ -33,20 +37,29 @@ public class Coordenador implements Serializable, IPessoa {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "codigo")
 	private Long codigo;
+	
+	@Column(name = "nome", nullable = false)
 	private String nome;
+	
+	@Column(name = "password", nullable = false)
     private String password;
+	
+	@Column(name = "ra", nullable = false)
     private String ra;
 	
     @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
 	@JoinColumn(name = "codigo_unidade", referencedColumnName = "codigo")
 	private Unidade unidade;
 	
+    @Column(name = "email", nullable = false)
 	private String email;
-	
-	@Transient
-	private Integer horasRealizadas;
-	
+    
+    @Column(name = "status")
+	@Enumerated(EnumType.ORDINAL)
+	private Status status;
+    
 	@Transient
 	private String confirmaPassword;
 	
@@ -66,7 +79,7 @@ public class Coordenador implements Serializable, IPessoa {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toString();
 	}
 
 	public Unidade getUnidade() {
@@ -82,15 +95,15 @@ public class Coordenador implements Serializable, IPessoa {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 
-	public Integer getHorasRealizadas() {
-		return horasRealizadas;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setHorasRealizadas(Integer horasRealizadas) {
-		this.horasRealizadas = horasRealizadas;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public List<AtividadeRealizada> getAtividadesRealizadas() {
@@ -125,40 +138,6 @@ public class Coordenador implements Serializable, IPessoa {
 
 	public void setRa(String ra) {
 		this.ra = ra;
-	}
-
-	@Override
-	public String toString() {
-		return "Coordenador [codigo=" + codigo + ", nome=" + nome
-				+ ", password=" + password + ", ra=" + ra + ", unidade="
-				+ unidade + ", email=" + email + ", horasRealizadas="
-				+ horasRealizadas + ", confirmaPassword=" + confirmaPassword
-				+ ", atividadesRealizadas=" + atividadesRealizadas + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Coordenador other = (Coordenador) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		return true;
 	}
 	
 }

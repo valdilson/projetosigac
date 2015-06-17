@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Unidade;
 import br.com.tdsystem.sigac.util.FacesUtil;
+import br.com.tdsystem.sigac.util.Validacao;
 
 @ManagedBean
 @ViewScoped
@@ -22,13 +23,11 @@ public class UnidadeMB implements Serializable{
 	private List<Unidade> filtroUnidades;
 	
 	public UnidadeMB() {
+		unidade = new Unidade();
 		listarUnidades();
 	}
 	
 	public synchronized Unidade getUnidade() {
-		if(unidade == null){
-			unidade = new Unidade();
-		}
 		return unidade;
 	}
 	public synchronized void setUnidade(Unidade unidade) {
@@ -47,16 +46,21 @@ public class UnidadeMB implements Serializable{
 		this.filtroUnidades = filtroUnidades;
 	}
 	
-	
 	public void salvar(){
-		
-		try{
-			unidadeDAO = new UnidadeDAO();
-			unidadeDAO.salvar(unidade);
-			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-			
-		}catch(RuntimeException e){
-			FacesUtil.exibirMensagemErro("Erro ao gravar registro!" + e.getMessage());
+		if(Validacao.validaCampoTexto(unidade.getNome())){
+			try{
+				
+				unidadeDAO = new UnidadeDAO();
+				unidadeDAO.salvar(unidade);
+				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+				
+			}catch(RuntimeException e){
+				if(e.getMessage().equals("could not execute statement")){
+					FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+				}else{
+					FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+				}
+			}
 		}
 	}
 	
@@ -69,7 +73,12 @@ public class UnidadeMB implements Serializable{
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 			
 		}catch(RuntimeException e){
-			FacesUtil.exibirMensagemErro("Erro ao excluir registro!" + e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+						+ "verifique!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 	

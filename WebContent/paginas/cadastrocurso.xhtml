@@ -30,6 +30,9 @@
 
 					<p:outputLabel value="Nome:" />
 					<p:inputText value="#{cursoMB.curso.nome}" />
+					
+					<p:outputLabel value="Nome:" />
+					<p:inputText value="#{cursoMB.curso.horasExigidas}" />
 
 					<h:outputLabel value="Status:" />
 					<p:selectOneMenu value="#{cursoMB.curso.status}" effect="explode">
@@ -98,8 +101,6 @@
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-
-
 
 	</ui:define>
 </ui:composition>

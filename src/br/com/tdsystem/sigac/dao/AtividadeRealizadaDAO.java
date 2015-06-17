@@ -94,6 +94,8 @@ public class AtividadeRealizadaDAO {
 		return atividade;
 	}
 	
+	
+	
 	public AtividadeRealizada pesquisaCodigo(Long codigo){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		AtividadeRealizada atividadeRealizada = null;

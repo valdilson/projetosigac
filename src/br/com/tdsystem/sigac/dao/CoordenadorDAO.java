@@ -19,10 +19,10 @@ public class CoordenadorDAO {
 			transaction = session.beginTransaction();
 			session.save(coordenador);
 			transaction.commit();
-			System.out.println("Gravou!");
-		} catch (RuntimeException e) {
-			System.out.println("Gravou!");
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Gravou");
+		} catch (Exception e) {
+			System.out.println("ErroDAO: " + e.getMessage());
+			System.out.println("ErroDAO: " + e.getCause());
 			transaction.rollback();
 		}finally{
 			session.close();

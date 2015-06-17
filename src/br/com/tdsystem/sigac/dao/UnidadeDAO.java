@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.tdsystem.sigac.modelo.Unidade;
+import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
 public class UnidadeDAO implements Serializable {
@@ -102,7 +103,7 @@ public class UnidadeDAO implements Serializable {
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		Unidade unidade = null;
 		try{
-			Query hql = secao.getNamedQuery("Unidade.buscarCodigo");
+			Query hql = secao.getNamedQuery(Constante.NamedQueries.UNIDADE_CODIGO);
 			hql.setLong("codigo", codigo);
 			unidade = (Unidade) hql.uniqueResult();
 			System.out.println("Fez a consulta");

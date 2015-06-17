@@ -34,7 +34,7 @@
 		//alert('');
 	</script>
 
-	<p:growl id="mgs" sticky="true" />
+	<p:growl id="mgs" sticky="false" life="2000"/>
 	
 	<p:layout fullPage="true">
 
@@ -43,8 +43,10 @@
 				background-position: 50% -50%;background-repeat:no-repeat">
 
 			<h:form id="forminicial">
-				<p:growl id="messages" />
-
+				<p:growl id="messages"/>
+				
+				<p:tooltip for='nomeUsuario' value='Editar meus dados...' />
+				
 				<!-- Menu Principal Usuario Logado -->
 				<h:panelGroup rendered="#{loginMB.usuario != null}" id="panel">
 					<p:menubar>
@@ -72,7 +74,8 @@
 							<p:separator />
 							<p:menuitem value="Voltar Tela Principal" action="#{menuMB.navegar('/templates/index.xhtml')}" icon="ui-icon-refresh" />
 							<p:separator />
-							<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
+							<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" 
+										actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
 										icon="ui-icon-refresh" />
 						</p:submenu>
 
@@ -94,7 +97,7 @@
 								<p:menuitem value="Periodo" url="#" />
 								<p:menuitem value="Turma" url="#" />
 								<p:menuitem value="Turno" url="#" />
-								<p:menuitem value="Unidade" url="#" />
+								<p:menuitem value="Unidade" action="#{fabricaRelatorioMB.relatorioUnidadesView()}" update="forminicial"/>
 							</p:submenu>
 							<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
 								<p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false" />
@@ -105,7 +108,9 @@
 							<p:menuitem value="Sobre o Sistema" url="#" />
 						</p:submenu>
 
-						<p:menuitem value="Sair" icon="ui-icon-close" action="#{loginMB.sair}" rendered="true" />
+						<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" 
+										actionListener="#{menuMB.navegar('/templates/index.xhtml')}"
+										icon="ui-icon-refresh" />
 						
 						<c:set var="tipoAluno" value="#{loginMB.perfil.descricao}" />
 						<c:set var="nomeAluno" value="#{loginMB.usuario.usuario.nome}" />
@@ -128,7 +133,8 @@
 							<h:panelGrid id="gridLoguin" columns="2" cellpadding="5">
 								<h:outputLabel for="ra" value="Perfil:" />
 								<p:selectOneMenu value="#{loginMB.perfil}" effect="explode">
-									<f:selectItems value="#{applicationMB.listaPerfis}" var="status" itemLabel="#{status.descricao}" itemValue="#{status}" />
+									<f:selectItems value="#{applicationMB.listaPerfis}" var="status" 
+									itemLabel="#{status.descricao}" itemValue="#{status}" />
 								</p:selectOneMenu>
 
 								<h:outputLabel for="ra" value="R.A:" />
@@ -137,9 +143,8 @@
 								<h:outputLabel for="password" value="Password:" />
 								<p:password id="password" value="#{loginMB.password}" required="true" label="password" />
 
-								<p:growl id="growl" life="2000" />
-
-								<p:commandLink id="ajax" update="growl" actionListener="#{menuMB.navegar('/paginas/precadastroaluno.xhtml')}">
+								<p:commandLink id="ajax" update="@all" 
+												actionListener="#{menuMB.navegar('/precadastro/precadastroaluno.xhtml')}">
 									<h:outputText value="Criar Conta" />
 								</p:commandLink>
 
@@ -170,7 +175,7 @@
 
 		<p:layoutUnit position="south" size="50" resizable="true" closable="false" collapsible="false">
 			<h:outputText value="SIGAC - Sistema de Gestão de Atividades Complementares " />
-			<h:graphicImage alt="Java" value="/resources/imagens/Java.png"></h:graphicImage>
+			<h:graphicImage alt="Java" value="/resources/imagens/Java.png" />
 
 		</p:layoutUnit>
 

@@ -21,6 +21,7 @@ public class TesteUnidade {
 			unidade.setEstado("MG");
 			unidade.setNome("Unidade BH III");
 			unidade.setTelefone("3196937955");
+			unidade.setEmail("bh3@anhanguera.com");
 			unidadeDAO.salvar(unidade);
 			
 			unidade = new Unidade();
@@ -31,6 +32,7 @@ public class TesteUnidade {
 			unidade.setEstado("MG");
 			unidade.setNome("Unidade BHI");
 			unidade.setTelefone("3196937955");
+			unidade.setEmail("bh1@anhanguera.com");
 			unidadeDAO.salvar(unidade);
 	}
 	

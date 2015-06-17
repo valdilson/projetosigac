@@ -18,12 +18,15 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 
+import javax.persistence.UniqueConstraint;
+
+
 //import javax.validation.constraints.NotNull;
 import br.com.tdsystem.sigac.util.Constante;
 //import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "Atividade")
+@Table(name = "Atividade", uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
 @NamedQueries({
 	@NamedQuery(name = Constante.NamedQueries.ATIVIDADE_LISTA, query = "Select atividade from Atividade atividade"),
 	@NamedQuery(name = Constante.NamedQueries.ATIVIDADE_CODIGO, query = "Select atividade from Atividade atividade where atividade.codigo = :codigo"),
@@ -39,11 +42,11 @@ public class Atividade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
 
-	@Column(name = "nome")
+	@Column(name = "nome", nullable = false, length = 150)
 	//@NotEmpty(message = "Campo nome obrigatório!")
 	private String nome;
 	
-	@Column(name="horas")
+	@Column(name="horas", nullable = false)
 	//@NotNull(message = "Campo horas Obrigatório!")
 	private Integer horas;
 
@@ -58,7 +61,6 @@ public class Atividade implements Serializable {
 	@Transient
 	private Integer quantidadeVezesExec;
 	
-	
 	public Atividade() {
 		super();
 	}
@@ -68,8 +70,6 @@ public class Atividade implements Serializable {
 		this.nome = nome;
 		this.quantidadeVezesExec = quantidadeVezesExec;
 	}
-
-
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="atividade")
 	private List<AtividadeRealizada> atividadesRealizadas;
@@ -87,18 +87,39 @@ public class Atividade implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 	
 	public void setHoras(Integer horas) {
 		this.horas = horas;
 	}
-	
-	@Override
-	public String toString() {
-		return "Atividade [codigo=" + codigo + ", nome=" + nome + ", horas="
-				+ horas + ", descricao=" + descricao + ", status=" + status
-				+ "]";
+
+	public Integer getHoras() {
+		return horas;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao.toUpperCase();
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Integer getQuantidadeVezesExec() {
+		return quantidadeVezesExec;
+	}
+
+	public void setQuantidadeVezesExec(Integer quantidadeVezesExec) {
+		this.quantidadeVezesExec = quantidadeVezesExec;
 	}
 
 	@Override
@@ -106,11 +127,6 @@ public class Atividade implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result
-				+ ((descricao == null) ? 0 : descricao.hashCode());
-		result = prime * result + ((horas == null) ? 0 : horas.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -128,55 +144,7 @@ public class Atividade implements Serializable {
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
-		if (descricao == null) {
-			if (other.descricao != null)
-				return false;
-		} else if (!descricao.equals(other.descricao))
-			return false;
-		if (horas == null) {
-			if (other.horas != null)
-				return false;
-		} else if (!horas.equals(other.horas))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
 		return true;
-	}
-
-	public Integer getHoras() {
-		return horas;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	public Integer getQuantidadeVezesExec() {
-		return quantidadeVezesExec;
-	}
-
-	public void setQuantidadeVezesExec(Integer quantidadeVezesExec) {
-		this.quantidadeVezesExec = quantidadeVezesExec;
 	}
 	
 }

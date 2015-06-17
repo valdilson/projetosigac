@@ -17,17 +17,23 @@ public class CoordenadorTeste {
 	@Test
 	//@Ignore
 	public void salvarTeste() throws NoSuchAlgorithmException{
-		Coordenador coordenador = new Coordenador();
-		CoordenadorDAO coordenadorDAO = new CoordenadorDAO();
-		UnidadeDAO unidadeDAO = new UnidadeDAO();
-		Unidade unidade = unidadeDAO.pesquisaCodigo(1l);
 		
-		coordenador.setEmail("efreim@anhanguera.com");
-		coordenador.setNome("Efreim Louzada");
-		coordenador.setUnidade(unidade);
-		coordenador.setPassword(CriptografaSenhaMD5.converteSenhaMD5("123"));
-		coordenador.setRa("6273281273");
-		coordenadorDAO.salvar(coordenador);
+		try {
+			Coordenador coordenador = new Coordenador();
+			CoordenadorDAO coordenadorDAO = new CoordenadorDAO();
+			UnidadeDAO unidadeDAO = new UnidadeDAO();
+			Unidade unidade = unidadeDAO.pesquisaCodigo(1l);
+			
+			coordenador.setEmail("efreim@anhanguera.com");
+			coordenador.setNome("Efreim Louzada");
+			coordenador.setUnidade(unidade);
+			coordenador.setPassword(CriptografaSenhaMD5.converteSenhaMD5("123"));
+			coordenador.setRa("6273281272");
+			coordenadorDAO.salvar(coordenador);
+		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
+		
 	}
 	
 	@Test

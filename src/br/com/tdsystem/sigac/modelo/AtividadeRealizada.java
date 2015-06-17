@@ -41,8 +41,10 @@ public class AtividadeRealizada {
 	@Column(name = "horas_atividade")
 	private Integer horasAtividade;
 
+	@Column(name = "dataEvento")
 	private String dataEvento;
 	
+	@Column(name = "dataUpload")
 	private String dataUpload;
 
 	@Lob

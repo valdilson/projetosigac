@@ -27,23 +27,11 @@ public class TurmaMB implements Serializable {
 		
 
 	public Turma getTurma() {
-		if (turma == null) {
-			turma = new Turma();
-		}
-
 		return turma;
 	}
 
 	public void setTurma(Turma turma) {
 		this.turma = turma;
-	}
-
-	public TurmaDAO getTurmaDAO() {
-		return turmaDAO;
-	}
-
-	public void setTurmaDAO(TurmaDAO turmaDAO) {
-		this.turmaDAO = turmaDAO;
 	}
 
 	public List<Turma> getListaTurma() {
@@ -74,8 +62,11 @@ public class TurmaMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao gravar registro!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 
@@ -88,8 +79,12 @@ public class TurmaMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao excluir registro!"
-					+ e.getMessage());
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+						+ "verifique!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 

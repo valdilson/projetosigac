@@ -34,7 +34,7 @@
 							itemLabel="#{atividade.nome}" />
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Comprovante: (.pdf, .jpg, .png ou .docx)" />
+					<p:outputLabel value="Comprovante: (.pdf)" />
 					<p:fileUpload
 						fileUploadListener="#{atividadeRealizadaMB.handleFileUpload}"
 						label="Arquivo..." uploadLabel="Carregar" cancelLabel="Cancelar"
@@ -56,7 +56,7 @@
 
 				<!-- Botão Gravar -->
 				<p:commandButton value="Gravar" ajax="false"
-					action="#{atividadeRealizadaMB.salvar()}"
+					action="#{atividadeRealizadaMB.verificaAtividadeRepetida()}"
 					update=":uploadAlunofrm :mgs :uploadAlunofrm" />
 				<p:separator />
 

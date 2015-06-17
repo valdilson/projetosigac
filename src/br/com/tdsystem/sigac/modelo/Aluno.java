@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +19,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(name="Aluno")
+@Table(name="Aluno", uniqueConstraints={@UniqueConstraint(columnNames={"ra"})})
 @NamedQueries({
 	@NamedQuery(name  = Constante.NamedQueries.ALUNO_RECUPERA_LISTA, query = "Select aluno from Aluno aluno"),
 	@NamedQuery(name = Constante.NamedQueries.ALUNO_RECUPERARPORLOGIN, query = "Select aluno from Aluno aluno where aluno.ra = :ra"),
@@ -33,27 +37,31 @@ public class Aluno implements Serializable, IPessoa {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "codigo")
 	private Long codigo;
+	
+	@Column(name = "nome", nullable = false, length = 200)
 	private String nome;
+	
+	@Column(name = "ra", nullable = false)
 	private String ra;
 	
 	@ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
 	@JoinColumn(name = "codigo_unidade", referencedColumnName = "codigo")
 	private Unidade unidade;
+	
+	@Column(name = "email")
 	private String email;
-	private Integer horasExigidas = 100;
+	
+	@Column(name = "password", nullable = false)
     private String password;
+	
+	@Column(name = "status")
+	@Enumerated(EnumType.ORDINAL)
+	private Status status;
     
     @Transient
     private String confirmaPassword;
-    
-    public String getConfirmaPassword() {
-		return confirmaPassword;
-	}
-
-	public void setConfirmaPassword(String confirmaPassword) {
-		this.confirmaPassword = confirmaPassword;
-	}
 
 	@ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "codigo_turma", referencedColumnName = "codigo")
@@ -90,7 +98,7 @@ public class Aluno implements Serializable, IPessoa {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 
 	public String getRa() {
@@ -114,15 +122,7 @@ public class Aluno implements Serializable, IPessoa {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Integer getHorasExigidas() {
-		return horasExigidas;
-	}
-
-	public void setHorasExigidas(Integer horasExigidas) {
-		this.horasExigidas = horasExigidas;
+		this.email = email.toLowerCase();
 	}
 
 	public Integer getHorasRealizadas() {
@@ -148,6 +148,14 @@ public class Aluno implements Serializable, IPessoa {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Turma getTurma() {
@@ -181,33 +189,20 @@ public class Aluno implements Serializable, IPessoa {
 	public void setPeriodo(Periodo periodo) {
 		this.periodo = periodo;
 	}
+	
+		public String getConfirmaPassword() {
+			return confirmaPassword;
+		}
+
+		public void setConfirmaPassword(String confirmaPassword) {
+			this.confirmaPassword = confirmaPassword;
+		}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((atividadesRealizadas == null) ? 0 : atividadesRealizadas
-						.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime
-				* result
-				+ ((confirmaPassword == null) ? 0 : confirmaPassword.hashCode());
-		result = prime * result + ((curso == null) ? 0 : curso.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((horasExigidas == null) ? 0 : horasExigidas.hashCode());
-		result = prime * result
-				+ ((horasRealizadas == null) ? 0 : horasRealizadas.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((periodo == null) ? 0 : periodo.hashCode());
-		result = prime * result + ((ra == null) ? 0 : ra.hashCode());
-		result = prime * result + ((turma == null) ? 0 : turma.hashCode());
-		result = prime * result + ((turno == null) ? 0 : turno.hashCode());
-		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
 	}
 
@@ -217,81 +212,15 @@ public class Aluno implements Serializable, IPessoa {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Aluno))
+		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		if (atividadesRealizadas == null) {
-			if (other.atividadesRealizadas != null)
-				return false;
-		} else if (!atividadesRealizadas.equals(other.atividadesRealizadas))
-			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
-		if (confirmaPassword == null) {
-			if (other.confirmaPassword != null)
-				return false;
-		} else if (!confirmaPassword.equals(other.confirmaPassword))
-			return false;
-		if (curso == null) {
-			if (other.curso != null)
-				return false;
-		} else if (!curso.equals(other.curso))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (horasExigidas == null) {
-			if (other.horasExigidas != null)
-				return false;
-		} else if (!horasExigidas.equals(other.horasExigidas))
-			return false;
-		if (horasRealizadas == null) {
-			if (other.horasRealizadas != null)
-				return false;
-		} else if (!horasRealizadas.equals(other.horasRealizadas))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (periodo == null) {
-			if (other.periodo != null)
-				return false;
-		} else if (!periodo.equals(other.periodo))
-			return false;
-		if (ra == null) {
-			if (other.ra != null)
-				return false;
-		} else if (!ra.equals(other.ra))
-			return false;
-		if (turma == null) {
-			if (other.turma != null)
-				return false;
-		} else if (!turma.equals(other.turma))
-			return false;
-		if (turno == null) {
-			if (other.turno != null)
-				return false;
-		} else if (!turno.equals(other.turno))
-			return false;
-		if (unidade == null) {
-			if (other.unidade != null)
-				return false;
-		} else if (!unidade.equals(other.unidade))
-			return false;
 		return true;
 	}
 
-	
 }

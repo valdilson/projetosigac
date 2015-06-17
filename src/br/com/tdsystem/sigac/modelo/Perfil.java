@@ -17,7 +17,7 @@ import javax.persistence.UniqueConstraint;
 import br.com.tdsystem.sigac.util.Constante;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
+@Table(name = "Perfil", uniqueConstraints={@UniqueConstraint(columnNames={"nome"})})
 @NamedQueries({
 		@NamedQuery(name = Constante.NamedQueries.PERFIL_LISTA, query = "Select perfil from Perfil perfil"),
 		@NamedQuery(name = Constante.NamedQueries.PERFIL_CODIGO, query = "Select perfil from Perfil perfil where perfil.codigo = :codigo"),
@@ -32,7 +32,7 @@ public class Perfil implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
 
-	@Column(name = "nome")
+	@Column(name = "nome", nullable = false, length = 100)
 	//@NotEmpty(message = "Campo Nome obrigatório")
 	private String nome;
 
@@ -53,7 +53,7 @@ public class Perfil implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 
 	public Status getStatus() {
@@ -69,8 +69,6 @@ public class Perfil implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -88,23 +86,7 @@ public class Perfil implements Serializable {
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Perfil [codigo=" + codigo + ", nome=" + nome + ", status="
-				+ status + "]";
 	}
 
 }
