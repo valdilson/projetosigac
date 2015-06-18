@@ -24,7 +24,7 @@ public class AtividadeConverter implements Converter {
 			atividade = atividadeDAO.pesquisaCodigo(valor);
 			
 		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Nao foi possivel converter");
+			FacesUtil.exibirMensagemErro("Nao foi possivel converter AtividadeConverter");
 		}
 		
 		return atividade;

@@ -24,7 +24,7 @@ public class AlunoConverter implements Converter {
 			aluno = alunoDAO.pesquisaCodigo(valor);
 			
 		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Nao foi possivel converter");
+			FacesUtil.exibirMensagemErro("Nao foi possivel converter AlunoConverter");
 		}
 		
 		return aluno;

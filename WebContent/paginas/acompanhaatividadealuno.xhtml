@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Informando versão do xml usado e Linguagem adotada -->
+<!DOCTYPE html>
+
+<!-- Inportando Pacotes com os objetos -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/index.xhtml">
+	<ui:define name="metadata">
+
+		<f:metadata>
+			<f:event listener="#{atividadeRealizadaMB.preencheListas()}" type="preRenderView" />
+			<f:event listener="#{atividadeRealizadaMB.atualizarGrafico()}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="menuPrincipal">
+
+		<h:form id="acompanhaAtividadeAlunofrm" enctype="multipart/form-data">
+			<p:panel header="ACOMPANHAR ALUNOS">
+
+				<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
+				<p:dataTable id="tabelaAlunos" widgetVar="tabelaAlunosWV" var="aluno"
+					value="#{acompanhaAtividadeAlunoMB.alunos}" rows="10" emptyMessage="Sem registro!" paginator="true">
+
+					<p:column headerText="Nome" width="120" filterBy="#{aluno.nome}" sortBy="#{aluno.nome}">
+						<h:outputText value="#{aluno.nome}" />
+					</p:column>
+
+					<p:column headerText="Total de Horas Exigidas" width="40">
+						<h:outputText value="#{aluno.curso.horasExigidas}" />
+					</p:column>
+
+					<p:column headerText="Total de Horas Realizadas" width="40">
+						<h:outputText value="#{aluno.horasRealizadas}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

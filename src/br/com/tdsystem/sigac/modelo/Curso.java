@@ -43,6 +43,10 @@ public class Curso implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private Status status;
 
+	@Column(name = "qtdPeriodos")
+	@Enumerated(EnumType.ORDINAL)
+	private Periodo qtdPeriodos;
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -73,6 +77,14 @@ public class Curso implements Serializable {
 
 	public void setHorasExigidas(Integer horasExigidas) {
 		this.horasExigidas = horasExigidas;
+	}
+	
+	public Periodo getQtdPeriodos() {
+		return qtdPeriodos;
+	}
+
+	public void setQtdPeriodos(Periodo qtdPeriodos) {
+		this.qtdPeriodos = qtdPeriodos;
 	}
 
 	@Override

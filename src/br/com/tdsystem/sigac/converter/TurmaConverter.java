@@ -24,7 +24,7 @@ public class TurmaConverter implements Converter {
 			turma = turmaDAO.pesquisaCodigo(valor);
 			
 		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Nao foi possivel converter");
+			FacesUtil.exibirMensagemErro("Nao foi possivel converter TurmaConverter");
 		}
 		
 		return turma;

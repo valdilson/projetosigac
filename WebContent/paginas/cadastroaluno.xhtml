@@ -3,24 +3,19 @@
 <!DOCTYPE html>
 
 <!-- Inportando Pacotes com os objetos -->
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	
+
 	<ui:define name="title">- Cadastro de Aluno</ui:define>
-	
+
 	<ui:define name="metadata">
 
 		<f:metadata>
 			<f:event listener="#{alunoMB.pesquisarListaAlunos()}" type="preRenderView" />
-			<f:event listener="#{cursoMB.listarCursos()}" type="preRenderView" />
 			<f:event listener="#{turnoMB.listarTurnos()}" type="preRenderView" />
 			<f:event listener="#{turmaMB.listarTurmas()}" type="preRenderView" />
-			<f:event listener="#{periodoMB.listarPeriodos()}" type="preRenderView" />
 			<f:event listener="#{unidadeMB.listarUnidades()}" type="preRenderView" />
 		</f:metadata>
 
@@ -29,142 +24,127 @@
 	<ui:define name="menuPrincipal">
 
 		<h:form id="cadastroAlunofrm">
-			<p:panel header="CADASTRO DE ALUNO" >
+			<p:panel header="CADASTRO DE ALUNO">
 
 				<h:panelGroup id="grupoAtributos">
 					<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 						<p:outputLabel value="Código:" />
 						<p:inputText value="#{alunoMB.aluno.codigo}" disabled="true" />
-	
+
 						<p:outputLabel value="Nome:" />
 						<p:inputText value="#{alunoMB.aluno.nome}" />
-	
+
 						<p:outputLabel value="R.A.:" />
 						<p:inputText value="#{alunoMB.aluno.ra}" disabled="#{loginMB.perfil != 'COORDENADOR'}" />
-	
+
 						<p:outputLabel value="E-mail:" />
 						<p:inputText value="#{alunoMB.aluno.email}" />
-	
+
 						<p:outputLabel value="Senha:" />
 						<p:password value="#{alunoMB.aluno.password}" />
-	
+
 						<p:outputLabel value="Confirmar Senha:" />
 						<p:password value="#{alunoMB.aluno.confirmaPassword}" />
-	
+
 						<p:outputLabel value="Curso:" />
-						<p:selectOneMenu value="#{alunoMB.aluno.curso}" effect="explode" disabled="#{loginMB.perfil != 'COORDENADOR'}"
-							converter="cursoConverter">
-							<f:selectItems value="#{cursoMB.listaCurso}" var="curso"
-								itemValue="#{curso}" itemLabel="#{curso.nome}" />
+						<p:selectOneMenu value="#{alunoMB.aluno.curso}" effect="explode" disabled="#{loginMB.perfil != 'COORDENADOR'}" converter="cursoConverter">
+							<f:selectItems value="#{alunoMB.listaDeCursos}" var="curso" itemValue="#{curso}" itemLabel="#{curso.nome}" />
+							<p:ajax update="comboPeriodo,labelHorasExigidas" listener="#{alunoMB.atualizarComboPeriodo}"  />
 						</p:selectOneMenu>
-	
-						<p:outputLabel value="Periodo:" />
-						<p:selectOneMenu value="#{alunoMB.aluno.periodo}" effect="explode"
-							converter="periodoConverter" disabled="#{loginMB.perfil != 'COORDENADOR'}">
-							<f:selectItems value="#{periodoMB.listaPeriodo}" var="periodo"
-								itemValue="#{periodo}" itemLabel="#{periodo.nome}" />
+
+						<p:outputLabel for="comboPeriodo" value="Periodo:" />
+						<p:selectOneMenu id="comboPeriodo" value="#{alunoMB.aluno.periodo}" effect="explode" disabled="#{loginMB.perfil != 'COORDENADOR'}">
+							<f:selectItems value="#{alunoMB.listaPeriodos}" var="periodo" itemValue="#{periodo}" itemLabel="#{periodo.descricao}" />
 						</p:selectOneMenu>
-	
+
 						<p:outputLabel value="Turno:" />
-						<p:selectOneMenu value="#{alunoMB.aluno.turno}" effect="explode"
-							converter="turnoConverter" disabled="#{loginMB.perfil != 'COORDENADOR'}">
-							<f:selectItems value="#{turnoMB.listaTurno}" var="turno"
-								itemValue="#{turno}" itemLabel="#{turno.nome}" />
+						<p:selectOneMenu value="#{alunoMB.aluno.turno}" effect="explode" converter="turnoConverter" disabled="#{loginMB.perfil != 'COORDENADOR'}">
+							<f:selectItems value="#{turnoMB.listaTurno}" var="turno" itemValue="#{turno}" itemLabel="#{turno.nome}" />
 						</p:selectOneMenu>
-	
+
 						<p:outputLabel value="Turma:" />
-						<p:selectOneMenu value="#{alunoMB.aluno.turma}" effect="explode"
-							converter="turmaConverter" disabled="#{loginMB.perfil != 'COORDENADOR'}">
-							<f:selectItems value="#{turmaMB.listaTurma}" var="turma"
-								itemValue="#{turma}" itemLabel="#{turma.nome}" />
+						<p:selectOneMenu value="#{alunoMB.aluno.turma}" effect="explode" converter="turmaConverter" disabled="#{loginMB.perfil != 'COORDENADOR'}">
+							<f:selectItems value="#{turmaMB.listaTurma}" var="turma" itemValue="#{turma}" itemLabel="#{turma.nome}" />
 						</p:selectOneMenu>
-	
+
 						<p:outputLabel value="Unidade:" />
-						<p:selectOneMenu value="#{alunoMB.aluno.unidade}" effect="explode"
-							converter="unidadeConverter" disabled="#{loginMB.perfil != 'COORDENADOR'}">
-							<f:selectItems value="#{unidadeMB.listaUnidades}" var="unidade"
-								itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
+						<p:selectOneMenu value="#{alunoMB.aluno.unidade}" effect="explode" converter="unidadeConverter"
+							disabled="#{loginMB.perfil != 'COORDENADOR'}">
+							<f:selectItems value="#{unidadeMB.listaUnidades}" var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Status:" />
+						<p:selectOneMenu value="#{alunoMB.aluno.status}" effect="explode" disabled="#{loginMB.perfil != 'COORDENADOR'}">
+							<f:selectItems value="#{applicationMB.listaStatus}" var="status" itemLabel="#{status.descricao}" itemValue="#{status}" />
 						</p:selectOneMenu>
 						
-						<h:outputLabel value="Status:" />
-						<p:selectOneMenu value="#{alunoMB.aluno.status}" effect="explode"
-					 				disabled="#{loginMB.perfil != 'COORDENADOR'}">
-							<f:selectItems value="#{applicationMB.listaStatus}" var="status"
-							itemLabel="#{status.descricao}" itemValue="#{status}" />
-						</p:selectOneMenu>
-	
+						<p:outputLabel value="Horas de Atividades exigidas:&#160;" />
+						<p:outputLabel id="labelHorasExigidas" value="#{alunoMB.aluno.curso.horasExigidas}" />
+						
+						<p:outputLabel value="&#160;" />
+						<p:outputLabel value="&#160;" />
+
 					</p:panelGrid>
 
 					<!-- Botão Gravar -->
 					<h:panelGrid columns="1" rendered="#{alunoMB.aluno.codigo == null}">
-						<p:commandButton value="Gravar" action="#{alunoMB.validaCampos()}"
-							update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+						<p:commandButton value="Gravar" action="#{alunoMB.validaCampos()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
 					</h:panelGrid>
-	
+
+					<!-- Botão Enviar Email -->
+					<p:commandButton value="Enviar Email" action="#{enviaEmailMB.enviaEmail()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+
 					<!-- Botão Editar -->
 					<h:panelGrid columns="1" rendered="#{alunoMB.aluno.codigo != null}">
-						<p:commandButton value="Editar" action="#{alunoMB.editar}"
-							update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+						<p:commandButton value="Editar" action="#{alunoMB.editar}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
 					</h:panelGrid>
+					
+					
 				</h:panelGroup>
-				
-				<p:outputLabel value="Horas Restantes:" />
-				<p:inputText value="#{alunoMB.aluno.horasRealizadas}" 
-							 disabled="#{loginMB.perfil != 'COORDENADOR'}" />
-				
+
+
 				<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
-				<p:dataTable id="tabelaAluno" widgetVar="tabelaAlunoWV" var="aluno"
-					value="#{alunoMB.listaDeAlunos}" rows="3" 
-					filteredValue="#{alunoMB.filtroDeAlunos}"
-					emptyMessage="Sem registro!" paginator="true" 
+				<p:dataTable id="tabelaAluno" widgetVar="tabelaAlunoWV" var="aluno" value="#{alunoMB.listaDeAlunos}" rows="3"
+					filteredValue="#{alunoMB.filtroDeAlunos}" emptyMessage="Sem registro!" paginator="true"
 					rendered="#{loginMB.perfil != Coordenador and not empty alunoMB.listaDeAlunos}">
 
 					<f:facet name="footer">
 						<h:commandLink>
 							<p:graphicImage library="imagens" name="excel.png" width="24" />
-							<p:dataExporter type="xls" target="tabelaAluno"
-								fileName="alunos" />
+							<p:dataExporter type="xls" target="tabelaAluno" fileName="alunos" />
 						</h:commandLink>
 
 						<h:commandLink>
 							<p:graphicImage library="imagens" name="pdf.png" width="24" />
-							<p:dataExporter type="pdf" target="tabelaAluno"
-								fileName="alunos" encoding="ISO-8859-1" />
+							<p:dataExporter type="pdf" target="tabelaAluno" fileName="alunos" encoding="ISO-8859-1" />
 						</h:commandLink>
-						
+
 						<h:commandLink>
-					        <p:graphicImage library="imagens" name= "xml.png" />
-					        <p:dataExporter type="xml" target="tabelaAluno"
-					         fileName="Alunos" />
-				    	</h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaAluno" fileName="Alunos" />
+						</h:commandLink>
 					</f:facet>
-					
+
 					<p:column headerText="Código" width="40" sortBy="#{aluno.codigo}">
 						<h:outputText value="#{aluno.codigo}" />
 					</p:column>
 
-					<p:column headerText="Nome" filterBy="#{aluno.nome}"
-						sortBy="#{aluno.nome}">
+					<p:column headerText="Nome" filterBy="#{aluno.nome}" sortBy="#{aluno.nome}">
 						<h:outputText value="#{aluno.nome}" />
 					</p:column>
 
-					<p:column headerText="R.A" width="120" filterBy="#{aluno.ra}"
-						sortBy="#{aluno.ra}">
+					<p:column headerText="R.A" width="120" filterBy="#{aluno.ra}" sortBy="#{aluno.ra}">
 						<h:outputText value="#{aluno.ra}" />
 					</p:column>
 
-					<p:column headerText="Curso" width="120"
-						filterBy="#{aluno.curso.nome}" sortBy="#{aluno.curso.nome}">
+					<p:column headerText="Curso" width="120" filterBy="#{aluno.curso.nome}" sortBy="#{aluno.curso.nome}">
 						<h:outputText value="#{aluno.curso.nome}" />
 					</p:column>
 
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125"
-						exportable="false">
-						<p:commandButton value="Editar" ajax="true"
-							action="#{alunoMB.selecionaEdicao(aluno)}" update=":cadastroAlunofrm:grupoAtributos" />
-						<p:commandButton value="Excluir"
-							action="#{alunoMB.excluir(aluno)}" immediate="true"
+					<p:column headerText="Editar / Excluir" width="125" exportable="false">
+						<p:commandButton value="Editar" ajax="true" action="#{alunoMB.selecionaEdicao(aluno)}" update=":cadastroAlunofrm:grupoAtributos" />
+						<p:commandButton value="Excluir" action="#{alunoMB.excluir(aluno)}" immediate="true"
 							update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
 					</p:column>
 

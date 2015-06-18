@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.CursoDAO;
-import br.com.tdsystem.sigac.dao.PeriodoDAO;
 import br.com.tdsystem.sigac.dao.TurmaDAO;
 import br.com.tdsystem.sigac.dao.TurnoDAO;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
@@ -32,7 +31,6 @@ public class AlunoTeste {
 		UnidadeDAO unidadeDAO = new UnidadeDAO();
 		TurmaDAO turmaDAO = new TurmaDAO();
 		TurnoDAO turnoDAO = new TurnoDAO();
-		PeriodoDAO periodoDAO = new PeriodoDAO();
 		
 		Aluno aluno = new Aluno();
 		
@@ -40,7 +38,6 @@ public class AlunoTeste {
 		Unidade unidade = unidadeDAO.pesquisaCodigo(1l);
 		Turma turma = turmaDAO.pesquisaCodigo(1l);
 		Turno turno = turnoDAO.pesquisaCodigo(1l);
-		Periodo periodo = periodoDAO.pesquisaCodigo(1l);
 		
 		aluno.setNome("Thiago Oliveira");
 		aluno.setRa("6273281272");
@@ -51,7 +48,7 @@ public class AlunoTeste {
 		aluno.setPassword(CriptografaSenhaMD5.converteSenhaMD5
 				(aluno.getPassword()));
 		
-		aluno.setPeriodo(periodo);
+		aluno.setPeriodo(Periodo.PRIMEIRO);
 		aluno.setCurso(curso);
 		aluno.setTurma(turma);
 		aluno.setTurno(turno);

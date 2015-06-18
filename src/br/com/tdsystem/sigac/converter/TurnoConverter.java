@@ -24,7 +24,7 @@ public class TurnoConverter implements Converter {
 			turno = turnoDAO.pesquisaCodigo(valor);
 			
 		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Nao foi possivel converter");
+			FacesUtil.exibirMensagemErro("Nao foi possivel converter TurnoConverter");
 		}
 		
 		return turno;

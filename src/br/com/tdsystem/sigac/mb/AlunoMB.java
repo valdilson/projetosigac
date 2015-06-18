@@ -2,6 +2,7 @@ package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -10,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.CursoDAO;
-import br.com.tdsystem.sigac.dao.PeriodoDAO;
 import br.com.tdsystem.sigac.dao.TurmaDAO;
 import br.com.tdsystem.sigac.dao.TurnoDAO;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
@@ -38,15 +38,14 @@ public class AlunoMB implements Serializable {
 	private PerfilEnum perfil;
 	private TurnoDAO turnoDAO = null;
 	private TurmaDAO turmaDAO = null;
-	private PeriodoDAO periodoDAO = null;
 	private UnidadeDAO unidadeDAO = null;
 	private List<Aluno> listaDeAlunos = null;
 	private List<Aluno> filtroDeAlunos = null;
 	private List<Curso> listaDeCursos = null;
 	private List<Turno> listaDeTurnos = null;
 	private List<Turma> listaDeTurmas = null;
-	private List<Periodo> listaDePeriodos = null;
 	private List<Unidade> listaDeUnidades = null;
+	private List<Periodo> listaPeriodos = null;
 	
 	@ManagedProperty(value = "#{loginMB}")
 	private LoginMB loginMB;
@@ -61,7 +60,9 @@ public class AlunoMB implements Serializable {
 
 	public AlunoMB() {
 		aluno = new Aluno();
+		listaPeriodos = new ArrayList<Periodo>();
 		pesquisarListaAlunos();
+		pesquisaListaCurso();
 	}
 
 	public Aluno getAluno() {
@@ -119,15 +120,7 @@ public class AlunoMB implements Serializable {
 	public void setListaDeTurmas(List<Turma> listaDeTurmas) {
 		this.listaDeTurmas = listaDeTurmas;
 	}
-
-	public List<Periodo> getListaDePeriodos() {
-		return listaDePeriodos;
-	}
-
-	public void setListaDePeriodos(List<Periodo> listaDePeriodos) {
-		this.listaDePeriodos = listaDePeriodos;
-	}
-
+	
 	public List<Unidade> getListaDeUnidades() {
 		return listaDeUnidades;
 	}
@@ -167,8 +160,6 @@ public class AlunoMB implements Serializable {
 			} else {
 				FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");				
 			}
-
-
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
 				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
@@ -221,7 +212,6 @@ public class AlunoMB implements Serializable {
 
 		try {
 			alunoDAO = new AlunoDAO();
-			periodoDAO = new PeriodoDAO();
 			turmaDAO = new TurmaDAO();
 			turnoDAO = new TurnoDAO();
 			unidadeDAO = new UnidadeDAO();
@@ -232,8 +222,7 @@ public class AlunoMB implements Serializable {
 			} else {
 				aluno = (Aluno) pessoaLogada;
 			}
-
-			listaDePeriodos = periodoDAO.listaPeriodo();
+			
 			listaDeTurmas = turmaDAO.listaTurma();
 			listaDeTurnos = turnoDAO.listaTurno();
 			listaDeUnidades = unidadeDAO.listarUnidade();
@@ -249,14 +238,41 @@ public class AlunoMB implements Serializable {
 		try {
 			CursoDAO cursoDAO = new CursoDAO();
 			listaDeCursos = cursoDAO.listaCurso();
-
+			Periodo qtdPeriodos = listaDeCursos.get(0).getQtdPeriodos();
+			aluno.setCurso(listaDeCursos.get(0));
+			if (qtdPeriodos != null) {
+				atualizaListaPeriodo(qtdPeriodos);				
+			} else {
+				listaPeriodos = new ArrayList<Periodo>();
+			}
 		} catch (RuntimeException e) {
-			// TODO: handle exception
+			System.err.println(e);
 		}
 	}
 
 	public void selecionaEdicao(Aluno aluno) {
 		this.aluno = aluno;
+	}
+	
+	public void atualizarComboPeriodo() {
+		atualizaListaPeriodo(aluno.getCurso().getQtdPeriodos());
+    }
+	
+	private void atualizaListaPeriodo(Periodo periodo) {
+		Periodo[] periodos = Periodo.values();
+		listaPeriodos.clear();
+		for (int i = 0; i < periodo.ordinal(); i++) {
+			listaPeriodos.add(periodos[i]);
+		}
+		System.out.println(listaPeriodos.size());
+	}
+
+	public List<Periodo> getListaPeriodos() {
+		return listaPeriodos;
+	}
+
+	public void setListaPeriodos(List<Periodo> listaPeriodos) {
+		this.listaPeriodos = listaPeriodos;
 	}
 
 }

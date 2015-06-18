@@ -5,6 +5,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import org.apache.poi.util.StringUtil;
+
 import br.com.tdsystem.sigac.dao.CursoDAO;
 import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.util.FacesUtil;
@@ -16,21 +18,18 @@ public class CursoConverter implements Converter {
 	Curso curso = null;
 
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
+	public Object getAsObject(FacesContext arg0, UIComponent arg1, String entity) {
 		try {
-			Long valor = Long.parseLong(arg2);
+			Long valor = Long.parseLong(entity);
 			cursoDAO = new CursoDAO();
-			
-			curso = cursoDAO.pesquisaCodigo(valor);
-			
+			curso = cursoDAO.pesquisaCodigo(valor);				
 		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Nao foi possivel converter");
+			FacesUtil.exibirMensagemErro("Nao foi possivel converter CursoConverter");
 		}
 		
 		return curso;
 	}
 
-	
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object obj) {
 		try {

@@ -29,13 +29,16 @@
 					<p:inputText value="#{cursoMB.curso.codigo}" disabled="true" />
 
 					<p:outputLabel value="Nome:" />
-					<p:inputText value="#{cursoMB.curso.nome}" />
-					
-					<p:outputLabel value="Nome:" />
-					<p:inputText value="#{cursoMB.curso.horasExigidas}" />
+					<p:inputText id="inputTextNome" value="#{cursoMB.curso.nome}" required="true" />
+
+					<h:outputLabel value="Quantidade de Períodos:" />
+					<p:selectOneMenu value="#{cursoMB.curso.qtdPeriodos}" effect="explode">
+						<f:selectItems value="#{applicationMB.listaPeriodos}" var="periodo"
+							itemLabel="#{periodo.descricao}" itemValue="#{periodo}" />
+					</p:selectOneMenu>
 
 					<h:outputLabel value="Status:" />
-					<p:selectOneMenu value="#{cursoMB.curso.status}" effect="explode">
+					<p:selectOneMenu value="#{cursoMB.curso.status}" rendered="true" effect="explode">
 						<f:selectItems value="#{applicationMB.listaStatus}" var="status"
 							itemLabel="#{status.descricao}" itemValue="#{status}" />
 					</p:selectOneMenu>

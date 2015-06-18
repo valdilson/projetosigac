@@ -75,14 +75,14 @@ public class Aluno implements Serializable, IPessoa {
     @JoinColumn(name = "codigo_curso", referencedColumnName = "codigo")
     private Curso curso;
     
-    @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinColumn(name = "codigo_periodo", referencedColumnName = "codigo")
+	@Column(name = "periodo")
+	@Enumerated(EnumType.ORDINAL)
     private Periodo periodo;
 	
 	@Transient
 	private Integer horasRealizadas;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="aluno")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="aluno", fetch=FetchType.EAGER)
 	private List<AtividadeRealizada> atividadesRealizadas;
 
 	public Long getCodigo() {

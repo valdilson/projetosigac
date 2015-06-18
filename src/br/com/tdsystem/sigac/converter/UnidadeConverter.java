@@ -24,7 +24,7 @@ public class UnidadeConverter implements Converter {
 			unidade = unidadeDAO.pesquisaCodigo(valor);
 			
 		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Nao foi possivel converter");
+			FacesUtil.exibirMensagemErro("Nao foi possivel converter UnidadeConverter");
 		}
 		
 		return unidade;

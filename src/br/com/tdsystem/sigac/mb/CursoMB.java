@@ -2,8 +2,10 @@ package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import br.com.tdsystem.sigac.dao.CursoDAO;
 import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.util.FacesUtil;
@@ -142,6 +144,6 @@ public class CursoMB implements Serializable {
 					+ e.getMessage());
 		}
 	}
-
+	
 }
 

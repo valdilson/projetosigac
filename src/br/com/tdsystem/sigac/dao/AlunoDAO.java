@@ -1,5 +1,6 @@
 package br.com.tdsystem.sigac.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -10,7 +11,9 @@ import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
-public class AlunoDAO {
+public class AlunoDAO implements Serializable {
+
+	private static final long serialVersionUID = -4280225683772058698L;
 
 	public void salvar(Aluno aluno) {
 		Session session = HibernateUtil.getSessionFactory().openSession();

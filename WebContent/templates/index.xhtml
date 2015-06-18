@@ -65,11 +65,9 @@
 
 							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact" rendered="#{loginMB.perfil == 'COORDENADOR'}">
 								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
-								<p:menuitem value="Periodo" action="#{menuMB.navegar('/paginas/cadastroperiodo.xhtml')}" />
 								<p:menuitem value="Turma" action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
 								<p:menuitem value="Turno" action="#{menuMB.navegar('/paginas/cadastroturno.xhtml')}" />
 								<p:menuitem value="Unidade" action="#{menuMB.navegar('/paginas/cadastrounidade.xhtml')}" />
-
 							</p:submenu>
 							<p:separator />
 							<p:menuitem value="Voltar Tela Principal" action="#{menuMB.navegar('/templates/index.xhtml')}" icon="ui-icon-refresh" />
@@ -99,8 +97,8 @@
 								<p:menuitem value="Turno" url="#" />
 								<p:menuitem value="Unidade" action="#{fabricaRelatorioMB.relatorioUnidadesView()}" update="forminicial"/>
 							</p:submenu>
-							<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-								<p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false" />
+							<p:submenu label="Acompanhamento" icon="ui-icon-newwin" rendered="#{loginMB.perfil == 'COORDENADOR'}">
+								<p:menuitem value="Atividades por Aluno" action="#{menuMB.navegar('/paginas/acompanhaatividadealuno.xhtml')}" />
 							</p:submenu>
 						</p:submenu>
 

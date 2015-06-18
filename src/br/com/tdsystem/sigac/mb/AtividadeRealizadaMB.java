@@ -50,20 +50,31 @@ public class AtividadeRealizadaMB implements Serializable {
 	public AtividadeRealizadaMB() {
 		atividadeRealizada = new AtividadeRealizada();
 		preencheListas();
-		
+		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
+		if (usuario instanceof Aluno) {
+			aluno = (Aluno) usuario;			
+			aluno.setHorasRealizadas(0);
+			atualizarHorasRealizadas(aluno);
+		}
 		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/download/modeloAC.pdf");
         file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
         atualizarGrafico();
 	}
 	
+	private static void atualizarHorasRealizadas(Aluno aluno) {
+		for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
+			aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());
+		}
+	}
+
 	private void initObj(){
 		dataEvento = new Date();
 		dataUpload = new Date();
 	}
 	
 	private AtividadeRealizada atividadeRealizada = null;
-	private Aluno pessoa = null;
+	private Aluno aluno = null;
 	private Atividade atividade = null;
 
 	private List<Aluno> listaDeAlunos = null;
@@ -257,11 +268,11 @@ public class AtividadeRealizadaMB implements Serializable {
 	}
 
 	public Aluno getAluno() {
-		return pessoa;
+		return aluno;
 	}
 
 	public void setAluno(Aluno aluno) {
-		this.pessoa = aluno;
+		this.aluno = aluno;
 	}
 
 	public List<Atividade> getListaDeAtividades() {
