@@ -3,6 +3,8 @@ package br.com.tdsystem.sigac.relatorios;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import org.netbeans.beaninfo.ExplorerPanel;
+
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -47,7 +49,7 @@ public class FabricaRelatorio {
 
 		// JasperExportManager.exportReportToPdfFile(print,
 		// "D:/Relatorio_de_Unidades.pdf");
-		// JasperViewer.viewReport(print, true);
+		//JasperViewer.viewReport(print, true);
 	}
 
 	// Imprime/gera uma lista de Unidades
@@ -62,7 +64,8 @@ public class FabricaRelatorio {
 		JasperPrint print = JasperFillManager.fillReport(report, null, 
 				new JRBeanCollectionDataSource(listaDeUnidades));
 			 
-		JasperExportManager.exportReportToPdfFile(print, "D:/Relatorio_de_Unidades.pdf");
+		//JasperExportManager.exportReportToPdfFile(print, "D:/Relatorio_de_Unidades.pdf");
+		JasperExportManager.exportReportToPdfFile(print, "");
 		//JasperViewer.viewReport(print, true);	
 	}
 

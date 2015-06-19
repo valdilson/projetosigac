@@ -17,6 +17,7 @@ import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 public class AcompanhaAtividadeAlunoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Aluno> alunos;
+	private List<Aluno> filtroAlunos;
 	AlunoDAO alunoDAO;
 	
 	public AcompanhaAtividadeAlunoMB() {
@@ -30,8 +31,13 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 			aluno.setHorasRealizadas(0);
 			for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
 				aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());
+				aluno.setHorasFaltantes(atividadeRealizada.getHorasAtividade() - aluno.getHorasRealizadas());
 			}			
 		}
+	}
+	
+	public void calculaHoras(){
+		
 	}
 
 	public List<Aluno> getAlunos() {
@@ -42,5 +48,12 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 		this.alunos = alunos;
 	}
 
+	public List<Aluno> getFiltroAlunos() {
+		return filtroAlunos;
+	}
+
+	public void setFiltroAlunos(List<Aluno> filtroAlunos) {
+		this.filtroAlunos = filtroAlunos;
+	}
 
 }

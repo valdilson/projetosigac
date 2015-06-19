@@ -52,21 +52,33 @@
 					<p:inputText value="#{atividadeRealizadaMB.formataData()}" disabled="true" />
 					
 					<h:panelGroup>
-						<p:outputLabel value="Hora Exigidas&#160;" />
-						<p:outputLabel value="#{atividadeRealizadaMB.aluno.curso.horasExigidas}" />
+						<p:outputLabel value="Hora Exigidas:&#160;" />
+						<p:outputLabel value="#{atividadeRealizadaMB.aluno.curso.horasExigidas}" style="color:#FF0000;" />
 					</h:panelGroup>
 					<h:panelGroup>
-						<p:outputLabel value="Horas Realizadas&#160;" />
-						<p:outputLabel value="#{atividadeRealizadaMB.aluno.horasRealizadas}" />					
+						<p:outputLabel value="Horas Realizadas:&#160;" />
+						<p:outputLabel value="#{atividadeRealizadaMB.aluno.horasRealizadas}" style="color:#FF0000;"/>					
 					</h:panelGroup>
 
 				</p:panelGrid>
 				<p:growl id="messages" showDetail="true" />
 
 				<!-- Botão Gravar -->
-				<p:commandButton value="Gravar" ajax="false"
+				<p:panelGrid columns="1" rendered="#{atividadeRealizadaMB.atividadeRealizada.codigo == null}">
+					<p:commandButton value="Gravar" 
 					action="#{atividadeRealizadaMB.verificaAtividadeRepetida()}"
-					update=":uploadAlunofrm :mgs :uploadAlunofrm" />
+					update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
+				</p:panelGrid>
+				
+				<p:separator />
+				
+				<!-- Botão Editar -->
+				<p:panelGrid columns="1" rendered="#{atividadeRealizadaMB.atividadeRealizada.codigo != null}">
+					<p:commandButton value="Gravar" 
+					action="#{atividadeRealizadaMB.verificaAtividadeRepetida()}"
+					update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
+				</p:panelGrid>
+				
 				<p:separator />
 
 				<!-- Botão Download -->
@@ -126,8 +138,8 @@
 							update="@all" />
 						<p:commandButton value="Excluir"
 							action="#{atividadeRealizadaMB.excluir(atividadeRealizada)}"
-							immediate="true"
-							update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" />
+							immediate="true" update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
+							
 					</p:column>
 	
 				</p:dataTable>

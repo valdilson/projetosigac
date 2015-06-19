@@ -62,6 +62,9 @@ public class Aluno implements Serializable, IPessoa {
     
     @Transient
     private String confirmaPassword;
+    
+    @Transient
+    private Integer horasFaltantes;
 
 	@ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "codigo_turma", referencedColumnName = "codigo")
@@ -196,6 +199,15 @@ public class Aluno implements Serializable, IPessoa {
 
 		public void setConfirmaPassword(String confirmaPassword) {
 			this.confirmaPassword = confirmaPassword;
+		}
+
+		
+	public Integer getHorasFaltantes() {
+			return horasFaltantes;
+		}
+
+		public void setHorasFaltantes(Integer horasFaltantes) {
+			this.horasFaltantes = horasFaltantes;
 		}
 
 	@Override

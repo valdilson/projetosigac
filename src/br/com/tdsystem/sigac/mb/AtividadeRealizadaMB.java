@@ -47,8 +47,26 @@ public class AtividadeRealizadaMB implements Serializable {
 	private InputStream is = null;
 	private ByteArrayOutputStream bos = null;
 	
+	private AtividadeRealizada atividadeRealizada = null;
+	private Aluno aluno = null;
+	private Atividade atividade = null;
+
+	private List<Aluno> listaDeAlunos = null;
+	private List<Atividade> listaDeAtividades = null;
+	private List<Atividade> filtroDeAtividades = null;
+	
+	private List<AtividadeRealizada> listaDeAtividadesRealizadas = null;
+	private List<AtividadeRealizada> filtroDeAtividadesRealizadas = null;
+
+	private AtividadeDAO atividadeDAO = null;
+	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
+	
+	private PieChartModel graficoAtividades;
+	
 	public AtividadeRealizadaMB() {
 		atividadeRealizada = new AtividadeRealizada();
+		dataEvento = new Date();
+		dataUpload = new Date();
 		preencheListas();
 		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 		if (usuario instanceof Aluno) {
@@ -67,31 +85,11 @@ public class AtividadeRealizadaMB implements Serializable {
 			aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());
 		}
 	}
-
-	private void initObj(){
-		dataEvento = new Date();
-		dataUpload = new Date();
-	}
-	
-	private AtividadeRealizada atividadeRealizada = null;
-	private Aluno aluno = null;
-	private Atividade atividade = null;
-
-	private List<Aluno> listaDeAlunos = null;
-	private List<Atividade> listaDeAtividades = null;
-	private List<Atividade> filtroDeAtividades = null;
-	
-	private List<AtividadeRealizada> listaDeAtividadesRealizadas = null;
-	private List<AtividadeRealizada> filtroDeAtividadesRealizadas = null;
-
-	private AtividadeDAO atividadeDAO = null;
-	private AtividadeRealizadaDAO atividadeRealizadaDAO = null;
-	
-	private PieChartModel graficoAtividades;
 	
 	@ManagedProperty(value="#{loginMB}")
 	private LoginMB loginMB;
 
+	//UploadArquivo
 	public void handleFileUpload(FileUploadEvent event) {
 
 		try {
@@ -131,7 +129,6 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	public void preencheListas() {
 		try {
-			initObj();
 			atividadeDAO = new AtividadeDAO();
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			listaDeAtividades = atividadeDAO.listaAtividade();
@@ -159,15 +156,15 @@ public class AtividadeRealizadaMB implements Serializable {
 			salvar();
 		}else{
 			FacesUtil.exibirMensagemAlerta("Atividade já lançada!");
+			atividadeRealizada = new AtividadeRealizada();
 		}
 	}
 	
 	public void salvar() {
 		
-		atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
-		atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 		try {
-			
+			atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
+			atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 			
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
@@ -175,10 +172,10 @@ public class AtividadeRealizadaMB implements Serializable {
 			atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
 			
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
-			FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
-			atividadeRealizada = new AtividadeRealizada();
-			is = null;
+			//atualizarHorasRealizadas(atividadeRealizada.getAluno());
 			preencheListas();
+			atualizarGrafico();
+			FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
 					+ e.getMessage()+e.getCause());
@@ -194,11 +191,25 @@ public class AtividadeRealizadaMB implements Serializable {
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			atividadeRealizadaDAO.excluir(atividadeRealizada);
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
-
+			listaDeAtividadesRealizadas.remove(atividadeRealizada);
+			preencheListas();
+			atualizarGrafico();
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao excluir registro!"
 					+ e.getMessage());
 		}
+	}
+	
+	public void editar(){
+		try {
+			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+			atividadeRealizadaDAO.editar(atividadeRealizada);
+			atividadeRealizada = new AtividadeRealizada();
+			atualizarGrafico();
+		} catch (Exception e) {
+			FacesUtil.exibirMensagemErro("Erro ao tentar editar registro" + e.getCause());
+		}
+		
 	}
 	
 	public void atualizarGrafico() {

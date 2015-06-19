@@ -29,7 +29,7 @@
 					<p:inputText value="#{cursoMB.curso.codigo}" disabled="true" />
 
 					<p:outputLabel value="Nome:" />
-					<p:inputText id="inputTextNome" value="#{cursoMB.curso.nome}" required="true" />
+					<p:inputText id="inputTextNome" value="#{cursoMB.curso.nome}" />
 
 					<h:outputLabel value="Quantidade de Períodos:" />
 					<p:selectOneMenu value="#{cursoMB.curso.qtdPeriodos}" effect="explode">
@@ -84,6 +84,10 @@
 					<p:column headerText="Nome" filterBy="#{filtroCursos.nome}"
 						sortBy="#{filtroCursos.nome}">
 						<h:outputText value="#{filtroCursos.nome}" />
+					</p:column>
+					
+					<p:column headerText="Qt.Periodos" width="60">
+						<h:outputText value="#{filtroCursos.qtdPeriodos.descricao}" />
 					</p:column>
 
 					<p:column headerText="Status" filterBy="#{filtroCursos.status}"

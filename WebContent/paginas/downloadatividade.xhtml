@@ -56,10 +56,11 @@
 						</h:commandLink>
 					</f:facet>
 
-					<!--Botão Editar / Excluir  -->
+					<!--Botão Download  -->
 					<p:column headerText="Documento" width="125" exportable="false">
-						<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s" action="#{atividadeRealizadaMB.download(atividadeRealizada)}"
-							update="@all">
+						<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s"
+						 				 action="#{atividadeRealizadaMB.download(atividadeRealizada)}"
+										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
 							<p:fileDownload value="#{atividadeRealizadaMB.fileDownload}" />
 						</p:commandButton>
 					</p:column>

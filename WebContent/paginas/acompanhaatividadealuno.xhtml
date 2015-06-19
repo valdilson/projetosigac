@@ -7,13 +7,7 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
 
-		<f:metadata>
-			<f:event listener="#{atividadeRealizadaMB.preencheListas()}" type="preRenderView" />
-			<f:event listener="#{atividadeRealizadaMB.atualizarGrafico()}" type="preRenderView" />
-		</f:metadata>
-	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
@@ -22,10 +16,21 @@
 
 				<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
 				<p:dataTable id="tabelaAlunos" widgetVar="tabelaAlunosWV" var="aluno"
-					value="#{acompanhaAtividadeAlunoMB.alunos}" rows="10" emptyMessage="Sem registro!" paginator="true">
+					value="#{acompanhaAtividadeAlunoMB.alunos}" rows="10" 
+					filteredValue="#{acompanhaAtividadeAlunoMB.filtroAlunos}"
+					emptyMessage="Sem registro!" paginator="true">
 
-					<p:column headerText="Nome" width="120" filterBy="#{aluno.nome}" sortBy="#{aluno.nome}">
+					<p:column headerText="Nome" width="50" filterBy="#{aluno.nome}" sortBy="#{aluno.nome}">
 						<h:outputText value="#{aluno.nome}" />
+					</p:column>
+					
+					<p:column headerText="RA" width="40" filterBy="#{aluno.ra}" sortBy="#{aluno.ra}">
+						<h:outputText value="#{aluno.ra}" />
+					</p:column>
+					
+					<p:column headerText="Curso" width="60" filterBy="#{aluno.curso.nome}" 
+							  sortBy="#{aluno.curso.nome}">
+						<h:outputText value="#{aluno.curso.nome}" />
 					</p:column>
 
 					<p:column headerText="Total de Horas Exigidas" width="40">
@@ -35,6 +40,27 @@
 					<p:column headerText="Total de Horas Realizadas" width="40">
 						<h:outputText value="#{aluno.horasRealizadas}" />
 					</p:column>
+					
+					<p:column headerText="Horas Faltantes" width="40">
+						<h:outputText value="#{aluno.horasFaltantes}" />
+					</p:column>
+					
+					<f:facet name="footer">
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="excel.png" width="24" />
+							<p:dataExporter type="xls" target="tabelaAlunos" fileName="Aluno/Horas" />
+						</h:commandLink>
+
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="pdf.png" width="24" />
+							<p:dataExporter type="pdf" target="tabelaAlunos" fileName="Aluno/Horas" encoding="ISO-8859-1" />
+						</h:commandLink>
+
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaAlunos" fileName="Aluno/Horas" />
+						</h:commandLink>
+					</f:facet>
 
 				</p:dataTable>
 			</p:panel>

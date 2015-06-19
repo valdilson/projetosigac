@@ -27,22 +27,22 @@ public class UnidadeMB implements Serializable{
 		listarUnidades();
 	}
 	
-	public synchronized Unidade getUnidade() {
+	public Unidade getUnidade() {
 		return unidade;
 	}
-	public synchronized void setUnidade(Unidade unidade) {
+	public void setUnidade(Unidade unidade) {
 		this.unidade = unidade;
 	}
-	public synchronized List<Unidade> getListaUnidades() {
+	public List<Unidade> getListaUnidades() {
 		return listaUnidades;
 	}
-	public synchronized void setListaUnidades(List<Unidade> listaUnidades) {
+	public void setListaUnidades(List<Unidade> listaUnidades) {
 		this.listaUnidades = listaUnidades;
 	}
-	public synchronized List<Unidade> getFiltroUnidades() {
+	public List<Unidade> getFiltroUnidades() {
 		return filtroUnidades;
 	}
-	public synchronized void setFiltroUnidades(List<Unidade> filtroUnidades) {
+	public void setFiltroUnidades(List<Unidade> filtroUnidades) {
 		this.filtroUnidades = filtroUnidades;
 	}
 	
@@ -53,7 +53,7 @@ public class UnidadeMB implements Serializable{
 				unidadeDAO = new UnidadeDAO();
 				unidadeDAO.salvar(unidade);
 				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-				
+				unidade = new Unidade();
 			}catch(RuntimeException e){
 				if(e.getMessage().equals("could not execute statement")){
 					FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
@@ -64,12 +64,17 @@ public class UnidadeMB implements Serializable{
 		}
 	}
 	
+	public void selecionaEdicao(Unidade unidade) {
+		this.unidade = unidade;
+	}
 	
-	public void excluir(){
+	
+	public void excluir(Unidade unidade){
 		
 		try{
 			unidadeDAO = new UnidadeDAO();
 			unidadeDAO.exluir(unidade);
+			listaUnidades.remove(unidade);
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 			
 		}catch(RuntimeException e){
@@ -88,9 +93,10 @@ public class UnidadeMB implements Serializable{
 			unidadeDAO = new UnidadeDAO();
 			unidadeDAO.editar(unidade);
 			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
-			
+			unidade = new Unidade();
 		}catch(RuntimeException e){
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!" + e.getMessage());
+			FacesUtil.exibirMensagemErro("Erro ao editar registro!" + e.getCause());
 		}
 	}
 

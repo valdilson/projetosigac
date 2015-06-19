@@ -3,11 +3,8 @@
 <!DOCTYPE html>
 
 <!-- Inportando Pacotes com os objetos -->
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
 	<ui:define name="metadata">
@@ -23,80 +20,66 @@
 		<h:form id="cadastroUnidadefrm">
 			<p:panel header="CADASTRO DE UNIDADE">
 
-				<h:panelGrid columns="4" cellspacing="10">
+				<h:panelGroup id="grupoAtributos">
+					<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 
-					<p:outputLabel value="Código:" />
-					<p:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
+						<p:outputLabel value="Código:" />
+						<p:inputText value="#{unidadeMB.unidade.codigo}" disabled="true" />
 
-					<p:outputLabel value="Nome:" />
-					<h:panelGroup>
-						<p:inputText id="nomeUnidade" value="#{unidadeMB.unidade.nome}"
-							disabled="false" required="true"
-							requiredMessage="Campo Nome Obrigatório" />
-						<h:message for="nomeUnidade" />
-					</h:panelGroup>
+						<p:outputLabel value="Nome:" />
+						<p:inputText id="nomeUnidade" value="#{unidadeMB.unidade.nome}" disabled="false" />
 
-					<p:outputLabel value="Endereco:" />
-					<p:inputText value="#{unidadeMB.unidade.endereco}" disabled="false"
-						required="true" requiredMessage="Campo Endereço Obrigatório" />
+						<p:outputLabel value="Endereco:" />
+						<p:inputText value="#{unidadeMB.unidade.endereco}" disabled="false" />
 
-					<p:outputLabel value="Bairro:" />
-					<p:inputText value="#{unidadeMB.unidade.bairro}" disabled="false"
-						required="true" requiredMessage="Campo Bairro Obrigatório" />
+						<p:outputLabel value="Bairro:" />
+						<p:inputText value="#{unidadeMB.unidade.bairro}" disabled="false" />
 
-					<p:outputLabel value="Cep:" />
-					<p:inputMask mask="99.999-999" value="#{unidadeMB.unidade.cep}"
-						disabled="false" required="true"
-						requiredMessage="Campo CEP Obrigatório" size="20" />
+						<p:outputLabel value="Cep:" />
+						<p:inputMask mask="99.999-999" value="#{unidadeMB.unidade.cep}" disabled="false" size="20" />
 
-					<p:outputLabel value="Cidade:" />
-					<p:inputText value="#{unidadeMB.unidade.cidade}" disabled="false"
-						required="true" requiredMessage="Campo Cidade Obrigatório" />
+						<p:outputLabel value="Cidade:" />
+						<p:inputText value="#{unidadeMB.unidade.cidade}" disabled="false" />
 
-					<p:outputLabel value="Estado:" />
-					<p:inputText value="#{unidadeMB.unidade.estado}" disabled="false"
-						required="true" requiredMessage="Campo Estado Obrigatório" />
+						<p:outputLabel value="Estado:" />
+						<p:inputText value="#{unidadeMB.unidade.estado}" disabled="false" />
 
-					<p:outputLabel value="Telefone:" />
-					<p:inputMask mask="(99)9999-9999"
-						value="#{unidadeMB.unidade.telefone}" disabled="false"
-						required="true" requiredMessage="Campo Telefone Obrigatório"
-						size="20" />
-				</h:panelGrid>
+						<p:outputLabel value="Telefone:" />
+						<p:inputMask mask="(99)9999-9999" value="#{unidadeMB.unidade.telefone}" disabled="false" size="20" />
 
-				<!-- Botato Gravar -->
-				<h:panelGrid columns="1">
-					<p:commandButton value="Gravar" action="#{unidadeMB.salvar}"
-						update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
-				</h:panelGrid>
+					</p:panelGrid>
+					<!-- Botato Gravar -->
+					<h:panelGrid columns="1" rendered="#{unidadeMB.unidade.codigo == null}">
+						<p:commandButton value="Gravar" action="#{unidadeMB.salvar}" update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
+					</h:panelGrid>
 
+					<!-- Botato Editar -->
+					<h:panelGrid columns="1" rendered="#{unidadeMB.unidade.codigo != null}">
+						<p:commandButton value="Editar" action="#{unidadeMB.editar}" update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
+					</h:panelGrid>
+				</h:panelGroup>
+				
 				<!-- Começo tabela -->
-				<p:dataTable id="tabelaUnidade" widgetVar="tabelaUnidadeWV"
-					var="filtroUnidades" value="#{unidadeMB.listaUnidades}" rows="3"
-					filteredValue="#{unidadeMB.filtroUnidades}"
-					emptyMessage="Sem registro!" paginator="true">
+				<p:dataTable id="tabelaUnidade" widgetVar="tabelaUnidadeWV" var="filtroUnidades" value="#{unidadeMB.listaUnidades}" rows="3"
+					filteredValue="#{unidadeMB.filtroUnidades}" emptyMessage="Sem registro!" paginator="true">
 
 					<f:facet name="footer">
 						<h:commandLink>
 							<p:graphicImage library="imagens" name="excel.png" width="24" />
-							<p:dataExporter type="xls" target="tabelaUnidade"
-								fileName="Unidades" />
+							<p:dataExporter type="xls" target="tabelaUnidade" fileName="Unidades" />
 						</h:commandLink>
 
 						<h:commandLink>
 							<p:graphicImage library="imagens" name="pdf.png" width="24" />
-							<p:dataExporter type="pdf" target="tabelaUnidade"
-								fileName="Unidades" encoding="ISO-8859-1" />
+							<p:dataExporter type="pdf" target="tabelaUnidade" fileName="Unidades" encoding="ISO-8859-1" />
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="40"
-						sortBy="#{filtroUnidades.codigo}">
+					<p:column headerText="Código" width="40" sortBy="#{filtroUnidades.codigo}">
 						<h:outputText value="#{filtroUnidades.codigo}" />
 					</p:column>
 
-					<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}"
-						sortBy="#{filtroUnidades.nome}">
+					<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}" sortBy="#{filtroUnidades.nome}">
 						<h:outputText value="#{filtroUnidades.nome}" />
 					</p:column>
 
@@ -107,12 +90,14 @@
 					<p:column headerText="Telefone" width="80">
 						<h:outputText value="#{filtroUnidades.telefone}" />
 					</p:column>
-					
+
 					<!-- Botões Excluir / Editar -->
-					<p:column headerText="Editar / Excluir" width="125"
-						exportable="false">
-						<p:commandButton value="Editar" action="#{unidadeMB.editar()}" />
-						<p:commandButton value="Excluir" action="#{unidadeMB.excluir()}" />
+					<p:column headerText="Editar / Excluir" width="125" exportable="false">
+						<p:commandButton value="Editar" action="#{unidadeMB.selecionaEdicao(filtroUnidades)}" update=":cadastroUnidadefrm:grupoAtributos"
+							ajax="false" />
+
+						<p:commandButton imeidate="true" value="Excluir" action="#{unidadeMB.excluir(filtroUnidades)}"
+							update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" ajax="true" />
 					</p:column>
 
 				</p:dataTable>

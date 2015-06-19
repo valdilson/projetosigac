@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.tdsystem.sigac.util.Constante;
 
@@ -34,29 +33,24 @@ public class Unidade implements Serializable {
 	private Long codigo;
 	
 	@Column(nullable = false, name="nome", length = 150)
-	@NotEmpty(message = "Campo nome Obrigatório!")
 	private String nome;
 	
 	@Column(nullable = false, name="endereco", length = 200)
-	@NotEmpty(message = "Campo endereco Obrigatório!")
 	private String endereco;
 	
 	@Column(nullable = false, name="bairro", length = 100)
-	@NotEmpty(message = "Campo bairro Obrigatório!")
 	private String bairro;
 	
 	@Column(nullable = false, name="cidade", length = 100)
-	@NotEmpty(message = "Campo cidade Obrigatório!")
 	private String cidade;
 	
 	@Column(nullable = false, name="estado")
-	@NotEmpty(message = "Campo estado Obrigatório!")
 	private String estado;
 	
 	@Column(name="cep")
 	private String cep;
 	
-	@Column(name="telefone", length = 12)
+	@Column(name="telefone")
 	private String telefone;
 	
 	@Email

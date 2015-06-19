@@ -22,17 +22,9 @@
 			float: right !important;
 		}
 	</style>
-	<script type="text/javascript">
-		jQuery( document ).ready(function( $ ) {
-			//alert("onload");
-		});
-	</script>
+	
 </h:head>
 <h:body>
-
-	<script type="text/javascript">
-		//alert('');
-	</script>
 
 	<p:growl id="mgs" sticky="false" life="2000"/>
 	
@@ -63,7 +55,8 @@
 										rendered="#{loginMB.perfil == 'COORDENADOR'}" />
 							<p:separator />
 
-							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact" rendered="#{loginMB.perfil == 'COORDENADOR'}">
+							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact" 
+									   rendered="#{loginMB.perfil == 'COORDENADOR'}">
 								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
 								<p:menuitem value="Turma" action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
 								<p:menuitem value="Turno" action="#{menuMB.navegar('/paginas/cadastroturno.xhtml')}" />
@@ -78,7 +71,8 @@
 						</p:submenu>
 
 						<p:submenu label="Consulta" icon="ui-icon-pencil">
-							<p:menuitem value="Atividades Realizadas" action="#{menuMB.navegar('/paginas/downloadatividade.xhtml')}"
+							<p:menuitem value="Atividades Realizadas" 
+										action="#{menuMB.navegar('/paginas/downloadatividade.xhtml')}"
 								icon="ui-icon-arrowreturnthick-1-w" />
 							<p:menuitem value="Area do Aluno" rendered="#{loginMB.perfil == 'ALUNO'}"
 										action="#{menuMB.navegar('/paginas/uploadaluno.xhtml')}" 
@@ -95,15 +89,20 @@
 								<p:menuitem value="Periodo" url="#" />
 								<p:menuitem value="Turma" url="#" />
 								<p:menuitem value="Turno" url="#" />
-								<p:menuitem value="Unidade" action="#{fabricaRelatorioMB.relatorioUnidadesView()}" update="forminicial"/>
+								<p:menuitem value="Unidade" action="#{fabricaRelatorioMB.relatorioUnidadesView()}"
+											update="forminicial"/>
 							</p:submenu>
-							<p:submenu label="Acompanhamento" icon="ui-icon-newwin" rendered="#{loginMB.perfil == 'COORDENADOR'}">
-								<p:menuitem value="Atividades por Aluno" action="#{menuMB.navegar('/paginas/acompanhaatividadealuno.xhtml')}" />
+							<p:submenu label="Acompanhamento" icon="ui-icon-newwin" 
+									   rendered="#{loginMB.perfil == 'COORDENADOR'}">
+								<p:menuitem value="Atividades por Aluno" 
+											action="#{menuMB.navegar('/paginas/acompanhaatividadealuno.xhtml')}" />
 							</p:submenu>
 						</p:submenu>
 
 						<p:submenu label="Ajuda" icon="ui-icon-help">
-							<p:menuitem value="Sobre o Sistema" url="#" />
+							<p:menuitem value="Sobre o Sistema" 
+										action="#{menuMB.navegar('/paginas/sobreosistema.xhtml')}" />
+							<p:menuitem value="Equipe Desenvolvimento" url="#" />
 						</p:submenu>
 
 						<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" 

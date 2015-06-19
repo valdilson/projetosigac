@@ -40,8 +40,8 @@ public class AtividadeRealizadaTeste {
 			atividadeRealizada.setHorasAtividade((atividade.getHoras()));
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
-			atividadeRealizada.setDataEvento("05/06/15");
-			atividadeRealizada.setDataUpload("05/06/15");
+			atividadeRealizada.setDataEvento("05-06-15");
+			atividadeRealizada.setDataUpload("05-06-15");
 			atividadeRealizada.setComprovante(bFile);
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			
