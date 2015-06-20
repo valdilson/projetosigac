@@ -22,7 +22,7 @@
 
 		<h:form id="cadastroTurmafrm">
 			<p:panel header="CADASTRO DE TURMA">
-				<h:panelGrid columns="2" cellspacing="10" id="cadastro">
+				<p:panelGrid columns="2" cellspacing="10" id="cadastro">
 
 					<p:outputLabel value="Código:" />
 					<p:inputText value="#{turmaMB.turma.codigo}" disabled="true" />
@@ -36,7 +36,7 @@
 							itemLabel="#{status.descricao}" itemValue="#{status}" />
 					</p:selectOneMenu>
 
-				</h:panelGrid>
+				</p:panelGrid>
 
 				<!-- Botão Gravar -->
 				<h:panelGrid columns="1" rendered="#{turmaMB.turma.codigo == null}">
@@ -52,7 +52,7 @@
 
 				<!-- Começo tabela -->
 				<p:dataTable id="tabelaTurma" widgetVar="tabelaTurmaWV"
-					var="filtroTurmas" value="#{turmaMB.listaTurma}" rows="3"
+					var="filtroTurmas" value="#{turmaMB.listaTurma}" rows="5"
 					filteredValue="#{turmaMB.filtroTurmas}"
 					emptyMessage="Sem registro!" paginator="true">
 

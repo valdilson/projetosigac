@@ -33,7 +33,6 @@ public class Curso implements Serializable {
 	private Long codigo;
 
 	@Column(name = "nome", nullable = false, length = 150)
-	//@NotEmpty(message = "Campo Nome obrigatório")
 	private String nome;
 	
 	@Column(name = "horasExigidas", nullable = false)

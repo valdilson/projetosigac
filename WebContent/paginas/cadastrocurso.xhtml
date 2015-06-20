@@ -23,13 +23,16 @@
 		<h:form id="cadastroCursofrm">
 			<p:panel header="CADASTRO DE CURSO">
 
-				<h:panelGrid columns="2" cellspacing="10" id="cadastro">
+				<p:panelGrid columns="2" cellspacing="10" id="cadastro">
 
 					<p:outputLabel value="Código:" />
 					<p:inputText value="#{cursoMB.curso.codigo}" disabled="true" />
 
 					<p:outputLabel value="Nome:" />
 					<p:inputText id="inputTextNome" value="#{cursoMB.curso.nome}" />
+					
+					<p:outputLabel value="Horas Exigidas:" />
+					<p:inputText id="inputTextHorasExigidas" value="#{cursoMB.curso.horasExigidas}" />
 
 					<h:outputLabel value="Quantidade de Períodos:" />
 					<p:selectOneMenu value="#{cursoMB.curso.qtdPeriodos}" effect="explode">
@@ -43,7 +46,7 @@
 							itemLabel="#{status.descricao}" itemValue="#{status}" />
 					</p:selectOneMenu>
 
-				</h:panelGrid>
+				</p:panelGrid>
 
 				<!-- Botão Gravar -->
 				<h:panelGrid columns="1" rendered="#{cursoMB.curso.codigo == null}">
@@ -84,6 +87,10 @@
 					<p:column headerText="Nome" filterBy="#{filtroCursos.nome}"
 						sortBy="#{filtroCursos.nome}">
 						<h:outputText value="#{filtroCursos.nome}" />
+					</p:column>
+					
+					<p:column headerText="Horas Exigidas" width="40">
+						<h:outputText value="#{filtroCursos.horasExigidas}" />
 					</p:column>
 					
 					<p:column headerText="Qt.Periodos" width="60">

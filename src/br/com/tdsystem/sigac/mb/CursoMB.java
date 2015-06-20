@@ -73,7 +73,7 @@ public class CursoMB implements Serializable {
 
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("J· existe este nome cadastrado!");
+				FacesUtil.exibirMensagemErro("J√° existe este nome cadastrado!"+e.getCause());
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 			}
@@ -86,11 +86,11 @@ public class CursoMB implements Serializable {
 			cursoDAO = new CursoDAO();
 			cursoDAO.excluir(curso);
 			listaCurso.remove(curso);
-			FacesUtil.exibirMensagemSucesso("Exclus„o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclus√£o feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso est· sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso est√£ sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
@@ -108,7 +108,7 @@ public class CursoMB implements Serializable {
 			cursoDAO = new CursoDAO();
 			cursoDAO.editar(curso);
 			curso = new Curso();
-			FacesUtil.exibirMensagemSucesso("EdiÁ„o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Edi√ß√£o feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
@@ -124,7 +124,7 @@ public class CursoMB implements Serializable {
 			listaCurso = cursoDAO.listaCurso();
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("N„o retornou registro!"
+			FacesUtil.exibirMensagemErro("N√£o retornou registro!"
 					+ e.getMessage());
 		}
 	}
@@ -140,7 +140,7 @@ public class CursoMB implements Serializable {
 			}
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("N„o retornou registro!"
+			FacesUtil.exibirMensagemErro("N√£o retornou registro!"
 					+ e.getMessage());
 		}
 	}

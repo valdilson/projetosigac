@@ -48,7 +48,7 @@ public class CoordenadorMB implements Serializable {
 			listaDeUnidades = unidadeDAO.listarUnidade();
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemAlerta("Não foi possível acessar o banco"
+			FacesUtil.exibirMensagemAlerta("Nï¿½o foi possï¿½vel acessar o banco"
 					+ e.getMessage());
 		}
 
@@ -66,15 +66,14 @@ public class CoordenadorMB implements Serializable {
 				coordenadorDAO.salvar(coordenador);
 				coordenador = new Coordenador();
 				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-
 			} else {
 				FacesUtil
-						.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+						.exibirMensagemSucesso("Senhas nÃ£o conferem ou vazias!");
 			}
 
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+				FacesUtil.exibirMensagemErro("JÃ¡ existe este RA cadastrado!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 			}
@@ -92,10 +91,10 @@ public class CoordenadorMB implements Serializable {
 				coordenador.setPassword(senha);
 				coordenadorDAO = new CoordenadorDAO();
 				coordenadorDAO.editar(coordenador);
-				FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
+				FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
 				coordenador = new Coordenador();
 			} else {
-				FacesUtil.exibirMensagemSucesso("Senha não confere ou vazia!");
+				FacesUtil.exibirMensagemSucesso("Senha nï¿½o confere ou vazia!");
 			}
 
 		} catch (RuntimeException e) {
@@ -112,11 +111,11 @@ public class CoordenadorMB implements Serializable {
 			coordenadorDAO.excluir(coordenador);
 
 			listaDeCoordenadores.remove(coordenador);
-			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso estï¿½ sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());

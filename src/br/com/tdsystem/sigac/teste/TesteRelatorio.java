@@ -11,7 +11,7 @@ import br.com.tdsystem.sigac.relatorios.FabricaRelatorio;
 public class TesteRelatorio {
 	
 	@Test
-	public void testaRelatório() throws Exception{
+	public void testaRelatorio() throws Exception{
 		UnidadeDAO unidadeDAO = new UnidadeDAO();
 		List<Unidade> listaDeUnidades = unidadeDAO.listarUnidade();
 		

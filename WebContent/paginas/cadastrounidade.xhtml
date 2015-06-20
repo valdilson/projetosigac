@@ -19,8 +19,8 @@
 
 		<h:form id="cadastroUnidadefrm">
 			<p:panel header="CADASTRO DE UNIDADE">
-
 				<h:panelGroup id="grupoAtributos">
+					
 					<p:panelGrid columns="4" cellspacing="10" id="cadastro">
 
 						<p:outputLabel value="Código:" />
@@ -79,7 +79,8 @@
 						<h:outputText value="#{filtroUnidades.codigo}" />
 					</p:column>
 
-					<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}" sortBy="#{filtroUnidades.nome}">
+					<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}" 
+							  sortBy="#{filtroUnidades.nome}">
 						<h:outputText value="#{filtroUnidades.nome}" />
 					</p:column>
 
