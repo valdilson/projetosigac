@@ -46,6 +46,10 @@ public class UnidadeMB implements Serializable{
 		this.filtroUnidades = filtroUnidades;
 	}
 	
+	public void cancelarEdicao(){
+		unidade = new Unidade();
+	}
+	
 	public void salvar(){
 		if(Validacao.validaCampoTexto(unidade.getNome())){
 			try{
@@ -56,7 +60,7 @@ public class UnidadeMB implements Serializable{
 				unidade = new Unidade();
 			}catch(RuntimeException e){
 				if(e.getMessage().equals("could not execute statement")){
-					FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+					FacesUtil.exibirMensagemErro("Jï¿½ existe este nome cadastrado!");
 				}else{
 					FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 				}
@@ -75,11 +79,11 @@ public class UnidadeMB implements Serializable{
 			unidadeDAO = new UnidadeDAO();
 			unidadeDAO.exluir(unidade);
 			listaUnidades.remove(unidade);
-			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
 			
 		}catch(RuntimeException e){
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso estï¿½ sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
@@ -92,7 +96,7 @@ public class UnidadeMB implements Serializable{
 		try{
 			unidadeDAO = new UnidadeDAO();
 			unidadeDAO.editar(unidade);
-			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
 			unidade = new Unidade();
 		}catch(RuntimeException e){
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!" + e.getMessage());
@@ -107,7 +111,7 @@ public class UnidadeMB implements Serializable{
 			listaUnidades = unidadeDAO.listarUnidade();
 			
 		}catch(RuntimeException e){
-			FacesUtil.exibirMensagemErro("Não retornou registro!" + e.getMessage());
+			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!" + e.getMessage());
 		}
 	}
 	
@@ -122,7 +126,7 @@ public class UnidadeMB implements Serializable{
 			}
 			
 		}catch(RuntimeException e){
-			FacesUtil.exibirMensagemErro("Não retornou registro!"+e.getMessage());
+			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"+e.getMessage());
 		}
 	}
 

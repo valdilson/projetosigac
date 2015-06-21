@@ -148,7 +148,7 @@ public class AlunoMB implements Serializable {
 			
 			if(other == null) {
 				if (!password.equals(cpassword)) {
-					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+					FacesUtil.exibirMensagemSucesso("Senhas nÃ£o conferem ou vazias!");
 				} else {
 
 					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
@@ -162,7 +162,7 @@ public class AlunoMB implements Serializable {
 			}
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+				FacesUtil.exibirMensagemErro("JÃ¡ existe este RA cadastrado!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 			}
@@ -177,7 +177,7 @@ public class AlunoMB implements Serializable {
 			alunoDAO.excluir(aluno);
 
 			listaDeAlunos.remove(aluno);
-			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
@@ -196,10 +196,10 @@ public class AlunoMB implements Serializable {
 				aluno.setPassword(senha);
 				alunoDAO = new AlunoDAO();
 				alunoDAO.editar(aluno);
-				FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
+				FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
 				aluno = new Aluno();
 			} else {
-				FacesUtil.exibirMensagemSucesso("Senha não confere ou vazia!");
+				FacesUtil.exibirMensagemSucesso("Senha nï¿½o confere ou vazia!");
 			}
 
 		} catch (RuntimeException e) {

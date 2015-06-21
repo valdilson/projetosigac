@@ -57,7 +57,13 @@
 					<h:panelGrid columns="1" rendered="#{unidadeMB.unidade.codigo != null}">
 						<p:commandButton value="Editar" action="#{unidadeMB.editar}" update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
 					</h:panelGrid>
-				</h:panelGroup>
+					
+					<!-- Botão Cancelar Edição -->
+					<p:commandButton value="Cancelar" rendered="#{unidadeMB.unidade.codigo != null}"
+									 action="#{unidadeMB.cancelarEdicao()}"
+									 update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
+					
+					</h:panelGroup>
 				
 				<!-- Começo tabela -->
 				<p:dataTable id="tabelaUnidade" widgetVar="tabelaUnidadeWV" var="filtroUnidades" value="#{unidadeMB.listaUnidades}" rows="3"

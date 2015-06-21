@@ -43,15 +43,15 @@ public class Atividade implements Serializable {
 	private Long codigo;
 
 	@Column(name = "nome", nullable = false, length = 150)
-	//@NotEmpty(message = "Campo nome obrigatório!")
+	//@NotEmpty(message = "Campo nome obrigatï¿½rio!")
 	private String nome;
 	
 	@Column(name="horas", nullable = false)
-	//@NotNull(message = "Campo horas Obrigatório!")
+	//@NotNull(message = "Campo horas Obrigatï¿½rio!")
 	private Integer horas;
 
 	@Column(name = "descricao")
-	//@NotEmpty(message = "Campo descricao obrigatório!")
+	//@NotEmpty(message = "Campo descricao obrigatï¿½rio!")
 	private String descricao;
 	
 	@Column(name = "status")
@@ -71,7 +71,7 @@ public class Atividade implements Serializable {
 		this.quantidadeVezesExec = quantidadeVezesExec;
 	}
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="atividade")
+	@OneToMany(cascade=CascadeType.DETACH, mappedBy="atividade")
 	private List<AtividadeRealizada> atividadesRealizadas;
 
 	public Long getCodigo() {

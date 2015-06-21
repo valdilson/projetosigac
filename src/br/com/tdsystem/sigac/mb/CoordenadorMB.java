@@ -55,29 +55,35 @@ public class CoordenadorMB implements Serializable {
 	}
 
 	public void salvar() throws NoSuchAlgorithmException {
-		try {
-			coordenadorDAO = new CoordenadorDAO();
-			String senha = CriptografaSenhaMD5.converteSenhaMD5(coordenador
-					.getPassword());
-			if (coordenador.getPassword() != ""
-					&& coordenador.getPassword().equals(
-							coordenador.getConfirmaPassword())) {
+		String password = coordenador.getPassword();
+		String cpassword = coordenador.getConfirmaPassword();
+		try{
+		coordenadorDAO = new CoordenadorDAO();
+		
+		Coordenador other = coordenadorDAO.pesquisaRA(coordenador.getRa());
+		
+		if(other == null) {
+			if (!password.equals(cpassword)) {
+				FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+			} else {
+
+				String senha = CriptografaSenhaMD5.converteSenhaMD5(coordenador.getPassword());
 				coordenador.setPassword(senha);
 				coordenadorDAO.salvar(coordenador);
 				coordenador = new Coordenador();
 				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-			} else {
-				FacesUtil
-						.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 			}
-
-		} catch (RuntimeException e) {
-			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
-			}else{
-				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
-			}
+		} else {
+			FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");				
 		}
+	} catch (RuntimeException e) {
+		if(e.getMessage().equals("could not execute statement")){
+			FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+		}else{
+			FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+		}
+	}
+
 	}
 
 	public void editar() throws NoSuchAlgorithmException {

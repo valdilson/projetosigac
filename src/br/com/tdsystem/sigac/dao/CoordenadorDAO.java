@@ -83,6 +83,26 @@ public class CoordenadorDAO {
 		return coordenador;
 	}
 	
+	public Coordenador pesquisaRA(String ra){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Coordenador coordenador = null;
+		try {
+			
+			Query hql = session.getNamedQuery(Constante.NamedQueries.COORDENADOR_RECUPERAR_RA);
+			hql.setString("ra", ra);
+			
+			coordenador = (Coordenador) hql.uniqueResult();
+			System.out.println(" " + coordenador.toString());
+			
+		} catch (RuntimeException e) {
+			System.out.println("Erro: " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		
+		return coordenador;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Coordenador> listarCoordenadores(){
 		Session session = HibernateUtil.getSessionFactory().openSession();

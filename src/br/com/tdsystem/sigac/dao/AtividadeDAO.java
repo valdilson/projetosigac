@@ -44,15 +44,17 @@ public class AtividadeDAO {
 		Transaction transaction = null;
 		
 		try {
+			
 			transaction = secao.beginTransaction();
 			secao.delete(atividade);
-			
 			transaction.commit();
 			
 		} catch (RuntimeException e) {
-			if (transaction != null){
+			if (transaction != null) {
 				transaction.rollback();
-			}throw e;
+				System.out.println("ErroDAO: "+e.getCause());
+			}
+			throw e;
 		}finally{
 			secao.close();
 		}

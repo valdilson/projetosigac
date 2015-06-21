@@ -64,6 +64,10 @@ public class AtividadeMB implements Serializable {
 	public void selecionaEdicao(Atividade atividade){
 		this.atividade = atividade;
 	}
+	
+	public void cancelarEdicao(){
+		atividade = new Atividade();
+	}
 
 	public void salvar() {
 
@@ -75,8 +79,7 @@ public class AtividadeMB implements Serializable {
 			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao gravar registro!"
-					+ e.getMessage());
+			FacesUtil.exibirMensagemErro("Erro ao gravar registro!" + e.getCause());
 		}
 	}
 
@@ -85,11 +88,16 @@ public class AtividadeMB implements Serializable {
 		try {
 			atividadeDAO = new AtividadeDAO();
 			atividadeDAO.excluir(atividade);
-			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
+			listaAtividades.remove(atividade);
+			FacesUtil.exibirMensagemSucesso("ExclusÃ£o feita com Sucesso!");
 
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao excluir registro!"
-					+ e.getMessage());
+		} catch (Exception e) {
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Recurso estÃ£ sendo usado em outra tabela,\n"
+						+ "verifique!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
 	}
 
@@ -98,7 +106,7 @@ public class AtividadeMB implements Serializable {
 		try {
 			atividadeDAO = new AtividadeDAO();
 			atividadeDAO.editar(atividade);
-			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
 			atividade = new Atividade();
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
@@ -113,7 +121,7 @@ public class AtividadeMB implements Serializable {
 			listaAtividades = atividadeDAO.listaAtividade();
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Não retornou registro!"
+			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"
 					+ e.getMessage());
 		}
 	}
@@ -129,7 +137,7 @@ public class AtividadeMB implements Serializable {
 			}
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Não retornou registro!"
+			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"
 					+ e.getMessage());
 		}
 	}
