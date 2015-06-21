@@ -3,8 +3,6 @@ package br.com.tdsystem.sigac.relatorios;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import org.netbeans.beaninfo.ExplorerPanel;
-
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -13,7 +11,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.view.JasperViewer;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Unidade;
 
@@ -21,10 +18,10 @@ public class FabricaRelatorio {
 
 	private String path; // Caminho base
 
-	private String pathToReportPackage; // Caminho para o package onde estão
+	private String pathToReportPackage; // Caminho para o package onde estï¿½o
 										// armazenados os relatorios Jasper
 
-	// Recupera os caminhos para que a classe possa encontrar os relatórios
+	// Recupera os caminhos para que a classe possa encontrar os relatï¿½rios
 	public FabricaRelatorio() {
 		this.path = this.getClass().getClassLoader().getResource("").getPath();
 		this.pathToReportPackage = this.path + "br/com/tdsystem//sigac/jasper/";

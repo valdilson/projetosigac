@@ -79,7 +79,7 @@ public class Coordenador implements Serializable, IPessoa {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome.toString();
+		this.nome = nome.toUpperCase();
 	}
 
 	public Unidade getUnidade() {

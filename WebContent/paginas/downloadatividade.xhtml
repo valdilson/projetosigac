@@ -33,7 +33,7 @@
 					</p:column>
 
 					<p:column headerText="Horas" width="40">
-						<h:outputText value="#{atividadeRealizada.atividade.horas}" />
+						<h:outputText value="#{atividadeRealizada.atividade.horas}" style="color:#FF0000;"/>
 					</p:column>
 
 					<p:column headerText="Aluno" width="120" filterBy="#{atividadeRealizada.aluno.nome}" sortBy="#{atividadeRealizada.aluno.nome}">
@@ -42,6 +42,12 @@
 
 					<p:column headerText="Data Upload" width="120" filterBy="#{atividadeRealizada.dataUpload}" sortBy="#{atividadeRealizada.dataUpload}">
 						<h:outputText value="#{atividadeRealizada.dataUpload}" />
+					</p:column>
+					
+					<p:column headerText="Status Validação" width="80" 
+							  filterBy="#{atividadeRealizada.statusApovacao.descricao}"
+					 		  sortBy="#{atividadeRealizada.statusApovacao.descricao}">
+						<h:outputText value="#{atividadeRealizada.statusApovacao.descricao}" />
 					</p:column>
 
 					<f:facet name="footer">
@@ -62,6 +68,20 @@
 						 				 action="#{atividadeRealizadaMB.download(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
 							<p:fileDownload value="#{atividadeRealizadaMB.fileDownload}" />
+						</p:commandButton>
+					</p:column>
+					
+					<!--Botão Valida Documento  -->
+					<p:column headerText="Valida Documento" width="125" exportable="false" 
+							 rendered="#{loginMB.perfil == 'COORDENADOR'}">
+						<p:commandButton value="Validar" ajax="false" icon="ui-icon-arrowthick-1-s"
+						 				 action="#{atividadeRealizadaMB.validaDocumento(atividadeRealizada)}"
+										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
+						</p:commandButton>
+						
+						<p:commandButton value="inValidar" ajax="false" icon="ui-icon-arrowthick-1-s"
+						 				 action="#{atividadeRealizadaMB.invalidaDocumento(atividadeRealizada)}"
+										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
 						</p:commandButton>
 					</p:column>
 

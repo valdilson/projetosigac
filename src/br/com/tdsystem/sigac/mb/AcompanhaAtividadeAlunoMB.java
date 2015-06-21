@@ -6,17 +6,16 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.hibernate.Hibernate;
-
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
+import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 
 @ManagedBean
 @ViewScoped
 public class AcompanhaAtividadeAlunoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<Aluno> alunos;
+	private List<Aluno> listaDeAlunos;
 	private List<Aluno> filtroAlunos;
 	AlunoDAO alunoDAO;
 	
@@ -26,13 +25,25 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 	}
 	
 	private void atualizarListaAlunos() {
-		alunos = alunoDAO.listarAlunos();
-		for (Aluno aluno : alunos) {
+		listaDeAlunos = alunoDAO.listarAlunos();
+		for (Aluno aluno : listaDeAlunos) {
 			aluno.setHorasRealizadas(0);
 			for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
 				aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());
-				aluno.setHorasFaltantes(atividadeRealizada.getHorasAtividade() - aluno.getHorasRealizadas());
-			}			
+				aluno.setHorasFaltantes(aluno.getCurso().getHorasExigidas() - aluno.getHorasRealizadas());
+			}
+			if(aluno.getHorasFaltantes() <= 0){
+				try {
+					aluno.setStatusApovacao(StatusAprovacao.APROVADO);
+					alunoDAO.editarComum(aluno);
+				} catch (Exception e) {
+					System.out.println("Nao calculou: "+ e.getCause());
+				}
+				
+			}else{
+				aluno.setStatusApovacao(StatusAprovacao.PENDENTE);
+				alunoDAO.editarComum(aluno);
+			}
 		}
 	}
 	
@@ -40,12 +51,12 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 		
 	}
 
-	public List<Aluno> getAlunos() {
-		return alunos;
+	public List<Aluno> getListaDeAlunos() {
+		return listaDeAlunos;
 	}
 
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
+	public void setListaDeAlunos(List<Aluno> listaDeAlunos) {
+		this.listaDeAlunos = listaDeAlunos;
 	}
 
 	public List<Aluno> getFiltroAlunos() {

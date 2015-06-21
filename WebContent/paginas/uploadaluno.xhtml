@@ -59,12 +59,16 @@
 						<p:outputLabel value="Horas Realizadas:&#160;" />
 						<p:outputLabel value="#{atividadeRealizadaMB.aluno.horasRealizadas}" style="color:#FF0000;"/>					
 					</h:panelGroup>
+					<p:outputLabel value="Status:&#160;" />
+						<p:outputLabel value="#{atividadeRealizadaMB.aluno.statusApovacao.descricao}"
+									   style="color:#FF0000;"/>					
 
 				</p:panelGrid>
 				<p:growl id="messages" showDetail="true" />
 
 				<!-- Botão Gravar -->
-				<p:panelGrid columns="1" rendered="#{atividadeRealizadaMB.atividadeRealizada.codigo == null}">
+				<p:panelGrid columns="1" 
+							 rendered="#{atividadeRealizadaMB.atividadeRealizada.codigo == null}">
 					<p:commandButton value="Gravar" 
 					action="#{atividadeRealizadaMB.verificaAtividadeRepetida()}"
 					update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
@@ -100,7 +104,7 @@
 						<h:outputText value="#{atividadeRealizada.codigo}" />
 					</p:column>
 	
-					<p:column headerText="Atividade" width="120"
+					<p:column headerText="Atividade" width="80"
 						filterBy="#{atividadeRealizada.atividade.nome}"
 						sortBy="#{atividadeRealizada.atividade.nome}">
 						<h:outputText value="#{atividadeRealizada.atividade.nome}" />
@@ -114,6 +118,12 @@
 						filterBy="#{atividadeRealizada.dataUpload}"
 						sortBy="#{atividadeRealizada.dataUpload}">
 						<h:outputText value="#{atividadeRealizada.dataUpload}" />
+					</p:column>
+					
+					<p:column headerText="Status Validação Coordenador" width="80"
+						filterBy="#{atividadeRealizada.statusApovacao.descricao}"
+						sortBy="#{atividadeRealizada.statusApovacao.descricao}">
+						<h:outputText value="#{atividadeRealizada.statusApovacao.descricao}" />
 					</p:column>
 	
 					<f:facet name="footer">

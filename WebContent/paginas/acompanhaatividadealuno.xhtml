@@ -16,7 +16,7 @@
 
 				<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->
 				<p:dataTable id="tabelaAlunos" widgetVar="tabelaAlunosWV" var="aluno"
-					value="#{acompanhaAtividadeAlunoMB.alunos}" rows="10" 
+					value="#{acompanhaAtividadeAlunoMB.listaDeAlunos}" rows="10" 
 					filteredValue="#{acompanhaAtividadeAlunoMB.filtroAlunos}"
 					emptyMessage="Sem registro!" paginator="true">
 
@@ -33,16 +33,22 @@
 						<h:outputText value="#{aluno.curso.nome}" />
 					</p:column>
 
-					<p:column headerText="Total de Horas Exigidas" width="40">
-						<h:outputText value="#{aluno.curso.horasExigidas}" />
+					<p:column headerText="Total de Horas Exigidas" width="30">
+						<h:outputText value="#{aluno.curso.horasExigidas}" style="color:#FF0000;"/>
 					</p:column>
 
-					<p:column headerText="Total de Horas Realizadas" width="40">
-						<h:outputText value="#{aluno.horasRealizadas}" />
+					<p:column headerText="Total de Horas Realizadas" width="30">
+						<h:outputText value="#{aluno.horasRealizadas}" style="color:#FF0000;"/>
 					</p:column>
 					
-					<p:column headerText="Horas Faltantes" width="40">
-						<h:outputText value="#{aluno.horasFaltantes}" />
+					<p:column headerText="Horas Faltantes" width="30">
+						<h:outputText value="#{aluno.horasFaltantes}" style="color:#FF0000;"/>
+					</p:column>
+					
+					<p:column headerText="Status Aprovação" width="30" 
+							  filterBy="#{aluno.statusApovacao.descricao}" 
+							  sortBy="#{aluno.statusApovacao.descricao}">
+						<h:outputText value="#{aluno.statusApovacao.descricao}" />
 					</p:column>
 					
 					<f:facet name="footer">

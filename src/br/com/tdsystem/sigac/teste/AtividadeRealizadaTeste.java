@@ -3,14 +3,17 @@ package br.com.tdsystem.sigac.teste;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
+
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
 import br.com.tdsystem.sigac.dao.AtividadeRealizadaDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
+import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 
 public class AtividadeRealizadaTeste {
 	
@@ -21,7 +24,7 @@ public class AtividadeRealizadaTeste {
 			AlunoDAO alunoDAO = new AlunoDAO();
 			Aluno aluno = alunoDAO.pesquisaCodigo(1l);
 			
-			File file = new File("C:/Boletos.pdf");
+			File file = new File("file:///home/thiagoalmeida/Downloads/downloaded_modeloAC.pdf");
 			byte[] bFile = new byte[(int) file.length()];
 			
 			try {
@@ -43,6 +46,7 @@ public class AtividadeRealizadaTeste {
 			atividadeRealizada.setDataEvento("05-06-15");
 			atividadeRealizada.setDataUpload("05-06-15");
 			atividadeRealizada.setComprovante(bFile);
+			atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			
 		}catch(Exception e){

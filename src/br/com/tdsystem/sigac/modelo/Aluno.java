@@ -85,6 +85,10 @@ public class Aluno implements Serializable, IPessoa {
 	@Transient
 	private Integer horasRealizadas;
 	
+	@Column(name = "statusAprovacao")
+	@Enumerated(EnumType.ORDINAL)
+	private StatusAprovacao statusApovacao;
+	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="aluno", fetch=FetchType.EAGER)
 	private List<AtividadeRealizada> atividadesRealizadas;
 
@@ -208,6 +212,15 @@ public class Aluno implements Serializable, IPessoa {
 
 		public void setHorasFaltantes(Integer horasFaltantes) {
 			this.horasFaltantes = horasFaltantes;
+		}
+
+
+	public StatusAprovacao getStatusApovacao() {
+			return statusApovacao;
+		}
+
+		public void setStatusApovacao(StatusAprovacao statusApovacao) {
+			this.statusApovacao = statusApovacao;
 		}
 
 	@Override

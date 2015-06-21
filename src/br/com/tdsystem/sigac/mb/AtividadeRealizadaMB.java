@@ -32,6 +32,7 @@ import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 import br.com.tdsystem.sigac.modelo.IPessoa;
+import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 import br.com.tdsystem.sigac.util.FacesUtil;
 import br.com.tdsystem.sigac.util.FormataData;
 
@@ -102,7 +103,7 @@ public class AtividadeRealizadaMB implements Serializable {
 				next = is.read();
 			}
 			bos.flush();
-			//aqui estão os bytes do documento upado
+			//aqui estï¿½o os bytes do documento upado
 			byte[] btFile = bos.toByteArray();
 			atividadeRealizada.setComprovante(btFile); 
 			
@@ -115,6 +116,18 @@ public class AtividadeRealizadaMB implements Serializable {
 					Level.SEVERE, null, ex);
 			FacesUtil.exibirMensagemErro("try :" + ex.getMessage());
 		}
+	}
+	
+	public void validaDocumento(AtividadeRealizada atividadeRealizada){
+		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		atividadeRealizada.setStatusApovacao(StatusAprovacao.APROVADO);
+		atividadeRealizadaDAO.editar(atividadeRealizada);
+	}
+	
+	public void invalidaDocumento(AtividadeRealizada atividadeRealizada){
+		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		atividadeRealizada.setStatusApovacao(StatusAprovacao.INVALIDO);
+		atividadeRealizadaDAO.editar(atividadeRealizada);
 	}
 	
 	public String formataData(){
@@ -150,12 +163,15 @@ public class AtividadeRealizadaMB implements Serializable {
 		for (AtividadeRealizada ForAtividadeRealizada : listaDeAtividadesRealizadas) {
 			if(ForAtividadeRealizada.getAtividade().getCodigo() == atividadeRealizada.getAtividade().getCodigo()){
 				grava = Boolean.FALSE;
+			}else if(ForAtividadeRealizada.getAluno().getStatusApovacao().getDescricao().equals("Aprovado")){
+				grava = Boolean.FALSE;
 			}
 		}
 		if(grava){
 			salvar();
 		}else{
-			FacesUtil.exibirMensagemAlerta("Atividade já lançada!");
+			FacesUtil.exibirMensagemAlerta("Atividade jÃ¡ lanÃ§ada!\n"
+											+ "ou jÃ¡ atingiu status aprovado!");
 			atividadeRealizada = new AtividadeRealizada();
 		}
 	}
@@ -170,6 +186,7 @@ public class AtividadeRealizadaMB implements Serializable {
 			atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
 			atividadeRealizada.setHorasAtividade(atividade.getHoras());
 			atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
+			atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
 			
 			atividadeRealizadaDAO.salvar(atividadeRealizada);
 			//atualizarHorasRealizadas(atividadeRealizada.getAluno());
@@ -190,7 +207,7 @@ public class AtividadeRealizadaMB implements Serializable {
 		try {
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			atividadeRealizadaDAO.excluir(atividadeRealizada);
-			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
 			listaDeAtividadesRealizadas.remove(atividadeRealizada);
 			preencheListas();
 			atualizarGrafico();
@@ -216,7 +233,7 @@ public class AtividadeRealizadaMB implements Serializable {
         
 		graficoAtividades = new PieChartModel();
          
-        graficoAtividades.setTitle("Relação de Atividades");
+        graficoAtividades.setTitle("Relaï¿½ï¿½o de Atividades");
         graficoAtividades.setLegendPosition("w");
         graficoAtividades.setShowDataLabels(Boolean.TRUE);
         Map<String, Integer> filter = new HashMap<String, Integer>();

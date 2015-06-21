@@ -73,6 +73,23 @@ public class AlunoDAO implements Serializable {
 			session.close();
 		}
 	}
+	
+	public void editarComum(Aluno aluno) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+
+		try {
+			transaction = session.beginTransaction();
+			session.update(aluno);
+			transaction.commit();
+			System.out.println("Editou!");
+		} catch (Exception e) {
+			transaction.rollback();
+			System.out.println("Nao Editou " + e.getMessage());
+		} finally {
+			session.close();
+		}
+	}
 
 	private void atualizarAluno(Aluno aluno, Aluno novo) {
 		novo.setNome(aluno.getNome());

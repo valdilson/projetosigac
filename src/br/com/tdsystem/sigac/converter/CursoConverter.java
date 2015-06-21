@@ -5,8 +5,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import org.apache.poi.util.StringUtil;
-
 import br.com.tdsystem.sigac.dao.CursoDAO;
 import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.util.FacesUtil;
