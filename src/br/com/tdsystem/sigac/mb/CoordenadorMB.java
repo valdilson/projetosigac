@@ -7,6 +7,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
+
 import br.com.tdsystem.sigac.dao.CoordenadorDAO;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Coordenador;
@@ -53,6 +55,12 @@ public class CoordenadorMB implements Serializable {
 		}
 
 	}
+	
+	
+    public void cancelarEdicao(){
+    	coordenador = new Coordenador();
+    	
+    }
 
 	public void salvar() throws NoSuchAlgorithmException {
 		String password = coordenador.getPassword();

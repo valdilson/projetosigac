@@ -53,16 +53,16 @@
 						<p:commandButton value="Gravar" action="#{unidadeMB.salvar}" update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
 					</h:panelGrid>
 
-					<!-- Botato Editar -->
-					<h:panelGrid columns="1" rendered="#{unidadeMB.unidade.codigo != null}">
-						<p:commandButton value="Editar" action="#{unidadeMB.editar}" update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
-					</h:panelGrid>
+					<!-- Botato Confirmar -->
+					<h:panelGrid columns="4" rendered="#{unidadeMB.unidade.codigo != null}">
+						<p:commandButton value="Confimar" action="#{unidadeMB.editar}" update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
+					
 					
 					<!-- Botão Cancelar Edição -->
 					<p:commandButton value="Cancelar" rendered="#{unidadeMB.unidade.codigo != null}"
 									 action="#{unidadeMB.cancelarEdicao()}"
 									 update=":cadastroUnidadefrm :mgs :cadastroUnidadefrm:tabelaUnidade" />
-					
+					</h:panelGrid>
 					</h:panelGroup>
 				
 				<!-- Começo tabela -->

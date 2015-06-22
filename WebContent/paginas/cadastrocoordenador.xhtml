@@ -69,11 +69,15 @@
 						update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
 				</h:panelGrid>
 
-				<!-- Botão Editar -->
-				<h:panelGrid columns="1"
+				<!-- Botão confirmar -->
+				<h:panelGrid columns="4"
 					rendered="#{coordenadorMB.coordenador.codigo != null}">
-					<p:commandButton value="Editar" action="#{coordenadorMB.editar}"
+					<p:commandButton value="Confirmar" action="#{coordenadorMB.editar}"
 						update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
+						
+					<p:commandButton value="Cancelar" rendered="#{coordenadorMB.coordenador.codigo != null}"
+									 action="#{coordenadorMB.cancelarEdicao()}"
+									 update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
 				</h:panelGrid>
 
 				<!-- Começo tabela (value = objeto) (filteredValue = objeto) -->

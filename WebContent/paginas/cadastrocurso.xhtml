@@ -54,10 +54,14 @@
 						update=":cadastroCursofrm :mgs :cadastroCursofrm:tabelaCurso" />
 				</h:panelGrid>
 
-				<!-- Botão Editar -->
-				<h:panelGrid columns="1" rendered="#{cursoMB.curso.codigo != null}">
-					<p:commandButton value="Editar" action="#{cursoMB.editar}"
+				<!-- Botão confirmar -->
+				<h:panelGrid columns="4" rendered="#{cursoMB.curso.codigo != null}">
+					<p:commandButton value="cofirmar" action="#{cursoMB.editar}"
 						update=":cadastroCursofrm :mgs :cadastroCursofrm:tabelaCurso" />
+						
+						<p:commandButton value="Cancelar" rendered="#{cursoMB.curso.codigo != null}"
+									 action="#{cursoMB.cancelarEdicao()}"
+									 update=":cadastroCursofrm :mgs :cadastroCursofrm:tabelaCurso" />
 				</h:panelGrid>
 
 				<!-- Começo tabela -->

@@ -49,6 +49,10 @@ public class TurmaMB implements Serializable {
 	public void setFiltroTurmas(List<Turma> filtroTurmas) {
 		this.filtroTurmas = filtroTurmas;
 	}
+	
+	public void cancelarEdicao() {
+		turma = new Turma();
+	}
 
 	public void salvar() {
 

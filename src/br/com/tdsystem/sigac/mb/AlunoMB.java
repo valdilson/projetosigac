@@ -137,6 +137,11 @@ public class AlunoMB implements Serializable {
 		}
 	}
 	
+	public void cancelarEdicao () {
+		aluno = new Aluno();
+	}
+	
+	
 	public void salvar() throws NoSuchAlgorithmException {
 		String password = aluno.getPassword();
 		String cpassword = aluno.getConfirmaPassword();

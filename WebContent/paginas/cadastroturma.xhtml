@@ -44,10 +44,17 @@
 						update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
 				</h:panelGrid>
 
-				<!-- Botão Editar -->
-				<h:panelGrid columns="1" rendered="#{turmaMB.turma.codigo != null}">
-					<p:commandButton value="Editar" action="#{turmaMB.editar}"
+				<!-- Botão Confirmar-->
+				<h:panelGrid columns="4" rendered="#{turmaMB.turma.codigo != null}">
+					<p:commandButton value="Confirmar" action="#{turmaMB.editar}"
 						update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
+						
+						
+						<p:commandButton value="Cancelar" rendered="#{turmaMB.turma.codigo != null}"
+									 action="#{turmaMB.cancelarEdicao()}"
+									 update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
+						
+						
 				</h:panelGrid>
 
 				<!-- Começo tabela -->

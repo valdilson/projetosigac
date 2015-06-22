@@ -46,17 +46,17 @@
 							update=":cadastroTurnofrm :mgs :cadastroTurnofrm:tabelaTurno" />
 					</h:panelGrid>
 
-					<!-- Botão Editar -->
-					<h:panelGrid columns="1" rendered="#{turnoMB.turno.codigo != null}">
-						<p:commandButton value="Editar" action="#{turnoMB.editar}"
+					<!-- Botão Confirmar -->
+					<h:panelGrid columns="4" rendered="#{turnoMB.turno.codigo != null}">
+						<p:commandButton value="Confirmar" action="#{turnoMB.editar}"
 							update=":cadastroTurnofrm :mgs :cadastroTurnofrm:tabelaTurno" />
-					</h:panelGrid>
+					
 					
 					<!-- Botão Cancelar Edição -->
 					<p:commandButton value="Cancelar" rendered="#{turnoMB.turno.codigo != null}"
 									 action="#{turnoMB.cancelarEdicao()}"
 							update=":cadastroTurnofrm :mgs :cadastroTurnofrm:tabelaTurno" />
-					
+					</h:panelGrid>
 				</h:panelGroup>
 
 				<!-- Começo tabela -->

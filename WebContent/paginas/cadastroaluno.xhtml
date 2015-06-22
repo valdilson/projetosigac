@@ -106,16 +106,21 @@
 					</p:panelGrid>
 
 					<!-- Botão Gravar -->
-					<h:panelGrid columns="1" rendered="#{alunoMB.aluno.codigo == null}">
-						<p:commandButton value="Gravar" action="#{alunoMB.validaCampos()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
-					</h:panelGrid>
+					<h:panelGrid columns="6" >
+						<p:commandButton rendered="#{alunoMB.aluno.codigo == null}" value="Gravar" action="#{alunoMB.validaCampos()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+					
 
 					<!-- Botão Enviar Email -->
 					<p:commandButton value="Enviar Email" action="#{enviaEmailMB.enviaEmail()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
 
-					<!-- Botão Editar -->
-					<h:panelGrid columns="1"  >
-						<p:commandButton value="Editar" action="#{alunoMB.editar}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+					<!-- Botão Confirmar -->
+					
+						<p:commandButton rendered="#{alunoMB.aluno.codigo != null}" value="Confirmar" action="#{alunoMB.editar}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+									
+					<!-- Botao cancelar  -->					
+					<p:commandButton value="Cancelar" rendered="#{alunoMB.aluno.codigo != null}"
+									 action="#{alunoMB.cancelarEdicao()}"
+									 update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />					
 					</h:panelGrid>
 				</h:panelGroup>
 

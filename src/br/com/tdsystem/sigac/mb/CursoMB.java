@@ -59,6 +59,12 @@ public class CursoMB implements Serializable {
 	public void setFiltroCursos(List<Curso> filtroCursos) {
 		this.filtroCursos = filtroCursos;
 	}
+	
+	
+	public void cancelarEdicao(){
+		curso = new Curso();
+		
+	}
 
 	public void salvar() {
 

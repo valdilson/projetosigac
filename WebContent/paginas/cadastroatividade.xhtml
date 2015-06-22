@@ -60,11 +60,16 @@
 						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
 				</h:panelGrid>
 
-				<!-- Botão Editar -->
-				<h:panelGrid columns="1"
+				<!-- Botão Confirmar -->
+				<h:panelGrid columns="4"
 					rendered="#{atividadeMB.atividade.codigo != null}">
-					<p:commandButton value="Editar" action="#{atividadeMB.editar}"
+					<p:commandButton value="Confirmar" action="#{atividadeMB.editar}"
 						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+						<!-- Botão Cancelar Edição -->
+					<p:commandButton value="Cancelar" rendered="#{atividadeMB.atividade.codigo != null}"
+									 action="#{atividadeMB.cancelarEdicao()}"
+									 update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+					
 				</h:panelGrid>
 			</p:panel>
 
