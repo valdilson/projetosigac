@@ -79,6 +79,10 @@
 							<p:graphicImage library="imagens" name="pdf.png" width="24" />
 							<p:dataExporter type="pdf" target="tabelaUnidade" fileName="Unidades" encoding="ISO-8859-1" />
 						</h:commandLink>
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaUnidade" fileName="Unidades" />
+						</h:commandLink>
 					</f:facet>
 
 					<p:column headerText="Código" width="40" sortBy="#{filtroUnidades.codigo}">
@@ -86,7 +90,7 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroUnidades.nome}" 
-							  sortBy="#{filtroUnidades.nome}">
+							  sortBy="#{filtroUnidades.nome}" style="width: 40%">
 						<h:outputText value="#{filtroUnidades.nome}" />
 					</p:column>
 

@@ -74,6 +74,10 @@
 							<p:dataExporter type="pdf" target="tabelaTurma" fileName="Turmas"
 								encoding="ISO-8859-1" />
 						</h:commandLink>
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaTurma" fileName="Turmas" />
+						</h:commandLink>
 					</f:facet>
 
 					<p:column headerText="Código" width="40"
@@ -82,7 +86,7 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurmas.nome}"
-						sortBy="#{filtroTurmas.nome}">
+						sortBy="#{filtroTurmas.nome}" style="width: 40%">
 						<h:outputText value="#{filtroTurmas.nome}" />
 					</p:column>
 

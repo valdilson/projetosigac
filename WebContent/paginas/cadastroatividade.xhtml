@@ -91,6 +91,10 @@
 						<p:dataExporter type="pdf" target="tabelaAtividade"
 							fileName="Atividades" encoding="ISO-8859-1" />
 					</h:commandLink>
+					<h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaAtividade" fileName="Atividades" />
+						</h:commandLink>
 				</f:facet>
 
 				<p:column headerText="Código" width="40"
@@ -99,7 +103,7 @@
 				</p:column>
 
 				<p:column headerText="Nome" filterBy="#{atividade.nome}"
-					sortBy="#{atividade.nome}">
+					sortBy="#{atividade.nome}"  style="width: 40%">
 					<h:outputText value="#{atividade.nome}" />
 				</p:column>
 

@@ -97,6 +97,10 @@
 							<p:dataExporter type="pdf" target="tabelaCoordenador" fileName="Coordenadores"
 								encoding="ISO-8859-1" />
 						</h:commandLink>
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaCoordenador" fileName="Coordenadores" />
+						</h:commandLink>
 					</f:facet>
 
 					<p:column headerText="Código" width="40"
@@ -105,7 +109,7 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{coordenador.nome}"
-						sortBy="#{coordenador.nome}">
+						sortBy="#{coordenador.nome}" style="width: 40%">
 						<h:outputText value="#{coordenador.nome}" />
 					</p:column>
 

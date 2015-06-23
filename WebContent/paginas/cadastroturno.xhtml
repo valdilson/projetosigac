@@ -76,6 +76,10 @@
 							<p:dataExporter type="pdf" target="tabelaTurno" fileName="Turnos"
 								encoding="ISO-8859-1" />
 						</h:commandLink>
+						<h:commandLink>
+							<p:graphicImage library="imagens" name="xml.png" />
+							<p:dataExporter type="xml" target="tabelaTurno" fileName="Turnos" />
+						</h:commandLink>
 					</f:facet>
 
 					<p:column headerText="Código" width="40"
@@ -84,7 +88,7 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurnos.nome}"
-						sortBy="#{filtroTurnos.nome}">
+						sortBy="#{filtroTurnos.nome}" style="width: 40%">
 						<h:outputText value="#{filtroTurnos.nome}" />
 					</p:column>
 
