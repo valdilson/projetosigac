@@ -88,17 +88,17 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurnos.nome}"
-						sortBy="#{filtroTurnos.nome}" style="width: 40%">
+						sortBy="#{filtroTurnos.nome}" >
 						<h:outputText value="#{filtroTurnos.nome}" />
 					</p:column>
 
-					<p:column headerText="Status" filterBy="#{filtroTurnos.status}"
+					<p:column headerText="Status" filterBy="#{filtroTurnos.status}" style="width:12%"
 						sortBy="#{filtroTurnos.status}">
 						<h:outputText value="#{filtroTurnos.status.descricao}" />
 					</p:column>
 
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125"
+					<p:column headerText="Editar / Excluir" style="width:12%"
 						exportable="false">
 						<p:commandButton value="Editar"
 							action="#{turnoMB.selecionaEdicao(filtroTurnos)}" update="@all" />

@@ -146,24 +146,24 @@
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="40" sortBy="#{aluno.codigo}">
+					<p:column headerText="Código" width="45" sortBy="#{aluno.codigo}">
 						<h:outputText value="#{aluno.codigo}" />
 					</p:column>
 
-					<p:column headerText="Nome" filterBy="#{aluno.nome}" sortBy="#{aluno.nome}" style="width: 40%">
+					<p:column headerText="Nome" filterBy="#{aluno.nome}" sortBy="#{aluno.nome}" >
 						<h:outputText value="#{aluno.nome}" />
 					</p:column>
 
-					<p:column headerText="R.A" width="120" filterBy="#{aluno.ra}" sortBy="#{aluno.ra}">
+					<p:column headerText="R.A" filterBy="#{aluno.ra}" sortBy="#{aluno.ra}" style="width: 10%">
 						<h:outputText value="#{aluno.ra}" />
 					</p:column>
 
-					<p:column headerText="Curso" width="120" filterBy="#{aluno.curso.nome}" sortBy="#{aluno.curso.nome}">
+					<p:column headerText="Curso"  filterBy="#{aluno.curso.nome}" sortBy="#{aluno.curso.nome}" >
 						<h:outputText value="#{aluno.curso.nome}" />
 					</p:column>
 
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125" exportable="false">
+					<p:column headerText="Editar / Excluir" exportable="false" style="width: 12%">
 						<p:commandButton value="Editar" ajax="true" action="#{alunoMB.selecionaEdicao(aluno)}" update=":cadastroAlunofrm:grupoAtributos" />
 						<p:commandButton value="Excluir" action="#{alunoMB.excluir(aluno)}" immediate="true"
 							update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />

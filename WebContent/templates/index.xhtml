@@ -55,7 +55,7 @@
 										rendered="#{loginMB.perfil == 'COORDENADOR'}" />
 							<p:separator />
 
-							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact" 
+							<p:submenu label="Tabelas do Sistema" icon="ui-icon-contact"  style="font-size:90%"
 									   rendered="#{loginMB.perfil == 'COORDENADOR'}">
 								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/cadastrocurso.xhtml')}" />
 								<p:menuitem value="Turma" action="#{menuMB.navegar('/paginas/cadastroturma.xhtml')}" />
@@ -161,8 +161,8 @@
 			<style type="text/css">
 				.ui-layout-unit-content {
 					background-image:
-						url('#{request.contextPath}/resources/imagens/fundoMenu.jpg');
-					background-position: 50% -20%;
+						url('#{request.contextPath}/resources/imagens/logopitagoras.jpg');
+					background-position: 50% -50%;
 					background-repeat: no-repeat
 				}
 			</style>

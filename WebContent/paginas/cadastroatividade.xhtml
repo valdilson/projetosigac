@@ -53,17 +53,13 @@
 
 				</p:panelGrid>
 
-				<!-- Botão Gravar -->
-				<h:panelGrid columns="1"
-					rendered="#{atividadeMB.atividade.codigo == null}">
-					<p:commandButton value="Gravar" action="#{atividadeMB.salvar}"
-						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
-				</h:panelGrid>
+				<!-- Botão Gravar -->			
 
-				<!-- Botão Confirmar -->
 				<h:panelGrid columns="4"
-					rendered="#{atividadeMB.atividade.codigo != null}">
-					<p:commandButton value="Confirmar" action="#{atividadeMB.editar}"
+					>
+					<p:commandButton value="Gravar" action="#{atividadeMB.salvar}" rendered="#{atividadeMB.atividade.codigo == null}"
+						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+					<p:commandButton value="Confirmar" action="#{atividadeMB.editar}" rendered="#{atividadeMB.atividade.codigo != null}"
 						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
 						<!-- Botão Cancelar Edição -->
 					<p:commandButton value="Cancelar" rendered="#{atividadeMB.atividade.codigo != null}"
@@ -97,7 +93,7 @@
 						</h:commandLink>
 				</f:facet>
 
-				<p:column headerText="Código" width="40"
+				<p:column headerText="Código" style="width:6%"
 					sortBy="#{atividade.codigo}">
 					<h:outputText value="#{atividade.codigo}" />
 				</p:column>
@@ -107,20 +103,20 @@
 					<h:outputText value="#{atividade.nome}" />
 				</p:column>
 
-				<p:column headerText="Horas" width="120"
+				<p:column headerText="Horas" style="width:10%"
 					filterBy="#{atividade.horas}"
 					sortBy="#{atividade.horas}">
 					<h:outputText value="#{atividade.horas}" />
 				</p:column>
 
-				<p:column headerText="Status" width="120"
-					filterBy="#{atividade.status}"
+				<p:column headerText="Status" style="width:10%"
+					filterBy="#{atividade.status}" 
 					sortBy="#{atividade.status}">
 					<h:outputText value="#{atividade.status}" />
 				</p:column>
 
 				<!--Botão Editar / Excluir  -->
-				<p:column headerText="Editar / Excluir" width="125"
+				<p:column headerText="Editar / Excluir" style="width:12%"
 					exportable="false">
 					<p:commandButton value="Editar"
 						action="#{atividadeMB.selecionaEdicao(atividade)}"

@@ -87,7 +87,7 @@
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="40"
+					<p:column headerText="Código" width="20"
 						sortBy="#{filtroCursos.codigo}">
 						<h:outputText value="#{filtroCursos.codigo}" />
 					</p:column>
@@ -101,17 +101,17 @@
 						<h:outputText value="#{filtroCursos.horasExigidas}" />
 					</p:column>
 					
-					<p:column headerText="Qt.Periodos" width="60">
+					<p:column headerText="Qt.Periodos" style="width:12%">
 						<h:outputText value="#{filtroCursos.qtdPeriodos.descricao}" />
 					</p:column>
 
-					<p:column headerText="Status" filterBy="#{filtroCursos.status}"
+					<p:column headerText="Status" filterBy="#{filtroCursos.status}" style="width:12%"
 						sortBy="#{filtroCursos.status}">
 						<h:outputText value="#{filtroCursos.status.descricao}" />
 					</p:column>
 
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125"
+					<p:column headerText="Editar / Excluir" style="width:12%" 
 						exportable="false">
 						<p:commandButton value="Editar"
 							action="#{cursoMB.selecionaEdicao(filtroCursos)}" update="@all" />

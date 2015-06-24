@@ -80,23 +80,23 @@
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="40"
+					<p:column headerText="Código" style="width:4%"
 						sortBy="#{filtroTurmas.codigo}">
 						<h:outputText value="#{filtroTurmas.codigo}" />
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurmas.nome}"
-						sortBy="#{filtroTurmas.nome}" style="width: 40%">
+						sortBy="#{filtroTurmas.nome}" >
 						<h:outputText value="#{filtroTurmas.nome}" />
 					</p:column>
 
-					<p:column headerText="Status" filterBy="#{filtroTurmas.status}"
+					<p:column headerText="Status" filterBy="#{filtroTurmas.status}" style="width:12%"
 						sortBy="#{filtroTurmas.status}">
 						<h:outputText value="#{filtroTurmas.status.descricao}" />
 					</p:column>
 
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125"
+					<p:column headerText="Editar / Excluir" style="width:12%"
 						exportable="false">
 						<p:commandButton value="Editar"
 							action="#{turmaMB.selecionaEdicao(filtroTurmas)}" update="@all" />

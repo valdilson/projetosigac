@@ -103,7 +103,7 @@
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="40"
+					<p:column headerText="Código" style="width:4%"
 						sortBy="#{coordenador.codigo}">
 						<h:outputText value="#{coordenador.codigo}" />
 					</p:column>
@@ -113,14 +113,14 @@
 						<h:outputText value="#{coordenador.nome}" />
 					</p:column>
 
-					<p:column headerText="Unidade" width="120"
+					<p:column headerText="Unidade" style="width:20%"
 						filterBy="#{coordenador.unidade.nome}"
 						sortBy="#{coordenador.unidade.nome}">
 						<h:outputText value="#{coordenador.unidade.nome}" />
 					</p:column>
 
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125"
+					<p:column headerText="Editar / Excluir" style="width:12%"
 						exportable="false">
 						<p:commandButton value="Editar"
 							action="#{coordenadorMB.selecionaEdicao(coordenador)}"
