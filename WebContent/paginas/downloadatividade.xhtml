@@ -63,7 +63,7 @@
 					</f:facet>
 
 					<!--Botão Download  -->
-					<p:column headerText="Documento" width="125" exportable="false">
+					<p:column headerText="Documento"  exportable="false" style="width:11%">
 						<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s"
 						 				 action="#{atividadeRealizadaMB.download(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
@@ -72,8 +72,8 @@
 					</p:column>
 					
 					<!--Botão Valida Documento  -->
-					<p:column headerText="Valida Documento" width="125" exportable="false" 
-							 rendered="#{loginMB.perfil == 'COORDENADOR'}">
+					<p:column headerText="Valida Documento"  exportable="false" 
+							 rendered="#{loginMB.perfil == 'COORDENADOR'}" style="width:17%">
 						<p:commandButton value="Validar" ajax="false" icon="ui-icon-arrowthick-1-s"
 						 				 action="#{atividadeRealizadaMB.validaDocumento(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
