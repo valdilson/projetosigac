@@ -63,7 +63,7 @@
 					</f:facet>
 
 					<!--Botão Download  -->
-					<p:column headerText="Documento"  exportable="false" style="width:11%">
+					<p:column headerText="Documento" exportable="false" style="width:11%">
 						<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s"
 						 				 action="#{atividadeRealizadaMB.download(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
@@ -79,7 +79,8 @@
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
 						</p:commandButton>
 						
-						<p:commandButton value="inValidar" ajax="false" icon="ui-icon-arrowthick-1-s"
+						<!--Botão InValida Documento  -->
+						<p:commandButton value="Invalidar" ajax="false" icon="ui-icon-arrowthick-1-s"
 						 				 action="#{atividadeRealizadaMB.invalidaDocumento(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
 						</p:commandButton>

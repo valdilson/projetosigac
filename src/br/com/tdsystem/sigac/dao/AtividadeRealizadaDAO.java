@@ -16,7 +16,6 @@ import br.com.tdsystem.sigac.util.HibernateUtil;
 
 public class AtividadeRealizadaDAO {
 
-	
 
 	public void salvar(AtividadeRealizada atividadeRealizada) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
@@ -29,6 +28,7 @@ public class AtividadeRealizadaDAO {
 		} catch (HibernateException e) {
 			System.out.println("Erro :" + e.getMessage());
 			transaction.rollback();
+			throw e;
 		} finally {
 			session.close();
 		}
@@ -74,24 +74,26 @@ public class AtividadeRealizadaDAO {
 	public List<AtividadeRealizada> listarAtividadesRealizadas(IPessoa usuario){
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		List<AtividadeRealizada> atividade = null;
+		List<AtividadeRealizada> atividades = null;
 		try {
 			Query hql = null;
 			if (usuario instanceof Aluno) {
 				hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL);
 				hql.setLong("codigo_aluno", usuario.getCodigo());
+				atividades = hql.list();
+				((Aluno)usuario).setAtividadesRealizadas(atividades);
 			} else if (usuario instanceof Coordenador) {	
 				hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA);
+				atividades = hql.list();
 			} else {
 				throw new IllegalArgumentException();
 			}
-			atividade = hql.list();
 		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			session.close();
 		}
-		return atividade;
+		return atividades;
 	}
 	
 	

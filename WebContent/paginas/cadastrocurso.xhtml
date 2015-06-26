@@ -117,7 +117,15 @@
 							action="#{cursoMB.selecionaEdicao(filtroCursos)}" update="@all" />
 						<p:commandButton value="Excluir"
 							action="#{cursoMB.excluir(filtroCursos)}" immediate="true"
-							update=":cadastroCursofrm :mgs :cadastroCursofrm:tabelaCurso" />
+							update=":cadastroCursofrm :mgs :cadastroCursofrm:tabelaCurso">
+							<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
+							
 					</p:column>
 
 				</p:dataTable>

@@ -88,9 +88,13 @@
 								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}" />
 								<p:menuitem value="Periodo" url="#" />
 								<p:menuitem value="Turma" url="#" />
-								<p:menuitem value="Turno" url="#" />
-								<p:menuitem value="Unidade" action="#{fabricaRelatorioMB.relatorioUnidadesView()}"
-											update="forminicial"/>
+								<p:menuitem value="Turno" action="#{fabricaRelatorioMB.relatorioView(1)}"
+											update="forminicial">
+									<p:fileDownload value="#{fabricaRelatorioMB.file}" />		
+								</p:menuitem>
+								<p:menuitem value="Unidade" ajax="false" action="#{fabricaRelatorioMB.relatorioView(0)}">
+									<p:fileDownload value="#{fabricaRelatorioMB.file}" />
+								</p:menuitem>
 							</p:submenu>
 							<p:submenu label="Acompanhamento" icon="ui-icon-newwin" 
 									   rendered="#{loginMB.perfil == 'COORDENADOR'}">

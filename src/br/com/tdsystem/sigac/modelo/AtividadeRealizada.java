@@ -1,5 +1,7 @@
 package br.com.tdsystem.sigac.modelo;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +29,9 @@ import br.com.tdsystem.sigac.util.Constante;
 							+ " where atividadeRealizada.aluno.codigo = :codigo_aluno"),
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_CODIGO, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada "
 				+ "where atividadeRealizada.codigo = :codigo"), })
-public class AtividadeRealizada {
+public class AtividadeRealizada implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

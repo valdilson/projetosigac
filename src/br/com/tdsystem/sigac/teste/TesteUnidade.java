@@ -19,7 +19,7 @@ public class TesteUnidade {
 			unidade.setCep("31060450");
 			unidade.setCidade("BH");
 			unidade.setEstado("MG");
-			unidade.setNome("Unidade BH III");
+			unidade.setNome("PITAGORAS BH III");
 			unidade.setTelefone("3196937955");
 			unidade.setEmail("bh3@anhanguera.com");
 			unidadeDAO.salvar(unidade);
@@ -30,7 +30,7 @@ public class TesteUnidade {
 			unidade.setCep("31060-450");
 			unidade.setCidade("BH");
 			unidade.setEstado("MG");
-			unidade.setNome("Unidade BHI");
+			unidade.setNome("PITAGORAS BH I");
 			unidade.setTelefone("3196937955");
 			unidade.setEmail("bh1@anhanguera.com");
 			unidadeDAO.salvar(unidade);

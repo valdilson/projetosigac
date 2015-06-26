@@ -43,8 +43,7 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	private UploadedFile uploadfile;
 	private Date dataEvento = null, dataUpload = null;
-	private StreamedContent file;
-	private StreamedContent fileDownload;
+	private StreamedContent file, fileDownload;
 	private InputStream is = null;
 	private ByteArrayOutputStream bos = null;
 	
@@ -75,6 +74,7 @@ public class AtividadeRealizadaMB implements Serializable {
 			aluno.setHorasRealizadas(0);
 			atualizarHorasRealizadas(aluno);
 		}
+		
 		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/download/modeloAC.pdf");
         file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
@@ -83,7 +83,9 @@ public class AtividadeRealizadaMB implements Serializable {
 	
 	private static void atualizarHorasRealizadas(Aluno aluno) {
 		for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
-			aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());
+			if (atividadeRealizada.getStatusApovacao().equals(StatusAprovacao.APROVADO)) {
+				aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());				
+			}
 		}
 	}
 	
@@ -155,7 +157,7 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	}
 	
-	public void verificaAtividadeRepetida(){
+	public Boolean verificaAtividadeRepetida(){
 		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 		Boolean grava = Boolean.TRUE;
 		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
@@ -167,37 +169,37 @@ public class AtividadeRealizadaMB implements Serializable {
 				grava = Boolean.FALSE;
 			}
 		}
-		if(grava){
-			salvar();
+		return grava;
+		
+	}
+	
+	public void salvar() {
+		if(verificaAtividadeRepetida()){
+			try {
+				atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
+				atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
+				
+				atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+				atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
+				atividadeRealizada.setHorasAtividade(atividade.getHoras());
+				atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
+				atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
+				
+				atividadeRealizadaDAO.salvar(atividadeRealizada);
+				//atualizarHorasRealizadas(atividadeRealizada.getAluno());
+				preencheListas();
+				atualizarGrafico();
+				FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
+			} catch (Exception e) {
+				FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
+						+ e.getMessage()+e.getCause());
+				FacesUtil.exibirMensagemErro("Cause!"
+						+ e.getCause());
+			}
 		}else{
 			FacesUtil.exibirMensagemAlerta("Atividade jÃ¡ lanÃ§ada!\n"
 											+ "ou jÃ¡ atingiu status aprovado!");
 			atividadeRealizada = new AtividadeRealizada();
-		}
-	}
-	
-	public void salvar() {
-		
-		try {
-			atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
-			atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
-			
-			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-			atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
-			atividadeRealizada.setHorasAtividade(atividade.getHoras());
-			atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
-			atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
-			
-			atividadeRealizadaDAO.salvar(atividadeRealizada);
-			//atualizarHorasRealizadas(atividadeRealizada.getAluno());
-			preencheListas();
-			atualizarGrafico();
-			FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
-		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
-					+ e.getMessage()+e.getCause());
-			FacesUtil.exibirMensagemErro("Cause!"
-					+ e.getCause());
 		}
 
 	}
@@ -218,22 +220,26 @@ public class AtividadeRealizadaMB implements Serializable {
 	}
 	
 	public void editar(){
-		try {
-			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-			atividadeRealizadaDAO.editar(atividadeRealizada);
-			atividadeRealizada = new AtividadeRealizada();
-			atualizarGrafico();
-		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Erro ao tentar editar registro" + e.getCause());
+		if(verificaAtividadeRepetida()){
+			try {
+				atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+				atividadeRealizadaDAO.editar(atividadeRealizada);
+				atividadeRealizada = new AtividadeRealizada();
+				atualizarGrafico();
+			} catch (Exception e) {
+				FacesUtil.exibirMensagemErro("Erro ao editar a atividade!"
+						+ e.getMessage()+e.getCause());
+				FacesUtil.exibirMensagemErro("Cause!"
+						+ e.getCause());
+			}
 		}
-		
 	}
 	
 	public void atualizarGrafico() {
         
 		graficoAtividades = new PieChartModel();
          
-        graficoAtividades.setTitle("Relaï¿½ï¿½o de Atividades");
+        graficoAtividades.setTitle("Relação de Atividades mais Realizdas");
         graficoAtividades.setLegendPosition("w");
         graficoAtividades.setShowDataLabels(Boolean.TRUE);
         Map<String, Integer> filter = new HashMap<String, Integer>();

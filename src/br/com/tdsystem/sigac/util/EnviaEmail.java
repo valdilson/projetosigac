@@ -23,8 +23,8 @@ public class EnviaEmail {
 	 */
 	public EnviaEmail() { // Para o GMAIL
 		mailSMTPServer = "smtp.gmail.com";
-		mailSMTPServerPort = "465";
-		//mailSMTPServerPort = "587";
+		//mailSMTPServerPort = "465";
+		mailSMTPServerPort = "25";
 	}
 
 	/*
@@ -71,7 +71,7 @@ public class EnviaEmail {
 
 		// Cria um autenticador que sera usado a seguir
 		SimpleAuth auth = null;
-		auth = new SimpleAuth("thiago@momoconfeitaria.com.br", "03onze34");
+		auth = new SimpleAuth("suportepitagoras@gmail.com", "03onze34");
 
 		// Session - objeto que ira realizar a conexão com o servidor
 		/*
@@ -109,7 +109,7 @@ public class EnviaEmail {
 			 * 1 - define o servidor smtp 2 - seu nome de usuario do gmail 3 -
 			 * sua senha do gmail
 			 */
-			tr.connect(mailSMTPServer, "thiago.krathos@gmail.com", "300p3strrr");
+			tr.connect(mailSMTPServer, "suportepitagoras@gmail.com", "300p3strrr");
 			msg.saveChanges(); // don't forget this
 			// envio da mensagem
 			tr.sendMessage(msg, msg.getAllRecipients());

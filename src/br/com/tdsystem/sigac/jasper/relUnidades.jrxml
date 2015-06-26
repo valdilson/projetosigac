@@ -13,7 +13,7 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<queryString language="SQL">
+	<queryString>
 		<![CDATA[SELECT
      unidade.`codigo` AS unidade_codigo,
      unidade.`bairro` AS unidade_bairro,
@@ -38,24 +38,28 @@ FROM
 	<title>
 		<band height="132" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="94" backcolor="#FF9933" uuid="fbf3c165-28ce-45a0-b1b0-8d66417baa9a"/>
+				<reportElement mode="Opaque" x="-2" y="0" width="555" height="94" backcolor="#FF9933" uuid="fbf3c165-28ce-45a0-b1b0-8d66417baa9a"/>
 				<staticText>
-					<reportElement style="Title" x="0" y="0" width="451" height="66" uuid="c234f0be-66a3-4445-8196-baf28fb19345"/>
+					<reportElement style="Title" x="4" y="0" width="447" height="66" uuid="c234f0be-66a3-4445-8196-baf28fb19345"/>
 					<textElement>
-						<font isBold="false"/>
+						<font size="35" isBold="false"/>
 					</textElement>
-					<text><![CDATA[ANHANGUERA]]></text>
+					<text><![CDATA[FACULDADE PITÁGORAS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="SubTitle" x="240" y="66" width="204" height="28" forecolor="#FFFFFF" uuid="4798b153-bd44-440b-9ca4-86877932f73d"/>
+					<reportElement style="SubTitle" x="247" y="66" width="204" height="28" forecolor="#FFFFFF" uuid="4798b153-bd44-440b-9ca4-86877932f73d"/>
 					<textElement>
 						<font size="22" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Relatório de Unidades]]></text>
 				</staticText>
+				<image>
+					<reportElement x="461" y="12" width="94" height="82" uuid="4b0ef623-7a95-464d-b63a-6782b7958d6b"/>
+					<imageExpression><![CDATA["C:\\Users\\Thiago\\git\\sigac2\\WebContent\\resources\\imagens\\Índice.jpg"]]></imageExpression>
+				</image>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="94" width="555" height="37" forecolor="#000000" backcolor="#FF9900" uuid="4c61d5e7-c1c0-4fcb-8ce8-1d7fd3e0b500"/>
+				<reportElement mode="Opaque" x="-2" y="94" width="555" height="37" forecolor="#000000" backcolor="#FF9900" uuid="4c61d5e7-c1c0-4fcb-8ce8-1d7fd3e0b500"/>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement x="300" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="0e93f954-3388-4488-8be9-2dbd020ad85e"/>
 					<textElement textAlignment="Right">
@@ -64,10 +68,6 @@ FROM
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
-			<image>
-				<reportElement x="449" y="19" width="104" height="107" uuid="035f0998-626b-4e9e-a2de-fe51d08ad398"/>
-				<imageExpression><![CDATA["C:\\Users\\thiago\\git\\sigac2\\WebContent\\resources\\imagens\\logoRelatorio.jpg"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>

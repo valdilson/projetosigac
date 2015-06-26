@@ -47,6 +47,8 @@ public class AlunoMB implements Serializable {
 	private List<Unidade> listaDeUnidades = null;
 	private List<Periodo> listaPeriodos = null;
 	
+	private String password;
+	
 	@ManagedProperty(value = "#{loginMB}")
 	private LoginMB loginMB;
 
@@ -193,11 +195,15 @@ public class AlunoMB implements Serializable {
 	public void editar() throws NoSuchAlgorithmException {
 
 		try {
-			String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno
-					.getPassword());
-			if (aluno.getPassword() != ""
-					&& aluno.getPassword().equals(aluno.getConfirmaPassword())) {
-
+			String senha = null;
+			if (aluno.getPassword() != null && !aluno.getPassword().equals("")) {
+				senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
+			} else {
+				senha = password;
+				aluno.setPassword(senha);
+				aluno.setConfirmaPassword(password);
+			}
+			if (aluno.getPassword() != "" && aluno.getPassword().equals(aluno.getConfirmaPassword())) {
 				aluno.setPassword(senha);
 				alunoDAO = new AlunoDAO();
 				alunoDAO.editar(aluno);
@@ -226,6 +232,7 @@ public class AlunoMB implements Serializable {
 				listaDeAlunos = alunoDAO.listarAlunos();				
 			} else {
 				aluno = (Aluno) pessoaLogada;
+				password = aluno.getPassword();
 			}
 			
 			listaDeTurmas = turmaDAO.listaTurma();
@@ -257,6 +264,7 @@ public class AlunoMB implements Serializable {
 
 	public void selecionaEdicao(Aluno aluno) {
 		this.aluno = aluno;
+		setPassword(aluno.getPassword());
 	}
 	
 	public void atualizarComboPeriodo() {
@@ -278,6 +286,14 @@ public class AlunoMB implements Serializable {
 
 	public void setListaPeriodos(List<Periodo> listaPeriodos) {
 		this.listaPeriodos = listaPeriodos;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

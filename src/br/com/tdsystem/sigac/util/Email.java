@@ -1,41 +1,55 @@
 package br.com.tdsystem.sigac.util;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import java.util.Properties;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
-
-@ManagedBean
-@ViewScoped
 public class Email {
 	
-	public void sendEmail() throws EmailException {
-	    
-		   SimpleEmail email = new SimpleEmail();
-		   //Utilize o hostname do seu provedor de email
-		   System.out.println("alterando hostname...");
-		   email.setHostName("smtp.gmail.com");
-		   //Quando a porta utilizada não é a padrão (gmail = 465)
-		   email.setSmtpPort(465);
-		   //Adicione os destinatários
-		   email.addTo("thiago@momoconfeitaria.com.br", "Thiago");
-		   //Configure o seu email do qual enviará
-		   email.setFrom("thiago.krathos@gmail.com", "Anhanguera");
-		   //Adicione um assunto
-		   email.setSubject("Test message");
-		   //Adicione a mensagem do email
-		   email.setMsg("Primeiro email enviado pelo JAVA");
-		   //Para autenticar no servidor é necessário chamar os dois métodos abaixo
-		   System.out.println("autenticando...");
-		   //email.setSSL(true);
-		   email.setSSLOnConnect(true);
-		   email.setSslSmtpPort("465");
-		   //email.setTLS(true);
-		   //email.setStartTLSRequired(true);
-		   email.setAuthentication("thiago.krathos@gmail.com", "300p3strrr");
-		   System.out.println("enviando...");
-		   email.send();
-		   System.out.println("Email enviado!");
-		}
+      public static void sendEmail() {
+            Properties props = new Properties();
+            /** Parâmetros de conexão com servidor Gmail */
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+
+            Session session = Session.getDefaultInstance(props,
+                        new javax.mail.Authenticator() {
+                             protected PasswordAuthentication getPasswordAuthentication()
+                             {
+                                   return new PasswordAuthentication("suportepitagoras@gmail.com", "03onze34");
+                             }
+                        });
+
+            /** Ativa Debug para sessão */
+            //session.setDebug(true);
+
+            try {
+
+                  Message message = new MimeMessage(session);
+                  message.setFrom(new InternetAddress("suportepitagoras@gmail.com")); //Remetente
+
+                  Address[] toUser = InternetAddress //Destinatário(s)
+                             .parse("thiago.krathos@gmail.com");  
+
+                  message.setRecipients(Message.RecipientType.TO, toUser);
+                  message.setSubject("Enviando email com JavaMail");//Assunto
+                  message.setText("Enviei este email utilizando JavaMail com minha conta GMail!");
+                  /**Método para enviar a mensagem criada*/
+                  Transport.send(message);
+
+                  System.out.println("Feito!!!");
+
+             } catch (MessagingException e) {
+                  throw new RuntimeException(e);
+            }
+      }
 }

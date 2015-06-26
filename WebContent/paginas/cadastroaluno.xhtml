@@ -109,18 +109,13 @@
 					<h:panelGrid columns="6" >
 						<p:commandButton rendered="#{alunoMB.aluno.codigo == null}" value="Gravar" action="#{alunoMB.validaCampos()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
 					
-
-					<!-- Botão Enviar Email -->
-					<p:commandButton value="Enviar Email" action="#{enviaEmailMB.enviaEmail()}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
-
 					<!-- Botão Confirmar -->
 					
 						<p:commandButton rendered="#{alunoMB.aluno.codigo != null}" value="Confirmar" action="#{alunoMB.editar}" update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
 									
 					<!-- Botao cancelar  -->					
-					<p:commandButton value="Cancelar" rendered="#{alunoMB.aluno.codigo != null}"
-									 action="#{alunoMB.cancelarEdicao()}"
-									 update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />					
+					<p:commandButton value="Menu Principal" rendered="#{alunoMB.aluno.codigo != null}"
+									 action="#{menuMB.navegar('/templates/index.xhtml')}" />					
 					</h:panelGrid>
 				</h:panelGroup>
 

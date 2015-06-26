@@ -70,7 +70,7 @@
 				<p:panelGrid columns="1" 
 							 rendered="#{atividadeRealizadaMB.atividadeRealizada.codigo == null}">
 					<p:commandButton value="Gravar" 
-					action="#{atividadeRealizadaMB.verificaAtividadeRepetida()}"
+					action="#{atividadeRealizadaMB.salvar()}"
 					update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
 				</p:panelGrid>
 				
@@ -78,8 +78,8 @@
 				
 				<!-- Botão Editar -->
 				<p:panelGrid columns="1" rendered="#{atividadeRealizadaMB.atividadeRealizada.codigo != null}">
-					<p:commandButton value="Gravar" 
-					action="#{atividadeRealizadaMB.verificaAtividadeRepetida()}"
+					<p:commandButton value="Editar" 
+					action="#{atividadeRealizadaMB.editar()}"
 					update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
 				</p:panelGrid>
 				

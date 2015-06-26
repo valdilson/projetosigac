@@ -1,6 +1,7 @@
 package br.com.tdsystem.sigac.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,10 +16,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 
 import javax.persistence.UniqueConstraint;
+
+
+
 
 
 //import javax.validation.constraints.NotNull;
@@ -57,6 +63,9 @@ public class Atividade implements Serializable {
 	@Column(name = "status")
 	@Enumerated(EnumType.ORDINAL)
 	private Status status;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataEvento;
 	
 	@Transient
 	private Integer quantidadeVezesExec;
@@ -145,6 +154,14 @@ public class Atividade implements Serializable {
 		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
+	}
+
+	public Date getDataEvento() {
+		return dataEvento;
+	}
+
+	public void setDataEvento(Date dataEvento) {
+		this.dataEvento = dataEvento;
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.tdsystem.sigac.dao.CursoDAO;
+import br.com.tdsystem.sigac.modelo.Periodo;
 import br.com.tdsystem.sigac.modelo.Status;
 import br.com.tdsystem.sigac.modelo.Curso;
 
@@ -20,18 +21,21 @@ public class TesteCurso {
 		
 		curso.setNome("Sistemas de Informação");
 		curso.setHorasExigidas(100);
+		curso.setQtdPeriodos(Periodo.OITAVO);
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		
 		curso = new Curso();
 		curso.setNome("Técnologia em Análise e Desenvolvimento de Sistemas");
 		curso.setHorasExigidas(100);
+		curso.setQtdPeriodos(Periodo.QUINTO);
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		
 		curso = new Curso();
 		curso.setNome("Direito");
 		curso.setHorasExigidas(100);
+		curso.setQtdPeriodos(Periodo.DECIMO);
 		curso.setStatus(Status.ATIVO);		
 		cursoDAO.salvar(curso);
 		

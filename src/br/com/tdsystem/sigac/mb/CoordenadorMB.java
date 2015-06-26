@@ -7,8 +7,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
-
 import br.com.tdsystem.sigac.dao.CoordenadorDAO;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Coordenador;
