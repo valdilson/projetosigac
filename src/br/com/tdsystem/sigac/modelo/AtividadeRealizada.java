@@ -27,8 +27,8 @@ import br.com.tdsystem.sigac.util.Constante;
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL, 
 					query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada"
 							+ " where atividadeRealizada.aluno.codigo = :codigo_aluno"),
-		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_CODIGO, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada "
-				+ "where atividadeRealizada.codigo = :codigo"), })
+		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_REPETE, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada "
+				+ "where atividadeRealizada.codigo = :codigo_atividade and atividadeRealizada.aluno.codigo = :codigo_aluno"), })
 public class AtividadeRealizada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,9 +47,6 @@ public class AtividadeRealizada implements Serializable {
 
 	@Column(name = "horas_atividade")
 	private Integer horasAtividade;
-
-	@Column(name = "dataEvento")
-	private String dataEvento;
 	
 	@Column(name = "dataUpload")
 	private String dataUpload;
@@ -92,14 +89,6 @@ public class AtividadeRealizada implements Serializable {
 
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
-	}
-
-	public String getDataEvento() {
-		return dataEvento;
-	}
-
-	public void setDataEvento(String dataEvento) {
-		this.dataEvento = dataEvento;
 	}
 
 	public byte[] getComprovante() {

@@ -16,7 +16,7 @@ import br.com.tdsystem.sigac.mb.LoginMB;
 import br.com.tdsystem.sigac.modelo.Usuario;
 
 /**
- * Classe utilitï¿½ria para desenvolvimento JSF
+ * Classe utilitária para desenvolvimento JSF
  */
 public class FacesUtil {
 

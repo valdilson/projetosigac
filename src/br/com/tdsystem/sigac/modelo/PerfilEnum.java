@@ -1,6 +1,8 @@
 package br.com.tdsystem.sigac.modelo;
 
-public enum PerfilEnum {
+import java.io.Serializable;
+
+public enum PerfilEnum implements Serializable{
 
 	ALUNO("Aluno"),
 	COORDENADOR("Coordenador");

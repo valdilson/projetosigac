@@ -15,6 +15,7 @@ public class UnidadeDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//Metodo que persiste uma Unidade no banco 
 	public void salvar(Unidade unidade){
 		
 		//Abre a fabrica de Sessao e cria uma sessao
@@ -86,7 +87,7 @@ public class UnidadeDAO implements Serializable {
 		List<Unidade> listaUnidades = null;
 		try {
 			
-			Query hql = secao.getNamedQuery("Unidade.lista");
+			Query hql = secao.getNamedQuery(Constante.NamedQueries.UNIDADE_LISTA);
 			listaUnidades = hql.list();
 			System.out.println("Fez a lista");
 		} catch (RuntimeException e) {

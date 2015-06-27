@@ -10,13 +10,6 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
-
-		<f:metadata>
-			<f:event listener="#{cursoMB.listarCursos}" type="preRenderView" />
-			<f:event listener="#{cursoMB.pesquisaCodigo}" type="preRenderView" />
-		</f:metadata>
-	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
@@ -87,7 +80,7 @@
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="20"
+					<p:column headerText="Código" style="width: 4%"
 						sortBy="#{filtroCursos.codigo}">
 						<h:outputText value="#{filtroCursos.codigo}" />
 					</p:column>
@@ -118,12 +111,12 @@
 						<p:commandButton value="Excluir"
 							action="#{cursoMB.excluir(filtroCursos)}" immediate="true"
 							update=":cadastroCursofrm :mgs :cadastroCursofrm:tabelaCurso">
-							<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+							<p:confirm header="Confirmation" message="Tem certeza?" icon="ui-icon-alert" />
 						</p:commandButton>
 						
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-					        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-					        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					    </p:confirmDialog>
 							
 					</p:column>

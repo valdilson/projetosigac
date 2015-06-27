@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.com.tdsystem.sigac.dao.AtividadeDAO;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.util.FacesUtil;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 
 @ManagedBean
 @ViewScoped
@@ -25,7 +26,7 @@ public class AtividadeMB implements Serializable {
 		atividade = new Atividade();
 		listarAtividades();
 	}
-
+	
 	public List<Atividade> getListaAtividades() {
 		return listaAtividades;
 	}
@@ -43,9 +44,6 @@ public class AtividadeMB implements Serializable {
 	}
 
 	public Atividade getAtividade() {
-		if(atividade == null){
-			atividade = new Atividade();
-		}
 		return atividade;
 	}
 
@@ -71,16 +69,21 @@ public class AtividadeMB implements Serializable {
 
 	public void salvar() {
 
-		try {
+		if (Validacao.validaCampoTexto(atividade.getNome())) {
 			
-			atividadeDAO = new AtividadeDAO();
-			atividadeDAO.salvar(atividade);
-			atividade = new Atividade();
-			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+			try {
+				
+				atividadeDAO = new AtividadeDAO();
+				atividadeDAO.salvar(atividade);
+				atividade = new Atividade();
+				listarAtividades();
+				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao gravar registro!" + e.getCause());
+			} catch (RuntimeException e) {
+				FacesUtil.exibirMensagemErro("Erro ao gravar registro!" + e.getCause());
+			}
 		}
+		
 	}
 
 	public void excluir(Atividade atividade) {
@@ -93,7 +96,7 @@ public class AtividadeMB implements Serializable {
 
 		} catch (Exception e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso estÃ£ sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
@@ -106,7 +109,7 @@ public class AtividadeMB implements Serializable {
 		try {
 			atividadeDAO = new AtividadeDAO();
 			atividadeDAO.editar(atividade);
-			FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 			atividade = new Atividade();
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
@@ -121,7 +124,7 @@ public class AtividadeMB implements Serializable {
 			listaAtividades = atividadeDAO.listaAtividade();
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"
+			FacesUtil.exibirMensagemErro("Não retornou registro!"
 					+ e.getMessage());
 		}
 	}
@@ -137,7 +140,7 @@ public class AtividadeMB implements Serializable {
 			}
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"
+			FacesUtil.exibirMensagemErro("Não retornou registro!"
 					+ e.getMessage());
 		}
 	}

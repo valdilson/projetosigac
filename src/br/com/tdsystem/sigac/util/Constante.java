@@ -4,7 +4,7 @@ package br.com.tdsystem.sigac.util;
 public interface Constante {
 
 	interface AppConstante {
-		String APP_NAME = "Sistema xpto";
+		String APP_NAME = "sigac2";
 	}
 	
 	interface NamedQueries {
@@ -16,6 +16,7 @@ public interface Constante {
 		
 		String ALUNO_RECUPERARPORLOGIN = "Aluno.recuperarPorLogin";
 		String ALUNO_RECUPERA_LISTA = "Aluno.lista";
+		String ALUNO_RECUPERA_LISTA_ATIVOS = "Aluno.listaAtivos";
 		String ALUNO_RECUPERA_CODIGO = "Aluno.codigo";
 		String ALUNO_RECUPERA_RA = "Aluno.ra";
 		
@@ -40,6 +41,7 @@ public interface Constante {
 		String PERIODO_STATUS = "Periodo.status";
 		
 		String ATIVIDADE_LISTA = "Atividade.lista";
+		String ATIVIDADE_LISTA_ATIVO = "Atividade.listaAtivo";
 		String ATIVIDADE_CODIGO = "Atividade.codigo";
 		String ATIVIDADE_NOME = "Atividade.nome";
 		String ATIVIDADE_STATUS = "Atividade.status";
@@ -52,7 +54,7 @@ public interface Constante {
 		
 		String ATIVIVIDADE_REALIZADA_LISTA = "AtividadeRealizada.lista";
 		String ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL = "AtividadeRealizada.listaIndividual";
-		String ATIVIVIDADE_REALIZADA_CODIGO = "AtividadeRealizada.codigo";
+		String ATIVIVIDADE_REALIZADA_REPETE = "AtividadeRealizada.repete";
 		String ATIVIVIDADE_REALIZADA_ALUNO = "AtividadeRealizada.aluno";
 		
 		String UNIDADE_LISTA = "Unidade.lista";

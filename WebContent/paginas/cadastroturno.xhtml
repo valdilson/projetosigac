@@ -10,13 +10,6 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
-
-		<f:metadata>
-			<f:event listener="#{turnoMB.listarTurnos}" type="preRenderView" />
-			<f:event listener="#{turnoMB.pesquisaCodigo}" type="preRenderView" />
-		</f:metadata>
-	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
@@ -88,7 +81,7 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurnos.nome}"
-						sortBy="#{filtroTurnos.nome}" >
+						sortBy="#{filtroTurnos.nome}" style="width: 20%">
 						<h:outputText value="#{filtroTurnos.nome}" />
 					</p:column>
 
@@ -104,7 +97,14 @@
 							action="#{turnoMB.selecionaEdicao(filtroTurnos)}" update="@all" />
 						<p:commandButton value="Excluir"
 							action="#{turnoMB.excluir(filtroTurnos)}" immediate="true"
-							update=":cadastroTurnofrm :mgs :cadastroTurnofrm:tabelaTurno" />
+							update=":cadastroTurnofrm :mgs :cadastroTurnofrm:tabelaTurno" >
+							<p:confirm header="Confirmation" message="Tem certeza?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
 					</p:column>
 
 				</p:dataTable>

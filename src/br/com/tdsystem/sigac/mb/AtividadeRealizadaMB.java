@@ -32,9 +32,10 @@ import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 import br.com.tdsystem.sigac.modelo.IPessoa;
+import br.com.tdsystem.sigac.modelo.Status;
 import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 import br.com.tdsystem.sigac.util.FacesUtil;
-import br.com.tdsystem.sigac.util.FormataData;
+import br.com.tdsystem.sigac.modelo.negocio.FormataData;
 
 @ManagedBean
 @ViewScoped
@@ -42,7 +43,7 @@ public class AtividadeRealizadaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UploadedFile uploadfile;
-	private Date dataEvento = null, dataUpload = null;
+	private Date dataUpload = null;
 	private StreamedContent file, fileDownload;
 	private InputStream is = null;
 	private ByteArrayOutputStream bos = null;
@@ -65,13 +66,11 @@ public class AtividadeRealizadaMB implements Serializable {
 	
 	public AtividadeRealizadaMB() {
 		atividadeRealizada = new AtividadeRealizada();
-		dataEvento = new Date();
 		dataUpload = new Date();
 		preencheListas();
 		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 		if (usuario instanceof Aluno) {
 			aluno = (Aluno) usuario;			
-			aluno.setHorasRealizadas(0);
 			atualizarHorasRealizadas(aluno);
 		}
 		
@@ -82,10 +81,16 @@ public class AtividadeRealizadaMB implements Serializable {
 	}
 	
 	private static void atualizarHorasRealizadas(Aluno aluno) {
+		aluno.setHorasRealizadas(0);
 		for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
 			if (atividadeRealizada.getStatusApovacao().equals(StatusAprovacao.APROVADO)) {
 				aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());				
 			}
+		}
+		if (aluno.getHorasRealizadas() >= aluno.getCurso().getHorasExigidas()) {
+			aluno.setStatusApovacao(StatusAprovacao.APROVADO);
+		} else {
+			aluno.setStatusApovacao(StatusAprovacao.PENDENTE);			
 		}
 	}
 	
@@ -114,8 +119,7 @@ public class AtividadeRealizadaMB implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		} catch (Exception ex) {
-			Logger.getLogger(AtividadeRealizadaMB.class.getName()).log(
-					Level.SEVERE, null, ex);
+			Logger.getLogger(AtividadeRealizadaMB.class.getName()).log(Level.SEVERE, null, ex);
 			FacesUtil.exibirMensagemErro("try :" + ex.getMessage());
 		}
 	}
@@ -146,9 +150,12 @@ public class AtividadeRealizadaMB implements Serializable {
 		try {
 			atividadeDAO = new AtividadeDAO();
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-			listaDeAtividades = atividadeDAO.listaAtividade();
+			listaDeAtividades = atividadeDAO.listaAtividade(Status.ATIVO);
 			IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 			listaDeAtividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(usuario);
+			if (!listaDeAtividades.isEmpty()) {
+				atividadeRealizada.setAtividade(listaDeAtividades.get(0));				
+			}
 			
 		} catch (Exception e) {
 			System.out.println("Erro nulo: " + e.getMessage());
@@ -173,10 +180,23 @@ public class AtividadeRealizadaMB implements Serializable {
 		
 	}
 	
+	@SuppressWarnings("unused")
+	private Boolean repete(){
+		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		AtividadeRealizada compara = atividadeRealizadaDAO.pesquisaRepetida(atividadeRealizada.getAtividade().getCodigo(),
+				atividadeRealizada.getAluno().getCodigo());
+		if(atividadeRealizada.getAtividade().getCodigo() == compara.getAtividade().getCodigo() &&
+				atividadeRealizada.getAluno().getCodigo() == compara.getAluno().getCodigo()){
+			FacesUtil.exibirMensagemAlerta("Atividade já realizada");
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 	public void salvar() {
-		if(verificaAtividadeRepetida()){
+		if(repete()){
 			try {
-				atividadeRealizada.setDataEvento(FormataData.formataData(getDataEvento()));
 				atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 				
 				atividadeRealizadaDAO = new AtividadeRealizadaDAO();
@@ -186,9 +206,10 @@ public class AtividadeRealizadaMB implements Serializable {
 				atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
 				
 				atividadeRealizadaDAO.salvar(atividadeRealizada);
-				//atualizarHorasRealizadas(atividadeRealizada.getAluno());
+				atualizarHorasRealizadas(aluno);
 				preencheListas();
 				atualizarGrafico();
+				atividadeRealizada = new AtividadeRealizada();
 				FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
 			} catch (Exception e) {
 				FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
@@ -213,6 +234,7 @@ public class AtividadeRealizadaMB implements Serializable {
 			listaDeAtividadesRealizadas.remove(atividadeRealizada);
 			preencheListas();
 			atualizarGrafico();
+			atualizarHorasRealizadas(aluno);
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao excluir registro!"
 					+ e.getMessage());
@@ -265,6 +287,10 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
         
     }
+	
+	public void atualizarData() {
+		System.out.println(atividadeRealizada.getAtividade().getDataEvento());
+	}
 	
 	public void download(AtividadeRealizada atividadeRealizada) {
 		InputStream stream = new ByteArrayInputStream(atividadeRealizada.getComprovante());
@@ -353,15 +379,7 @@ public class AtividadeRealizadaMB implements Serializable {
 	public void setLoginMB(LoginMB loginMB) {
 		this.loginMB = loginMB;
 	}
-
-	public Date getDataEvento() {
-		return dataEvento;
-	}
-
-	public void setDataEvento(Date dataEvento) {
-		this.dataEvento = dataEvento;
-	}
-
+	
 	public Date getDataUpload() {
 		return dataUpload;
 	}

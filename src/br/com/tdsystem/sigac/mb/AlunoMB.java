@@ -23,9 +23,9 @@ import br.com.tdsystem.sigac.modelo.Periodo;
 import br.com.tdsystem.sigac.modelo.Turma;
 import br.com.tdsystem.sigac.modelo.Turno;
 import br.com.tdsystem.sigac.modelo.Unidade;
-import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
+import br.com.tdsystem.sigac.modelo.negocio.CriptografaSenhaMD5;
 import br.com.tdsystem.sigac.util.FacesUtil;
-import br.com.tdsystem.sigac.util.Validacao;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 
 @ManagedBean
 @ViewScoped
@@ -51,6 +51,13 @@ public class AlunoMB implements Serializable {
 	
 	@ManagedProperty(value = "#{loginMB}")
 	private LoginMB loginMB;
+	
+	public AlunoMB() {
+		aluno = new Aluno();
+		listaPeriodos = new ArrayList<Periodo>();
+		pesquisarListaAlunos();
+		pesquisaListaCurso();
+	}
 
 	public LoginMB getLoginMB() {
 		return loginMB;
@@ -58,13 +65,6 @@ public class AlunoMB implements Serializable {
 
 	public void setLoginMB(LoginMB loginMB) {
 		this.loginMB = loginMB;
-	}
-
-	public AlunoMB() {
-		aluno = new Aluno();
-		listaPeriodos = new ArrayList<Periodo>();
-		pesquisarListaAlunos();
-		pesquisaListaCurso();
 	}
 
 	public Aluno getAluno() {
@@ -132,10 +132,8 @@ public class AlunoMB implements Serializable {
 	}
 
 	public void validaCampos() throws NoSuchAlgorithmException{
-		if(Validacao.validaCampoNumerico(aluno.getNome())){
+		if(Validacao.validaCampoTexto(aluno.getNome())){
 			salvar();
-		}else{
-			FacesUtil.exibirMensagemAlerta("Verifique Campos Vazios!");
 		}
 	}
 	
@@ -155,21 +153,23 @@ public class AlunoMB implements Serializable {
 			
 			if(other == null) {
 				if (!password.equals(cpassword)) {
-					FacesUtil.exibirMensagemSucesso("Senhas nÃ£o conferem ou vazias!");
+					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 				} else {
 
 					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
 					aluno.setPassword(senha);
 					alunoDAO.salvar(aluno);
 					aluno = new Aluno();
+					pesquisarListaAlunos();
+					pesquisaListaCurso();
 					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 				}
 			} else {
-				FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");				
+				FacesUtil.exibirMensagemAlerta("RA já cadastrado no sistema, verifique!");				
 			}
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("JÃ¡ existe este RA cadastrado!");
+				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 			}
@@ -207,10 +207,10 @@ public class AlunoMB implements Serializable {
 				aluno.setPassword(senha);
 				alunoDAO = new AlunoDAO();
 				alunoDAO.editar(aluno);
-				FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
+				FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 				aluno = new Aluno();
 			} else {
-				FacesUtil.exibirMensagemSucesso("Senha nï¿½o confere ou vazia!");
+				FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 			}
 
 		} catch (RuntimeException e) {

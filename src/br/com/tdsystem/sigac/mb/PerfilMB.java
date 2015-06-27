@@ -12,11 +12,6 @@ import br.com.tdsystem.sigac.util.FacesUtil;
 @ViewScoped
 public class PerfilMB implements Serializable {
 
-	public PerfilMB() {
-		listarPerfils();
-		perfil = new Perfil();
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	private List<Perfil> listaPerfis = null;
@@ -24,6 +19,11 @@ public class PerfilMB implements Serializable {
 
 	private Perfil perfil = null;
 	private PerfilDAO perfilDAO = null;
+	
+	public PerfilMB() {
+		listarPerfils();
+		perfil = new Perfil();
+	}
 
 	public List<Perfil> getFiltroPerfis() {
 		return filtroPerfis;

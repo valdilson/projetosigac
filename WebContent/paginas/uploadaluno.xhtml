@@ -13,7 +13,7 @@
 
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:event listener="#{atividadeRealizadaMB.preencheListas()}" type="preRenderView" />
+<!-- 			<f:event listener="#{atividadeRealizadaMB.preencheListas()}" type="preRenderView" /> -->
 		</f:metadata>
 	</ui:define>
 
@@ -32,6 +32,7 @@
 						<f:selectItems value="#{atividadeMB.listaAtividades}"
 							var="atividade" itemValue="#{atividade}"
 							itemLabel="#{atividade.nome}" />
+						<p:ajax update="gridDataEvento" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Comprovante: (.pdf)" />
@@ -45,8 +46,10 @@
 						invalidFileMessage="Tipo de Arquivo inválido!" />
 
 					<p:outputLabel value="Data Evento:" />
-					<p:calendar id="dataEvento"
-						value="#{atividadeRealizadaMB.dataEvento}" />
+					<h:panelGroup id="gridDataEvento">
+						<p:calendar id="dataEvento" disabled="true"
+							value="#{atividadeRealizadaMB.atividadeRealizada.atividade.dataEvento}" />
+					</h:panelGroup>
 
 					<p:outputLabel value="Data Upload:" />
 					<p:inputText value="#{atividadeRealizadaMB.formataData()}" disabled="true" />
@@ -60,8 +63,8 @@
 						<p:outputLabel value="#{atividadeRealizadaMB.aluno.horasRealizadas}" style="color:#FF0000;"/>					
 					</h:panelGroup>
 					<p:outputLabel value="Status:&#160;" />
-						<p:outputLabel value="#{atividadeRealizadaMB.aluno.statusApovacao.descricao}"
-									   style="color:#FF0000;"/>					
+					<p:outputLabel id="statusAprovacao" value="#{atividadeRealizadaMB.aluno.statusApovacao.descricao}"
+									  style="color:#FF0000;"/>					
 
 				</p:panelGrid>
 				<p:growl id="messages" showDetail="true" />
@@ -141,14 +144,11 @@
 					</f:facet>
 	
 					<!--Botão Editar / Excluir  -->
-					<p:column headerText="Editar / Excluir" width="125"
+					<p:column headerText="Excluir" width="125"
 						exportable="false">
-						<p:commandButton value="Editar"
-							action="#{atividadeRealizadaMB.selecionaEdicao(atividadeRealizada)}"
-							update="@all" />
-						<p:commandButton value="Excluir"
+  						<p:commandButton value="Excluir" disabled="#{atividadeRealizada.statusApovacao == 'APROVADO'}"
 							action="#{atividadeRealizadaMB.excluir(atividadeRealizada)}"
-							immediate="true" update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada" ajax="false"/>
+							immediate="true" update=":uploadAlunofrm :mgs :uploadAlunofrm:tabelaAtividadeRealizada :uploadAlunofrm:statusAprovacao" ajax="false"/>
 							
 					</p:column>
 	

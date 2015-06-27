@@ -10,17 +10,6 @@
 
 	<ui:define name="title">- Cadastro de Aluno</ui:define>
 
-	<ui:define name="metadata">
-
-		<f:metadata>
-			<f:event listener="#{alunoMB.pesquisarListaAlunos()}" type="preRenderView" />
-			<f:event listener="#{turnoMB.listarTurnos()}" type="preRenderView" />
-			<f:event listener="#{turmaMB.listarTurmas()}" type="preRenderView" />
-			<f:event listener="#{unidadeMB.listarUnidades()}" type="preRenderView" />
-		</f:metadata>
-
-	</ui:define>
-
 	<ui:define name="menuPrincipal">
 
 		<h:form id="cadastroAlunofrm">
@@ -159,9 +148,18 @@
 
 					<!--Botão Editar / Excluir  -->
 					<p:column headerText="Editar / Excluir" exportable="false" style="width: 12%">
-						<p:commandButton value="Editar" ajax="true" action="#{alunoMB.selecionaEdicao(aluno)}" update=":cadastroAlunofrm:grupoAtributos" />
+						<p:commandButton value="Editar" ajax="true" action="#{alunoMB.selecionaEdicao(aluno)}" 
+										 update=":cadastroAlunofrm:grupoAtributos" />
+										 
 						<p:commandButton value="Excluir" action="#{alunoMB.excluir(aluno)}" immediate="true"
-							update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" />
+							update=":cadastroAlunofrm :mgs :cadastroAlunofrm:tabelaAluno" >
+							<p:confirm header="Confirmation" message="Tem certeza?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
 					</p:column>
 
 				</p:dataTable>

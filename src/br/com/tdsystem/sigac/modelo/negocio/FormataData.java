@@ -1,4 +1,4 @@
-package br.com.tdsystem.sigac.util;
+package br.com.tdsystem.sigac.modelo.negocio;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

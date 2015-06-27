@@ -1,6 +1,8 @@
 package br.com.tdsystem.sigac.modelo;
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status implements Serializable{
 
 	ATIVO("Ativo"),
 	INATIVO("Inativo");

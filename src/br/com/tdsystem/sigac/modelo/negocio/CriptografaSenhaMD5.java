@@ -1,4 +1,4 @@
-package br.com.tdsystem.sigac.util;
+package br.com.tdsystem.sigac.modelo.negocio;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

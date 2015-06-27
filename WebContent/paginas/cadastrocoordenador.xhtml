@@ -11,14 +11,6 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
-
-		<f:metadata>
-			<f:event listener="#{coordenadorMB.pesquisaListaCoordenadores()}"
-				type="preRenderView" />
-		</f:metadata>
-
-	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
@@ -127,7 +119,14 @@
 							update="@all" />
 						<p:commandButton value="Excluir"
 							action="#{coordenadorMB.excluir(coordenador)}" immediate="true"
-							update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" />
+							update=":cadastroCoordenadorfrm :mgs :cadastroCoordenadorfrm:tabelaCoordenador" >
+							<p:confirm header="Confirmation" message="Tem certeza?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
 					</p:column>
 
 				</p:dataTable>

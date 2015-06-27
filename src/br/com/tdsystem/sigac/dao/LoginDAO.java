@@ -12,7 +12,7 @@ import br.com.tdsystem.sigac.modelo.IPessoa;
 import br.com.tdsystem.sigac.modelo.PerfilEnum;
 import br.com.tdsystem.sigac.modelo.Usuario;
 import br.com.tdsystem.sigac.util.Constante;
-import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
+import br.com.tdsystem.sigac.modelo.negocio.CriptografaSenhaMD5;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
 public class LoginDAO {

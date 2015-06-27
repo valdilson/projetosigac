@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Unidade;
 import br.com.tdsystem.sigac.util.FacesUtil;
-import br.com.tdsystem.sigac.util.Validacao;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 
 @ManagedBean
 @ViewScoped
@@ -50,6 +50,7 @@ public class UnidadeMB implements Serializable{
 		unidade = new Unidade();
 	}
 	
+	//Metodo valida campo nome vazio e grava Unidade
 	public void salvar(){
 		if(Validacao.validaCampoTexto(unidade.getNome())){
 			try{
@@ -58,9 +59,10 @@ public class UnidadeMB implements Serializable{
 				unidadeDAO.salvar(unidade);
 				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 				unidade = new Unidade();
+				listarUnidades();
 			}catch(RuntimeException e){
 				if(e.getMessage().equals("could not execute statement")){
-					FacesUtil.exibirMensagemErro("Jï¿½ existe este nome cadastrado!");
+					FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
 				}else{
 					FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 				}
@@ -68,22 +70,24 @@ public class UnidadeMB implements Serializable{
 		}
 	}
 	
+	//Metodo que pega o objeto selecionado na tabela para edição
 	public void selecionaEdicao(Unidade unidade) {
 		this.unidade = unidade;
 	}
 	
 	
+	//Metodo para exclusao da atividade
 	public void excluir(Unidade unidade){
 		
 		try{
 			unidadeDAO = new UnidadeDAO();
 			unidadeDAO.exluir(unidade);
 			listaUnidades.remove(unidade);
-			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 			
 		}catch(RuntimeException e){
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso estï¿½ sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
@@ -91,12 +95,13 @@ public class UnidadeMB implements Serializable{
 		}
 	}
 	
+	//metodo que faz a edição
 	public void editar(){
 		
 		try{
 			unidadeDAO = new UnidadeDAO();
 			unidadeDAO.editar(unidade);
-			FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 			unidade = new Unidade();
 		}catch(RuntimeException e){
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!" + e.getMessage());
@@ -104,6 +109,7 @@ public class UnidadeMB implements Serializable{
 		}
 	}
 
+	//Metodo que lista todas as unidades
 	public void listarUnidades(){
 		
 		try{
@@ -111,10 +117,11 @@ public class UnidadeMB implements Serializable{
 			listaUnidades = unidadeDAO.listarUnidade();
 			
 		}catch(RuntimeException e){
-			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!" + e.getMessage());
+			FacesUtil.exibirMensagemErro("Não retornou registro!" + e.getMessage());
 		}
 	}
 	
+	//Metodo que faz pesquisa por codigo
 	public void pesquisaCodigo(){
 		
 		try{
@@ -126,7 +133,7 @@ public class UnidadeMB implements Serializable{
 			}
 			
 		}catch(RuntimeException e){
-			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"+e.getMessage());
+			FacesUtil.exibirMensagemErro("Não retornou registro! "+e.getMessage());
 		}
 	}
 

@@ -37,7 +37,7 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 					aluno.setStatusApovacao(StatusAprovacao.APROVADO);
 					alunoDAO.editarComum(aluno);
 				} catch (Exception e) {
-					System.out.println("Nao calculou: "+ e.getCause());
+					System.out.println("Erro ao calcular horas: "+ e.getCause());
 				}
 				
 			}else{
@@ -45,10 +45,6 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 				alunoDAO.editarComum(aluno);
 			}
 		}
-	}
-	
-	public void calculaHoras(){
-		
 	}
 
 	public List<Aluno> getListaDeAlunos() {

@@ -1,6 +1,8 @@
 package br.com.tdsystem.sigac.modelo;
 
-public enum StatusAprovacao {
+import java.io.Serializable;
+
+public enum StatusAprovacao implements Serializable{
 
 	APROVADO("Aprovado"),
 	PENDENTE("Pendente"),

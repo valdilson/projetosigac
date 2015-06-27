@@ -2,20 +2,18 @@ package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import br.com.tdsystem.sigac.dao.TurnoDAO;
 import br.com.tdsystem.sigac.modelo.Turno;
 import br.com.tdsystem.sigac.util.FacesUtil;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 
 @ManagedBean
 @ViewScoped
 public class TurnoMB implements Serializable {
-
-	public TurnoMB() {
-		listarTurnos();
-		turno = new Turno();
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,8 +22,12 @@ public class TurnoMB implements Serializable {
 	
 	private Turno turno = null;
 	private TurnoDAO turnoDAO = null;
+	
+	public TurnoMB() {
+		listarTurnos();
+		turno = new Turno();
+	}
 		
-
 	public Turno getTurno() {
 		return turno;
 	}
@@ -55,21 +57,24 @@ public class TurnoMB implements Serializable {
 	}
 
 	public void salvar() {
+		
+		if(Validacao.validaCampoTexto(turno.getNome())){
+			try {
 
-		try {
+				turnoDAO = new TurnoDAO();
+				turnoDAO.salvar(turno);
+				
+				turno = new Turno();
+				listarTurnos();
+				
+				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
-			turnoDAO = new TurnoDAO();
-			turnoDAO.salvar(turno);
-			
-			turno = new Turno();
-			
-			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-
-		} catch (RuntimeException e) {
-			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Jï¿½ existe este nome cadastrado!");
-			}else{
-				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			} catch (RuntimeException e) {
+				if(e.getMessage().equals("could not execute statement")){
+					FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+				}else{
+					FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+				}
 			}
 			
 		}
@@ -81,11 +86,11 @@ public class TurnoMB implements Serializable {
 			turnoDAO = new TurnoDAO();
 			turnoDAO.excluir(turno);
 			listaTurno.remove(turno);
-			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso estï¿½ sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
@@ -103,7 +108,7 @@ public class TurnoMB implements Serializable {
 			turnoDAO = new TurnoDAO();
 			turnoDAO.editar(turno);
 			turno = new Turno();
-			FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
@@ -119,7 +124,7 @@ public class TurnoMB implements Serializable {
 			listaTurno = turnoDAO.listaTurno();
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"
+			FacesUtil.exibirMensagemErro("Não retornou registro!"
 					+ e.getMessage());
 		}
 	}
@@ -135,7 +140,7 @@ public class TurnoMB implements Serializable {
 			}
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Nï¿½o retornou registro!"
+			FacesUtil.exibirMensagemErro("Não retornou registro!"
 					+ e.getMessage());
 		}
 	}

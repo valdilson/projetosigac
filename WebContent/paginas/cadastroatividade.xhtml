@@ -10,15 +10,6 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
-
-		<f:metadata>
-			<f:event listener="#{atividadeMB.listarAtividades}"
-				type="preRenderView" />
-			<f:event listener="#{atividadeMB.pesquisaCodigo}"
-				type="preRenderView" />
-		</f:metadata>
-	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
@@ -43,6 +34,9 @@
 					<p:outputLabel value="Descricao:" />
 					<p:inputTextarea value="#{atividadeMB.atividade.descricao}"
 						disabled="false" />
+
+					<p:outputLabel value="Data Atividade:" />
+					<p:calendar id="dataEvento" value="#{atividadeMB.atividade.dataEvento}" />
 
 					<p:outputLabel value="Status:" />
 					<p:selectOneMenu value="#{atividadeMB.atividade.status}"
@@ -93,14 +87,21 @@
 						</h:commandLink>
 				</f:facet>
 
-				<p:column headerText="Código" style="width:6%"
+				<p:column headerText="Código" style="width:4%"
 					sortBy="#{atividade.codigo}">
 					<h:outputText value="#{atividade.codigo}" />
 				</p:column>
 
 				<p:column headerText="Nome" filterBy="#{atividade.nome}"
-					sortBy="#{atividade.nome}"  style="width: 40%">
+					sortBy="#{atividade.nome}"  style="width: 20%">
 					<h:outputText value="#{atividade.nome}" />
+				</p:column>
+				
+				<p:column headerText="Data" filterBy="#{atividade.dataEvento}"
+					sortBy="#{atividade.dataEvento}"  style="width: 20%">
+					<h:outputText value="#{atividade.dataEvento}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt-BR" timeZone="America/Sao_Paulo"/>
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Horas" style="width:10%"
@@ -122,8 +123,15 @@
 						action="#{atividadeMB.selecionaEdicao(atividade)}"
 						update="@all" />
 					<p:commandButton value="Excluir"
-						action="#{atividadeMB.excluir(atividade)}" immediate="true" ajax="false"
-						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade" />
+						action="#{atividadeMB.excluir(atividade)}" immediate="true"
+						update=":cadastroAtividadefrm :mgs :cadastroAtividadefrm:tabelaAtividade">
+						<p:confirm header="Confirmation" message="Tem certeza?" icon="ui-icon-alert" />
+					</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
 				</p:column>
 
 			</p:dataTable>

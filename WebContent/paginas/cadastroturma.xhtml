@@ -10,13 +10,6 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/templates/index.xhtml">
-	<ui:define name="metadata">
-
-		<f:metadata>
-			<f:event listener="#{turmaMB.listarTurmas}" type="preRenderView" />
-			<f:event listener="#{turmaMB.pesquisaCodigo}" type="preRenderView" />
-		</f:metadata>
-	</ui:define>
 
 	<ui:define name="menuPrincipal">
 
@@ -49,17 +42,14 @@
 					<p:commandButton value="Confirmar" action="#{turmaMB.editar}"
 						update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
 						
-						
 						<p:commandButton value="Cancelar" rendered="#{turmaMB.turma.codigo != null}"
 									 action="#{turmaMB.cancelarEdicao()}"
 									 update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
-						
-						
 				</h:panelGrid>
 
 				<!-- Começo tabela -->
 				<p:dataTable id="tabelaTurma" widgetVar="tabelaTurmaWV"
-					var="filtroTurmas" value="#{turmaMB.listaTurma}" rows="5"
+					var="filtroTurmas" value="#{turmaMB.listaTurma}" rows="4"
 					filteredValue="#{turmaMB.filtroTurmas}"
 					emptyMessage="Sem registro!" paginator="true">
 
@@ -86,7 +76,7 @@
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurmas.nome}"
-						sortBy="#{filtroTurmas.nome}" >
+						sortBy="#{filtroTurmas.nome}" style="width:20%">
 						<h:outputText value="#{filtroTurmas.nome}" />
 					</p:column>
 
@@ -102,7 +92,14 @@
 							action="#{turmaMB.selecionaEdicao(filtroTurmas)}" update="@all" />
 						<p:commandButton value="Excluir"
 							action="#{turmaMB.excluir(filtroTurmas)}" immediate="true"
-							update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" />
+							update=":cadastroTurmafrm :mgs :cadastroTurmafrm:tabelaTurma" >
+							<p:confirm header="Confirmation" message="Tem certeza?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
 					</p:column>
 
 				</p:dataTable>

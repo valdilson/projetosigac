@@ -43,7 +43,6 @@ public class AtividadeRealizadaTeste {
 			atividadeRealizada.setHorasAtividade((atividade.getHoras()));
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
-			atividadeRealizada.setDataEvento("05-06-15");
 			atividadeRealizada.setDataUpload("05-06-15");
 			atividadeRealizada.setComprovante(bFile);
 			atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
@@ -60,7 +59,7 @@ public class AtividadeRealizadaTeste {
 	public void editarTeste(){
 		try {
 			AtividadeRealizadaDAO atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-			AtividadeRealizada atividadeRealizada = atividadeRealizadaDAO.pesquisaCodigo(2l);
+			AtividadeRealizada atividadeRealizada = atividadeRealizadaDAO.pesquisaRepetida(1l, 1l);
 			AlunoDAO alunoDAO = new AlunoDAO();
 			Aluno aluno = alunoDAO.pesquisaCodigo(6l);
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
@@ -80,7 +79,7 @@ public class AtividadeRealizadaTeste {
 	@Ignore
 	public void excluirTeste(){
 		AtividadeRealizadaDAO atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-		AtividadeRealizada atividadeRealizada = atividadeRealizadaDAO.pesquisaCodigo(1l);
+		AtividadeRealizada atividadeRealizada = atividadeRealizadaDAO.pesquisaRepetida(1l, 1l);
 		atividadeRealizadaDAO.excluir(atividadeRealizada);
 	}
 	

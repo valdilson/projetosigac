@@ -98,13 +98,14 @@ public class AtividadeRealizadaDAO {
 	
 	
 	
-	public AtividadeRealizada pesquisaCodigo(Long codigo){
+	public AtividadeRealizada pesquisaRepetida(Long codigoAluno, Long codigoAtividade ){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		AtividadeRealizada atividadeRealizada = null;
 		try {
 			
-			Query hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_CODIGO);
-			hql.setLong("codigo", codigo);
+			Query hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_REPETE);
+			hql.setLong("codigo_atividade", codigoAtividade);
+			hql.setLong("codigo_aluno", codigoAluno);
 			
 			atividadeRealizada = (AtividadeRealizada) hql.uniqueResult();
 			System.out.println(atividadeRealizada);

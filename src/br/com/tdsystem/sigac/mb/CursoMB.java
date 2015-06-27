@@ -9,15 +9,11 @@ import javax.faces.bean.ViewScoped;
 import br.com.tdsystem.sigac.dao.CursoDAO;
 import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.util.FacesUtil;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 
 @ManagedBean
 @ViewScoped
 public class CursoMB implements Serializable {
-
-	public CursoMB() {
-		listarCursos();
-		curso = new Curso();
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +22,11 @@ public class CursoMB implements Serializable {
 	
 	private Curso curso = null;
 	private CursoDAO cursoDAO = null;
+	
+	public CursoMB() {
+		listarCursos();
+		curso = new Curso();
+	}
 		
 
 	public Curso getCurso() {
@@ -68,22 +69,26 @@ public class CursoMB implements Serializable {
 
 	public void salvar() {
 
-		try {
+		if (Validacao.validaCampoTexto(curso.getNome())) {
+			try {
 
-			cursoDAO = new CursoDAO();
-			cursoDAO.salvar(curso);
-			
-			curso = new Curso();
-			
-			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+				cursoDAO = new CursoDAO();
+				cursoDAO.salvar(curso);
+				
+				curso = new Curso();
+				listarCursos();
+				
+				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
-		} catch (RuntimeException e) {
-			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("J√° existe este nome cadastrado!"+e.getCause());
-			}else{
-				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			} catch (Exception e) {
+				if(e.getMessage().equals("could not execute statement")){
+					FacesUtil.exibirMensagemErro("J· existe este nome cadastrado!" + e.getCause());
+				}else{
+					FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+				}
 			}
 		}
+		
 	}
 
 	public void excluir(Curso curso) {
@@ -92,11 +97,11 @@ public class CursoMB implements Serializable {
 			cursoDAO = new CursoDAO();
 			cursoDAO.excluir(curso);
 			listaCurso.remove(curso);
-			FacesUtil.exibirMensagemSucesso("Exclus√£o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclus„o feita com Sucesso!");
 
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso est√£ sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso est· sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
@@ -114,9 +119,9 @@ public class CursoMB implements Serializable {
 			cursoDAO = new CursoDAO();
 			cursoDAO.editar(curso);
 			curso = new Curso();
-			FacesUtil.exibirMensagemSucesso("Edi√ß√£o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("EdiÁ„o feita com Sucesso!");
 
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro ao editar registro!"
 					+ e.getMessage());
 		}
@@ -129,8 +134,8 @@ public class CursoMB implements Serializable {
 			cursoDAO = new CursoDAO();
 			listaCurso = cursoDAO.listaCurso();
 
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("N√£o retornou registro!"
+		} catch (Exception e) {
+			FacesUtil.exibirMensagemErro("N„o retornou registro!"
 					+ e.getMessage());
 		}
 	}
@@ -145,8 +150,8 @@ public class CursoMB implements Serializable {
 				curso = cursoDAO.pesquisaCodigo(codigo);
 			}
 
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("N√£o retornou registro!"
+		} catch (Exception e) {
+			FacesUtil.exibirMensagemErro("N„o retornou registro!"
 					+ e.getMessage());
 		}
 	}

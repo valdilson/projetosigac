@@ -3,16 +3,16 @@ package br.com.tdsystem.sigac.modelo;
 public enum Periodo {
 
 	
-	PRIMEIRO("1ï¿½ Periodo"),
-	SEGUNDO("2ï¿½ Periodo"),
-	TERCEIRO("3ï¿½ Periodo"),
-	QUARTO("4ï¿½ Periodo"),
-	QUINTO("5ï¿½ Periodo"),
-	SEXTO("6ï¿½ Periodo"),
-	SETIMO("7ï¿½ Periodo"),
-	OITAVO("8ï¿½ Periodo"),
-	NONO("9ï¿½ Periodo"),
-	DECIMO("10ï¿½ Periodo");
+	PRIMEIRO("1º Periodo"),
+	SEGUNDO("2º Periodo"),
+	TERCEIRO("3º Periodo"),
+	QUARTO("4º Periodo"),
+	QUINTO("5º Periodo"),
+	SEXTO("6º Periodo"),
+	SETIMO("7º Periodo"),
+	OITAVO("8º Periodo"),
+	NONO("9º Periodo"),
+	DECIMO("10º Periodo");
 	
 	private String descricao;
 	

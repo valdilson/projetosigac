@@ -19,7 +19,7 @@ import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 import br.com.tdsystem.sigac.modelo.Turma;
 import br.com.tdsystem.sigac.modelo.Turno;
 import br.com.tdsystem.sigac.modelo.Unidade;
-import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
+import br.com.tdsystem.sigac.modelo.negocio.CriptografaSenhaMD5;
 
 public class AlunoTeste {
 

@@ -2,20 +2,18 @@ package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import br.com.tdsystem.sigac.dao.TurmaDAO;
 import br.com.tdsystem.sigac.modelo.Turma;
 import br.com.tdsystem.sigac.util.FacesUtil;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 
 @ManagedBean
 @ViewScoped
 public class TurmaMB implements Serializable {
-
-	public TurmaMB() {
-		listarTurmas();
-		turma = new Turma();
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +22,11 @@ public class TurmaMB implements Serializable {
 	
 	private Turma turma = null;
 	private TurmaDAO turmaDAO = null;
+	
+	public TurmaMB() {
+		listarTurmas();
+		turma = new Turma();
+	}
 		
 
 	public Turma getTurma() {
@@ -55,23 +58,26 @@ public class TurmaMB implements Serializable {
 	}
 
 	public void salvar() {
+		
+		if(Validacao.validaCampoTexto(turma.getNome())){
+			try {
 
-		try {
+				turmaDAO = new TurmaDAO();
+				turmaDAO.salvar(turma);
+				
+				turma = new Turma();
+				listarTurmas();
+				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
 
-			turmaDAO = new TurmaDAO();
-			turmaDAO.salvar(turma);
-			
-			turma = new Turma();
-			
-			FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-
-		} catch (RuntimeException e) {
-			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
-			}else{
-				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			} catch (RuntimeException e) {
+				if(e.getMessage().equals("could not execute statement")){
+					FacesUtil.exibirMensagemErro("Já existe este nome cadastrado!");
+				}else{
+					FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+				}
 			}
 		}
+		
 	}
 
 	public void excluir(Turma turma) {

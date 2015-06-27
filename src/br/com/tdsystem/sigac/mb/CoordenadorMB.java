@@ -12,17 +12,13 @@ import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Coordenador;
 import br.com.tdsystem.sigac.modelo.PerfilEnum;
 import br.com.tdsystem.sigac.modelo.Unidade;
-import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
+import br.com.tdsystem.sigac.modelo.negocio.CriptografaSenhaMD5;
+import br.com.tdsystem.sigac.modelo.negocio.Validacao;
 import br.com.tdsystem.sigac.util.FacesUtil;
 
 @ManagedBean
 @ViewScoped
 public class CoordenadorMB implements Serializable {
-
-	public CoordenadorMB() {
-		coordenador = new Coordenador();
-		pesquisaListaCoordenadores();
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +30,11 @@ public class CoordenadorMB implements Serializable {
 	private List<Coordenador> listaDeCoordenadores = null;
 	private List<Coordenador> filtroDeCoordenadores = null;
 	private List<Unidade> listaDeUnidades = null;
+	
+	public CoordenadorMB() {
+		coordenador = new Coordenador();
+		pesquisaListaCoordenadores();
+	}
 
 	public void selecionaEdicao(Coordenador coordenador) {
 		this.coordenador = coordenador;
@@ -48,7 +49,7 @@ public class CoordenadorMB implements Serializable {
 			listaDeUnidades = unidadeDAO.listarUnidade();
 
 		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemAlerta("Nï¿½o foi possï¿½vel acessar o banco"
+			FacesUtil.exibirMensagemAlerta("Não foi possível acessar o banco"
 					+ e.getMessage());
 		}
 
@@ -61,35 +62,39 @@ public class CoordenadorMB implements Serializable {
     }
 
 	public void salvar() throws NoSuchAlgorithmException {
-		String password = coordenador.getPassword();
-		String cpassword = coordenador.getConfirmaPassword();
-		try{
-		coordenadorDAO = new CoordenadorDAO();
-		
-		Coordenador other = coordenadorDAO.pesquisaRA(coordenador.getRa());
-		
-		if(other == null) {
-			if (!password.equals(cpassword)) {
-				FacesUtil.exibirMensagemSucesso("Senhas nÃ£o conferem ou vazias!");
+		if(Validacao.validaCampoTexto(coordenador.getNome())){
+			String password = coordenador.getPassword();
+			String cpassword = coordenador.getConfirmaPassword();
+			
+			try{
+			coordenadorDAO = new CoordenadorDAO();
+			
+			Coordenador other = coordenadorDAO.pesquisaRA(coordenador.getRa());
+			
+			if(other == null) {
+				if (!password.equals(cpassword)) {
+					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+				} else {
+
+					String senha = CriptografaSenhaMD5.converteSenhaMD5(coordenador.getPassword());
+					coordenador.setPassword(senha);
+					coordenadorDAO.salvar(coordenador);
+					coordenador = new Coordenador();
+					pesquisaListaCoordenadores();
+					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+				}
 			} else {
-
-				String senha = CriptografaSenhaMD5.converteSenhaMD5(coordenador.getPassword());
-				coordenador.setPassword(senha);
-				coordenadorDAO.salvar(coordenador);
-				coordenador = new Coordenador();
-				FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+				FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");				
 			}
-		} else {
-			FacesUtil.exibirMensagemAlerta("RA ja cadastrado no sistema, verifique!");				
+		} catch (RuntimeException e) {
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
 		}
-	} catch (RuntimeException e) {
-		if(e.getMessage().equals("could not execute statement")){
-			FacesUtil.exibirMensagemErro("JÃ¡ existe este RA cadastrado!");
-		}else{
-			FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
 		}
-	}
-
+		
 	}
 
 	public void editar() throws NoSuchAlgorithmException {
@@ -103,10 +108,10 @@ public class CoordenadorMB implements Serializable {
 				coordenador.setPassword(senha);
 				coordenadorDAO = new CoordenadorDAO();
 				coordenadorDAO.editar(coordenador);
-				FacesUtil.exibirMensagemSucesso("Ediï¿½ï¿½o feita com Sucesso!");
+				FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
 				coordenador = new Coordenador();
 			} else {
-				FacesUtil.exibirMensagemSucesso("Senha nï¿½o confere ou vazia!");
+				FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 			}
 
 		} catch (RuntimeException e) {
@@ -118,16 +123,16 @@ public class CoordenadorMB implements Serializable {
 	public void excluir(Coordenador coordenador) {
 
 		try {
-
+			
 			coordenadorDAO = new CoordenadorDAO();
 			coordenadorDAO.excluir(coordenador);
 
 			listaDeCoordenadores.remove(coordenador);
-			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
 		} catch (RuntimeException e) {
 			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Recurso estï¿½ sendo usado em outra tabela,\n"
+				FacesUtil.exibirMensagemErro("Recurso está sendo usado em outra tabela,\n"
 						+ "verifique!");
 			}else{
 				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());

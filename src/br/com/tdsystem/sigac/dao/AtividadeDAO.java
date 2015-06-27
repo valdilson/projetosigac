@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.tdsystem.sigac.modelo.Atividade;
+import br.com.tdsystem.sigac.modelo.Status;
 import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
@@ -80,6 +81,25 @@ public class AtividadeDAO {
 		}
 	}//Fim Editar
 
+	public List<Atividade> listaAtividade(Status status){
+		
+		Session secao = HibernateUtil.getSessionFactory().openSession();
+		List<Atividade> listaAtividades = null;
+		try {
+			
+			Query hql = secao.getNamedQuery(Constante.NamedQueries.ATIVIDADE_LISTA);
+			listaAtividades = hql.list();
+			
+		} catch (RuntimeException e) {
+			throw e;
+		}finally{
+			secao.close();
+		}
+		return listaAtividades;
+		
+	}//Fim Pesquisa Lista
+	
+	//Lista completa
 	public List<Atividade> listaAtividade(){
 		
 		Session secao = HibernateUtil.getSessionFactory().openSession();
@@ -97,6 +117,7 @@ public class AtividadeDAO {
 		return listaAtividades;
 		
 	}//Fim Pesquisa Lista
+
 
 	public Atividade pesquisaCodigo(Long codigo){
 		

@@ -1,5 +1,6 @@
 package br.com.tdsystem.sigac.mb;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 
 import javax.faces.application.FacesMessage;
@@ -19,22 +20,24 @@ import br.com.tdsystem.sigac.util.FacesUtil;
 
 @ManagedBean(name="loginMB")
 @SessionScoped
-public class LoginMB {
-
+public class LoginMB implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private Usuario usuario;
 	private LoginDAO loginDAO;
 	private Boolean loggedIn;
 	private String ra;
 	private String password;
 	private PerfilEnum perfil;
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
+	
 	public LoginMB() {
 		loginDAO = new LoginDAO();
 		loggedIn = Boolean.FALSE;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {

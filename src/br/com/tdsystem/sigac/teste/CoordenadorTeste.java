@@ -10,7 +10,7 @@ import br.com.tdsystem.sigac.dao.CoordenadorDAO;
 import br.com.tdsystem.sigac.dao.UnidadeDAO;
 import br.com.tdsystem.sigac.modelo.Coordenador;
 import br.com.tdsystem.sigac.modelo.Unidade;
-import br.com.tdsystem.sigac.util.CriptografaSenhaMD5;
+import br.com.tdsystem.sigac.modelo.negocio.CriptografaSenhaMD5;
 
 public class CoordenadorTeste {
 	
