@@ -78,24 +78,7 @@
 										action="#{menuMB.navegar('/paginas/uploadaluno.xhtml')}" 
 										icon="ui-icon-arrowreturnthick-1-e" />
 						</p:submenu>
-
-						<p:submenu label="Relatorios" icon="ui-icon-gear">
-							<p:submenu label="Cadastros Gerais" icon="ui-icon-refresh">
-								<p:menuitem value="Alunos" url="#" />
-								<p:menuitem value="Coordenadores" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}" />
-								<p:menuitem value="Perfil" url="#" />
-								<p:separator />
-								<p:menuitem value="Curso" action="#{menuMB.navegar('/paginas/relatorios.xhtml')}" />
-								<p:menuitem value="Periodo" url="#" />
-								<p:menuitem value="Turma" url="#" />
-								<p:menuitem value="Turno" action="#{fabricaRelatorioMB.relatorioView(1)}"
-											update="forminicial">
-									<p:fileDownload value="#{fabricaRelatorioMB.file}" />		
-								</p:menuitem>
-								<p:menuitem value="Unidade" ajax="false" action="#{fabricaRelatorioMB.relatorioView(0)}">
-									<p:fileDownload value="#{fabricaRelatorioMB.file}" />
-								</p:menuitem>
-							</p:submenu>
+						<p:submenu label="Relatórios">
 							<p:submenu label="Acompanhamento" icon="ui-icon-newwin" 
 									   rendered="#{loginMB.perfil == 'COORDENADOR'}">
 								<p:menuitem value="Atividades por Aluno" 
@@ -143,11 +126,6 @@
 
 								<h:outputLabel for="password" value="Password:" />
 								<p:password id="password" value="#{loginMB.password}" required="true" label="password" />
-
-								<p:commandLink id="ajax" update="@all" 
-												actionListener="#{menuMB.navegar('/precadastro/precadastroaluno.xhtml')}">
-									<h:outputText value="Criar Conta" />
-								</p:commandLink>
 
 								<f:facet name="footer">
 									<p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />

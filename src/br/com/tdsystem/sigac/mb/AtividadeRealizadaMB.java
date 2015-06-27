@@ -156,6 +156,9 @@ public class AtividadeRealizadaMB implements Serializable {
 			if (!listaDeAtividades.isEmpty()) {
 				atividadeRealizada.setAtividade(listaDeAtividades.get(0));				
 			}
+			InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
+					.getResourceAsStream("/resources/download/modeloAC.pdf");
+	        file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
 			
 		} catch (Exception e) {
 			System.out.println("Erro nulo: " + e.getMessage());
@@ -164,20 +167,19 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	}
 	
-	public Boolean verificaAtividadeRepetida(){
+	private Boolean verificaAtividadeRepetida(){
 		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 		Boolean grava = Boolean.TRUE;
 		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-		List<AtividadeRealizada> listaDeAtividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(usuario);
+		List<AtividadeRealizada> listaDeAtividadesRealizadas = atividadeRealizadaDAO.
+				listarAtividadesRealizadas(usuario);
 		for (AtividadeRealizada ForAtividadeRealizada : listaDeAtividadesRealizadas) {
-			if(ForAtividadeRealizada.getAtividade().getCodigo() == atividadeRealizada.getAtividade().getCodigo()){
-				grava = Boolean.FALSE;
-			}else if(ForAtividadeRealizada.getAluno().getStatusApovacao().getDescricao().equals("Aprovado")){
+			if(ForAtividadeRealizada.getAtividade().getCodigo() == atividadeRealizada.
+					getAtividade().getCodigo()){
 				grava = Boolean.FALSE;
 			}
 		}
 		return grava;
-		
 	}
 	
 	@SuppressWarnings("unused")
@@ -195,7 +197,7 @@ public class AtividadeRealizadaMB implements Serializable {
 	}
 	
 	public void salvar() {
-		if(repete()){
+		if(verificaAtividadeRepetida()){
 			try {
 				atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 				
@@ -210,6 +212,8 @@ public class AtividadeRealizadaMB implements Serializable {
 				preencheListas();
 				atualizarGrafico();
 				atividadeRealizada = new AtividadeRealizada();
+				dataUpload = new Date();
+				
 				FacesUtil.exibirMensagemSucesso("Comprovante Submetido com sucesso!");
 			} catch (Exception e) {
 				FacesUtil.exibirMensagemErro("Erro ao submeter comprovante!"
@@ -218,9 +222,8 @@ public class AtividadeRealizadaMB implements Serializable {
 						+ e.getCause());
 			}
 		}else{
-			FacesUtil.exibirMensagemAlerta("Atividade j√° lan√ßada!\n"
-											+ "ou j√° atingiu status aprovado!");
-			atividadeRealizada = new AtividadeRealizada();
+			FacesUtil.exibirMensagemAlerta("Atividade j·° lanÁada!\n"
+											+ "ou j· atingiu status aprovado!");
 		}
 
 	}
