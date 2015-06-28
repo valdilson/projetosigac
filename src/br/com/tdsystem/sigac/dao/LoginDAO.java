@@ -1,7 +1,6 @@
 package br.com.tdsystem.sigac.dao;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -17,11 +16,9 @@ import br.com.tdsystem.sigac.util.HibernateUtil;
 
 public class LoginDAO {
 
-	@SuppressWarnings("unchecked")
 	public Usuario recuperarUsuario(String ra, String password, PerfilEnum perfil) throws NoResultException, NoSuchAlgorithmException {
 		
 		Query hql = null;
-		List<IPessoa> listaPessoa = null;
 		Session secao = HibernateUtil.getSessionFactory().openSession();
 		
 		switch (perfil) {
@@ -38,16 +35,16 @@ public class LoginDAO {
 		}
 		
 		hql.setString("ra", ra);
-		listaPessoa = hql.list();
+		IPessoa iPessoa = null;
+		iPessoa = (IPessoa) hql.uniqueResult();
 		
-		for (IPessoa iPessoa : listaPessoa) {
-			if (iPessoa != null && iPessoa.getPassword().equals(CriptografaSenhaMD5.converteSenhaMD5(password))) {
-				Usuario u = new Usuario();
-				u.setUsuario(iPessoa);
-				u.setPerfil(perfil);
-				return u;
-			}
+		if (iPessoa != null && iPessoa.getPassword().equals(CriptografaSenhaMD5.converteSenhaMD5(password))) {
+			Usuario u = new Usuario();
+			u.setUsuario(iPessoa);
+			u.setPerfil(perfil);
+			return u;
 		}
+		
 		
 		throw new NoResultException();
 	}

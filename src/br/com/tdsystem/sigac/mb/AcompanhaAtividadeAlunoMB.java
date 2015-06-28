@@ -9,7 +9,6 @@ import javax.faces.bean.ViewScoped;
 import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
-import br.com.tdsystem.sigac.modelo.Status;
 import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 
 @ManagedBean

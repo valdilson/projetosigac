@@ -163,7 +163,7 @@ public class PopulaBanco {
 			coordenador.setNome("Efreim Louzada");
 			coordenador.setUnidade(unidade);
 			coordenador.setPassword(CriptografaSenhaMD5.converteSenhaMD5("123"));
-			coordenador.setRa("6273281272");
+			coordenador.setRa("123");
 			coordenadorDAO.salvar(coordenador);
 			
 			//Insere Aluno
@@ -181,7 +181,7 @@ public class PopulaBanco {
 			turno = turnoDAO.pesquisaCodigo(1l);
 			
 			aluno.setNome("Thiago Oliveira");
-			aluno.setRa("6273281272");
+			aluno.setRa("123");
 			aluno.setEmail("thiago.krathos@gmail.com");
 			aluno.setPassword("123");
 			aluno.setStatus(Status.ATIVO);

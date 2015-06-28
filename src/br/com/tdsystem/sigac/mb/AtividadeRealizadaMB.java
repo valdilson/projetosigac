@@ -110,7 +110,7 @@ public class AtividadeRealizadaMB implements Serializable {
 				next = is.read();
 			}
 			bos.flush();
-			//aqui estï¿½o os bytes do documento upado
+			//aqui estão os bytes do documento upado
 			byte[] btFile = bos.toByteArray();
 			atividadeRealizada.setComprovante(btFile); 
 			

@@ -143,8 +143,6 @@ public class AlunoMB implements Serializable {
 	
 	
 	public void salvar() throws NoSuchAlgorithmException {
-		String password = aluno.getPassword();
-		String cpassword = aluno.getConfirmaPassword();
 
 		try {
 			alunoDAO = new AlunoDAO();
@@ -152,7 +150,7 @@ public class AlunoMB implements Serializable {
 			Aluno other = alunoDAO.pesquisaRA(aluno.getRa());
 			
 			if(other == null) {
-				if (!password.equals(cpassword)) {
+				if (!aluno.getPassword().equals(aluno.getConfirmaPassword())) {
 					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 				} else {
 

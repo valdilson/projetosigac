@@ -2,7 +2,6 @@ package br.com.tdsystem.sigac.modelo;
 
 public enum Periodo {
 
-	
 	PRIMEIRO("1º Periodo"),
 	SEGUNDO("2º Periodo"),
 	TERCEIRO("3º Periodo"),
