@@ -83,7 +83,7 @@ public class Aluno implements Serializable, IPessoa {
     private Periodo periodo;
 	
 	@Transient
-	private Integer horasRealizadas;
+	private Integer horasRealizadas = 0;
 	
 	@Column(name = "statusAprovacao")
 	@Enumerated(EnumType.ORDINAL)

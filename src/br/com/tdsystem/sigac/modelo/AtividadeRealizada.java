@@ -44,9 +44,6 @@ public class AtividadeRealizada implements Serializable {
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	@JoinColumn(name = "codigo_atividade", referencedColumnName = "codigo")
 	private Atividade atividade;
-
-	@Column(name = "horas_atividade")
-	private Integer horasAtividade;
 	
 	@Column(name = "dataUpload")
 	private String dataUpload;
@@ -73,14 +70,6 @@ public class AtividadeRealizada implements Serializable {
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
-	}
-
-	public Integer getHorasAtividade() {
-		return horasAtividade;
-	}
-
-	public void setHorasAtividade(Integer horasAtividade) {
-		this.horasAtividade = horasAtividade;
 	}
 
 	public Aluno getAluno() {

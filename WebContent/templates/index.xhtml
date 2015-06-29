@@ -22,7 +22,12 @@
 			float: right !important;
 		}
 	</style>
-	
+	<p:notificationBar position="bottom" effect="slide" styleClass="top"
+		widgetVar="bar">
+		<h:outputText value="E-mail: suporte@pitagoras.com.br - Telefone: (31)9999-9999" style="font-size:26px;"/>
+		<p:commandButton value="Fechar" onclick="PF('bar').hide()" type="button"
+		icon="ui-icon-arrow-1-n" />
+	</p:notificationBar>
 </h:head>
 <h:body>
 
@@ -78,18 +83,15 @@
 										action="#{menuMB.navegar('/paginas/uploadaluno.xhtml')}" 
 										icon="ui-icon-arrowreturnthick-1-e" />
 						</p:submenu>
-						<p:submenu label="Relatórios">
-							<p:submenu label="Acompanhamento" icon="ui-icon-newwin" 
-									   rendered="#{loginMB.perfil == 'COORDENADOR'}">
+						<p:submenu label="Relatórios" rendered="#{loginMB.perfil == 'COORDENADOR'}">
+							<p:submenu label="Acompanhamento" icon="ui-icon-newwin">
 								<p:menuitem value="Atividades por Aluno" 
 											action="#{menuMB.navegar('/paginas/acompanhaatividadealuno.xhtml')}" />
 							</p:submenu>
 						</p:submenu>
 
 						<p:submenu label="Ajuda" icon="ui-icon-help">
-							<p:menuitem value="Sobre o Sistema" 
-										action="#{menuMB.navegar('/paginas/sobreosistema.xhtml')}" />
-							<p:menuitem value="Equipe Desenvolvimento" url="#" />
+							<p:menuitem value="Suporte" onclick="PF('bar').show()" />
 						</p:submenu>
 
 						<p:menuitem value="Sair" action="#{loginMB.sair}" update="@all" 
@@ -129,6 +131,8 @@
 
 								<f:facet name="footer">
 									<p:commandButton value="Login" actionListener="#{loginMB.login}" update="@all" />
+									<p:separator />
+									<p:clock />
 								</f:facet>
 							</h:panelGrid>
 						</p:dialog>

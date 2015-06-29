@@ -40,7 +40,6 @@ public class AtividadeRealizadaTeste {
 			
 			AtividadeRealizadaDAO atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			AtividadeRealizada atividadeRealizada = new AtividadeRealizada();
-			atividadeRealizada.setHorasAtividade((atividade.getHoras()));
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
 			atividadeRealizada.setDataUpload("05-06-15");
@@ -64,8 +63,7 @@ public class AtividadeRealizadaTeste {
 			Aluno aluno = alunoDAO.pesquisaCodigo(6l);
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
 			Atividade atividade = atividadeDAO.pesquisaCodigo(2l);
-			
-			atividadeRealizada.setHorasAtividade(atividade.getHoras());
+
 			atividadeRealizada.setAluno(aluno);
 			atividadeRealizada.setAtividade(atividade);
 			atividadeRealizadaDAO.editar(atividadeRealizada);

@@ -22,6 +22,7 @@ public class CoordenadorMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//Declaração dos Objetos
 	private Coordenador coordenador = null;
 	private CoordenadorDAO coordenadorDAO = null;
 	private UnidadeDAO unidadeDAO = null;
@@ -31,6 +32,7 @@ public class CoordenadorMB implements Serializable {
 	private List<Coordenador> filtroDeCoordenadores = null;
 	private List<Unidade> listaDeUnidades = null;
 	
+	//Metodo construtor
 	public CoordenadorMB() {
 		coordenador = new Coordenador();
 		pesquisaListaCoordenadores();
@@ -40,6 +42,7 @@ public class CoordenadorMB implements Serializable {
 		this.coordenador = coordenador;
 	}
 
+	//Metodo que chama a camada DAO que sabe como trazer uma lista de Coordenadores
 	public void pesquisaListaCoordenadores() {
 		try {
 			coordenadorDAO = new CoordenadorDAO();
@@ -52,30 +55,32 @@ public class CoordenadorMB implements Serializable {
 			FacesUtil.exibirMensagemAlerta("Não foi possível acessar o banco"
 					+ e.getMessage());
 		}
-
 	}
 	
-	
+	//Metodo para instancia uma nova atividade para cancelar a edição, necessário para
+	// o botao editar sumir da View, pois ele renderiza quando o codigo é != null
     public void cancelarEdicao(){
-    	coordenador = new Coordenador();
-    	
+    	coordenador = new Coordenador();	
     }
 
+    //Metodo que Salva um Coordenador
 	public void salvar() throws NoSuchAlgorithmException {
+		//Valida o campo Nome para nao ser vazio
 		if(Validacao.validaCampoTexto(coordenador.getNome())){
-			String password = coordenador.getPassword();
-			String cpassword = coordenador.getConfirmaPassword();
 			
 			try{
 			coordenadorDAO = new CoordenadorDAO();
 			
+			//Pesquisa se existe o RA informado no banco para evitar a duplicidade
 			Coordenador other = coordenadorDAO.pesquisaRA(coordenador.getRa());
 			
+			//Retornando vazio (null), continua as validações
 			if(other == null) {
-				if (!password.equals(cpassword)) {
+				if (!coordenador.getPassword().equals(coordenador.getConfirmaPassword())) {
 					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
 				} else {
-
+					
+					//Criptografa a senha e chama a camada DAO que sabe como gravar o Coordenador
 					String senha = CriptografaSenhaMD5.converteSenhaMD5(coordenador.getPassword());
 					coordenador.setPassword(senha);
 					coordenadorDAO.salvar(coordenador);
@@ -94,11 +99,13 @@ public class CoordenadorMB implements Serializable {
 			}
 		}
 		}
-		
 	}
 
+	//Metodo que Edita um Coordenador
 	public void editar() throws NoSuchAlgorithmException {
 		try {
+			
+			//Criptografa a senha com MD5
 			String senha = CriptografaSenhaMD5.converteSenhaMD5(coordenador
 					.getPassword());
 			if (coordenador.getPassword() != ""
@@ -120,6 +127,7 @@ public class CoordenadorMB implements Serializable {
 		}
 	}
 	
+	//Metodo que exclui um Coordenador
 	public void excluir(Coordenador coordenador) {
 
 		try {
@@ -127,6 +135,7 @@ public class CoordenadorMB implements Serializable {
 			coordenadorDAO = new CoordenadorDAO();
 			coordenadorDAO.excluir(coordenador);
 
+			//Remove o coordenador da lista da View
 			listaDeCoordenadores.remove(coordenador);
 			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 
@@ -140,6 +149,7 @@ public class CoordenadorMB implements Serializable {
 		}
 	}
 
+	//Metodos Get e Set's
 	public Coordenador getCoordenador() {
 		return coordenador;
 	}

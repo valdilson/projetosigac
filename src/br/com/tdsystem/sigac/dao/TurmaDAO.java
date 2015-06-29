@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.tdsystem.sigac.modelo.Turma;
+import br.com.tdsystem.sigac.util.Constante;
 import br.com.tdsystem.sigac.util.HibernateUtil;
 
 public class TurmaDAO {
@@ -49,7 +50,7 @@ public class TurmaDAO {
 		List<Turma> turmas = null;
 		try {
 													//Nome da NamedQuery criado no modelo 
-			Query consulta = session.getNamedQuery("Turma.lista");
+			Query consulta = session.getNamedQuery(Constante.NamedQueries.TURMA_LISTA);
 			turmas = consulta.list(); // variavel tipo lista que recebe a consulta 
 		} catch (RuntimeException ex) {
 			throw ex;

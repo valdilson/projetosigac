@@ -81,24 +81,15 @@
 
 				</p:dataTable>
 
+				<!-- Gráfico das Atividades mais Realizadas -->>
 				<p:chart id="grafico" type="pie" model="#{atividadeRealizadaMB.graficoAtividades}"
-				 style="width:400px;height:300px" widgetVar="graficowg"/>
-
-				<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+				 style="width:400px;height:300px" widgetVar="graficowg" 
+				 rendered="#{loginMB.usuario.perfil == 'COORDENADOR'}"/>
  
 				<p:dialog widgetVar="dlg" showEffect="fade" modal="false" header="Gráfico" resizable="false">
 				    <p:outputPanel id="output" style="width:500px;height:300px"/>
 				</p:dialog>
 				 
-				<script type="text/javascript">
-					function exportChart() {
-					    //export image
-					    $('#output').empty().append(PF('graficowg').exportAsImage());
-					 
-					    //show the dialog
-					    PF('dlg').show();
-					}
-				</script>
 			</p:panel>
 
 		</h:form>

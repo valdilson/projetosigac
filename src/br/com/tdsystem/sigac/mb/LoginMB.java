@@ -31,11 +31,67 @@ public class LoginMB implements Serializable{
 	private String password;
 	private PerfilEnum perfil;
 	
+	//Metodo Construtor
 	public LoginMB() {
 		loginDAO = new LoginDAO();
 		loggedIn = Boolean.FALSE;
 	}
 
+	//Metodo que verifica a existencia de um usuario no banco
+	public void login(ActionEvent event) throws NoSuchAlgorithmException {
+
+		//Recupera o contexto da aplicação
+		RequestContext requestContext = RequestContext.getCurrentInstance();
+		FacesMessage message = null;
+		loggedIn = Boolean.FALSE;
+
+		if (ra != null && password != null) {
+			try {
+				loggedIn = Boolean.TRUE;
+				
+				//Usuario recebe um Usuario cajo exista no banco
+				usuario = loginDAO.recuperarUsuario(ra, password, perfil);
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Bem vindo(a) " + usuario.getUsuario().getNome(), "");
+			} catch (NoResultException e) {
+				loggedIn = Boolean.FALSE;
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Loggin Error", "Verifique usuário e senha!\n"
+								+ " Ou contate administrador.");
+			}
+		} else {
+			loggedIn = Boolean.FALSE;
+			message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Loggin Error", "Infrorme usuario e senha");
+		}
+		//Adciona uma mensagem da tela index.xhtml com as boas vindas
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		requestContext.addCallbackParam("loggedIn", loggedIn);
+	}
+
+	//Metodo que invalida a Sessao do Usuário e retorna a página Index.xhtml
+	public String sair() {
+		String retorno = "/templates/index.xhtml";
+		try {
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+			session.invalidate();
+			FacesUtil.exibirMensagemErro("Sessão Finalizada");
+		} catch (Exception e) {
+			FacesUtil.exibirMensagemErro("Erro ao deslogar" + e.getMessage());
+		}
+		return retorno;
+	}
+	
+	//Metodo para adcionar uma mensagem no contexto da aplicação
+	public void addMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	
+	//Metodos Get e Set
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -60,45 +116,6 @@ public class LoginMB implements Serializable{
 		this.password = password;
 	}
 
-	public void login(ActionEvent event) throws NoSuchAlgorithmException {
-
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		FacesMessage message = null;
-		loggedIn = Boolean.FALSE;
-
-		if (ra != null && password != null) {
-			try {
-				loggedIn = Boolean.TRUE;
-				usuario = loginDAO.recuperarUsuario(ra, password, perfil);
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Bem vindo(a) " + usuario.getUsuario().getNome(), "");
-			} catch (NoResultException e) {
-				loggedIn = Boolean.FALSE;
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
-						"Loggin Error", "Verifique usuário e senha!\n"
-								+ " Ou contate administrador.");
-			}
-		} else {
-			loggedIn = Boolean.FALSE;
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Loggin Error", "Infrorme usuario e senha");
-		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		requestContext.addCallbackParam("loggedIn", loggedIn);
-	}
-
-	public String sair() {
-		String retorno = "/templates/index.xhtml";
-		try {
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-			session.invalidate();
-			FacesUtil.exibirMensagemErro("Sessão Finalizada");
-		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Erro ao deslogar" + e.getMessage());
-		}
-		return retorno;
-	}
-
 	public PerfilEnum getPerfil() {
 		return perfil;
 	}
@@ -109,12 +126,6 @@ public class LoginMB implements Serializable{
 
 	public void criarConta(ActionEvent actionEvent) {
 		addMessage("Criar nova conta");
-	}
-
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	public Boolean getLoggedIn() {

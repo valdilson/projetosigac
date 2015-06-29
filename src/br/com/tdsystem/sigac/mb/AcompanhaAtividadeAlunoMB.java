@@ -5,62 +5,48 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import br.com.tdsystem.sigac.dao.AlunoDAO;
+import br.com.tdsystem.sigac.dao.AtividadeRealizadaDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 
 @ManagedBean
 @ViewScoped
+/*
+ * Este controller é utilizado apenas pela View acompanhAtividadeAluno e é apenas vista pelo Coordenador
+ * Ela tem como objetivo se comportar como uma fabrica de relatórios dinâmicos.
+ */
 public class AcompanhaAtividadeAlunoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<Aluno> listaDeAlunos;
+	
+	//Declaração dos Objetos
+	private List<AtividadeRealizada> listaDeAtividadesRealizadas = null;
 	private List<Aluno> filtroAlunos;
-	AlunoDAO alunoDAO;
+	AtividadeRealizadaDAO atividadeRealizadaDAO = null;
 	
+	//Metodo Construtor
 	public AcompanhaAtividadeAlunoMB() {
-		alunoDAO = new AlunoDAO();
-		atualizarListaAlunos();
+		
+		atualizahorasRealizadasLista();
 	}
 	
-	private void atualizarListaAlunos() {
-		listaDeAlunos = alunoDAO.listarAlunos();
-		for (Aluno aluno : listaDeAlunos) {
-			if(aluno.getAtividadesRealizadas().size() > 0){
-				aluno.setHorasRealizadas(0);
-				for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
-					aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());
-					aluno.setHorasFaltantes(aluno.getCurso().getHorasExigidas() - aluno.getHorasRealizadas());
-				}
-					
-				if(aluno.getHorasFaltantes() <= 0){
-					try {
-						aluno.setStatusApovacao(StatusAprovacao.APROVADO);
-						alunoDAO.editarComum(aluno);
-					} catch (Exception e) {
-						System.out.println("Erro ao calcular horas: "+ e.getCause());
-					}
-					
-				}else{
-					aluno.setStatusApovacao(StatusAprovacao.PENDENTE);
-					alunoDAO.editarComum(aluno);
-				}
-			}else{
-				aluno.setHorasFaltantes(aluno.getCurso().getHorasExigidas());
-				aluno.setHorasRealizadas(0);
-				aluno.setStatusApovacao(StatusAprovacao.PENDENTE);
+	//Metodo que atualiza as horas dos alunos para conferência do Coordenador
+	private void atualizahorasRealizadasLista(){
+		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		listaDeAtividadesRealizadas = 
+				atividadeRealizadaDAO.listarAtividadesRealizadasLista();
+		for (AtividadeRealizada atividadeRealizada : listaDeAtividadesRealizadas) {
+			
+			if(atividadeRealizada.getAluno().getStatusApovacao().equals(StatusAprovacao.APROVADO)){
+				atividadeRealizada.getAluno().setHorasRealizadas(atividadeRealizada.getAluno().getHorasRealizadas()
+						+ atividadeRealizada.getAtividade().getHoras());
+				atividadeRealizada.getAluno().setHorasFaltantes
+				(atividadeRealizada.getAluno().getCurso().getHorasExigidas()
+						- atividadeRealizada.getAluno().getHorasRealizadas());
 			}
-		}//fim For Principal
+		}
 	}
-
-	public List<Aluno> getListaDeAlunos() {
-		return listaDeAlunos;
-	}
-
-	public void setListaDeAlunos(List<Aluno> listaDeAlunos) {
-		this.listaDeAlunos = listaDeAlunos;
-	}
+	
 
 	public List<Aluno> getFiltroAlunos() {
 		return filtroAlunos;
@@ -68,6 +54,15 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 
 	public void setFiltroAlunos(List<Aluno> filtroAlunos) {
 		this.filtroAlunos = filtroAlunos;
+	}
+
+	public List<AtividadeRealizada> getListaDeAtividadesRealizadas() {
+		return listaDeAtividadesRealizadas;
+	}
+
+	public void setListaDeatividadesRealizadas(
+			List<AtividadeRealizada> listaDeAtividadesRealizadas) {
+		this.listaDeAtividadesRealizadas = listaDeAtividadesRealizadas;
 	}
 
 }

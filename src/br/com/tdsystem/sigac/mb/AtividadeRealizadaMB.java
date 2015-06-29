@@ -31,17 +31,23 @@ import br.com.tdsystem.sigac.dao.AtividadeRealizadaDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
 import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
+
 import br.com.tdsystem.sigac.modelo.IPessoa;
 import br.com.tdsystem.sigac.modelo.Status;
 import br.com.tdsystem.sigac.modelo.StatusAprovacao;
-import br.com.tdsystem.sigac.util.FacesUtil;
 import br.com.tdsystem.sigac.modelo.negocio.FormataData;
+import br.com.tdsystem.sigac.util.FacesUtil;
 
 @ManagedBean
 @ViewScoped
+/*
+ * Esta Classe de controle(MB) está sendo usada por duas views(uploadAluno e downloadAluno),
+ * portanto alguns métodos servem apenas para alguma tela específica ou usuário específico.
+ */
 public class AtividadeRealizadaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//Declaração dos Objetos
 	private UploadedFile uploadfile;
 	private Date dataUpload = null;
 	private StreamedContent file, fileDownload;
@@ -64,10 +70,18 @@ public class AtividadeRealizadaMB implements Serializable {
 	
 	private PieChartModel graficoAtividades;
 	
+	//Injetando o MB login para recuperação do usuario em sessão
+	@ManagedProperty(value="#{loginMB}")
+	private LoginMB loginMB;
+	
+	//Metodo Construtor
 	public AtividadeRealizadaMB() {
 		atividadeRealizada = new AtividadeRealizada();
 		dataUpload = new Date();
 		preencheListas();
+		
+		//Pega o usuario logado e verifica se é uma instancia de Aluno para calcular as horas
+		//So o aluno tem acesso a esse metodo, pois ele é executado apenas na tela de Upload
 		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 		if (usuario instanceof Aluno) {
 			aluno = (Aluno) usuario;			
@@ -77,6 +91,10 @@ public class AtividadeRealizadaMB implements Serializable {
 		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/download/modeloAC.pdf");
         file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
+        
+        
+        
+        //Metodo de atualizacao do grafico
         atualizarGrafico();
 	}
 	
@@ -84,7 +102,7 @@ public class AtividadeRealizadaMB implements Serializable {
 		aluno.setHorasRealizadas(0);
 		for (AtividadeRealizada atividadeRealizada : aluno.getAtividadesRealizadas()) {
 			if (atividadeRealizada.getStatusApovacao().equals(StatusAprovacao.APROVADO)) {
-				aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getHorasAtividade());				
+				aluno.setHorasRealizadas(aluno.getHorasRealizadas() + atividadeRealizada.getAtividade().getHoras());				
 			}
 		}
 		if (aluno.getHorasRealizadas() >= aluno.getCurso().getHorasExigidas()) {
@@ -93,23 +111,29 @@ public class AtividadeRealizadaMB implements Serializable {
 			aluno.setStatusApovacao(StatusAprovacao.PENDENTE);			
 		}
 	}
-	
-	@ManagedProperty(value="#{loginMB}")
-	private LoginMB loginMB;
 
-	//UploadArquivo
+	//Metodo que faz o Upload do Arquivo
 	public void handleFileUpload(FileUploadEvent event) {
 
 		try {
-
+			//Pega o arquivo e o inputStream do arquivo ("Caminho Real")
 			is = event.getFile().getInputstream();
+			
+			//objeto que sabe converter inputStream em Array de Bytes
 			bos = new ByteArrayOutputStream();
+			
+			//pegando os bytes de cada caracter do InpuStream do arquivo e adcionando em uma variavel inteira
+			// é preciso fazer isso para saber a quantidade de bytes e o tamanho dele.
 			int next = is.read();
+			
+			//Escrevendo essa leitura caracter por caracter até o arquivo ser todo escrito dentro do bos
 			while (next > -1 ) {
 				bos.write(next);
 				next = is.read();
 			}
+			
 			bos.flush();
+			
 			//aqui estão os bytes do documento upado
 			byte[] btFile = bos.toByteArray();
 			atividadeRealizada.setComprovante(btFile); 
@@ -124,20 +148,27 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
 	}
 	
+	//Metodo que valida o documento, setando o Enum para Aprovado, sendo assim a atividade entra na contagem
+	// do metodo atualizarHorasRealizadas(aluno).
 	public void validaDocumento(AtividadeRealizada atividadeRealizada){
 		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 		atividadeRealizada.setStatusApovacao(StatusAprovacao.APROVADO);
 		atividadeRealizadaDAO.editar(atividadeRealizada);
 	}
 	
+	//Metodo que invalida o documento setando o Enum para invalido, sendo assim ele nao entra na contagem
+	// do metodo atualizarHorasRealizadas(aluno) que so conta atividades realizadas com status Aprovado
 	public void invalidaDocumento(AtividadeRealizada atividadeRealizada){
 		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 		atividadeRealizada.setStatusApovacao(StatusAprovacao.INVALIDO);
 		atividadeRealizadaDAO.editar(atividadeRealizada);
 	}
 	
+	//metodo que formata a data atual
 	public String formataData(){
 		Date dataAtual =  new Date();
+		
+		//Classe FormataData e seu metodo estático
 		String data = FormataData.formataData(dataAtual);
 		return data;
 	}
@@ -146,16 +177,22 @@ public class AtividadeRealizadaMB implements Serializable {
 		this.atividadeRealizada = atividadeRealizada;
 	}
 
+	//Metodo que preenche as litas necessárias e é chamado no construtor da classe
 	public void preencheListas() {
 		try {
 			atividadeDAO = new AtividadeDAO();
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			listaDeAtividades = atividadeDAO.listaAtividade(Status.ATIVO);
+			
+			//pega o usuario logado para passar como parametro para o metodo polimorfico 
 			IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 			listaDeAtividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(usuario);
+
 			if (!listaDeAtividades.isEmpty()) {
 				atividadeRealizada.setAtividade(listaDeAtividades.get(0));				
 			}
+			
+			//Pega o inpuStream("caminho real") do Documento Modelo que esta na pasta do projeto e adciona no objeto File.
 			InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext())
 					.getResourceAsStream("/resources/download/modeloAC.pdf");
 	        file = new DefaultStreamedContent(stream, "download/pdf", "downloaded_modeloAC.pdf");
@@ -167,10 +204,16 @@ public class AtividadeRealizadaMB implements Serializable {
 
 	}
 	
+	//Metodo que verifica se a atividade já foi submetida uma vez, evitando a duplicidade
 	private Boolean verificaAtividadeRepetida(){
+		
+		//Pega o usuario logado
 		IPessoa usuario = FacesUtil.getUsuarioLogado().getUsuario();
 		Boolean grava = Boolean.TRUE;
 		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
+		
+		//Recupera uma lista de atividadesRealizadas do usuario
+		//(hora sendo aluno, hora sendo todas se usuario for coordenador)
 		List<AtividadeRealizada> listaDeAtividadesRealizadas = atividadeRealizadaDAO.
 				listarAtividadesRealizadas(usuario);
 		for (AtividadeRealizada ForAtividadeRealizada : listaDeAtividadesRealizadas) {
@@ -182,31 +225,21 @@ public class AtividadeRealizadaMB implements Serializable {
 		return grava;
 	}
 	
-	@SuppressWarnings("unused")
-	private Boolean repete(){
-		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
-		AtividadeRealizada compara = atividadeRealizadaDAO.pesquisaRepetida(atividadeRealizada.getAtividade().getCodigo(),
-				atividadeRealizada.getAluno().getCodigo());
-		if(atividadeRealizada.getAtividade().getCodigo() == compara.getAtividade().getCodigo() &&
-				atividadeRealizada.getAluno().getCodigo() == compara.getAluno().getCodigo()){
-			FacesUtil.exibirMensagemAlerta("Atividade já realizada");
-			return false;
-		}else{
-			return true;
-		}
-	}
-	
+	//metodo que salva um upload submetido
 	public void salvar() {
 		if(verificaAtividadeRepetida()){
 			try {
 				atividadeRealizada.setDataUpload(FormataData.formataData(getDataUpload()));
 				
+				//recuperando as seleções da tela(Atividade selecionada e usuario)
 				atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 				atividade = atividadeDAO.pesquisaCodigo(atividadeRealizada.getAtividade().getCodigo());
-				atividadeRealizada.setHorasAtividade(atividade.getHoras());
 				atividadeRealizada.setAluno((Aluno) loginMB.getUsuario().getUsuario());
+				
+				//Setando como pendente a atividade pois precisa ser validada pelo coordenador
 				atividadeRealizada.setStatusApovacao(StatusAprovacao.PENDENTE);
 				
+				//Chamando o metodo da DAO que é quem realmente sabe salvar no banco.
 				atividadeRealizadaDAO.salvar(atividadeRealizada);
 				atualizarHorasRealizadas(aluno);
 				preencheListas();
@@ -222,18 +255,18 @@ public class AtividadeRealizadaMB implements Serializable {
 						+ e.getCause());
 			}
 		}else{
-			FacesUtil.exibirMensagemAlerta("Atividade já¡ lançada!\n"
+			FacesUtil.exibirMensagemAlerta("Atividade já lançada!\n"
 											+ "ou já atingiu status aprovado!");
 		}
-
 	}
 	
+	//Metodo Excluir Atividade(Upload), salvo ela não tenha sido validada pelo coordenador
 	public void excluir(AtividadeRealizada atividadeRealizada) {
 
 		try {
 			atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 			atividadeRealizadaDAO.excluir(atividadeRealizada);
-			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
+			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
 			listaDeAtividadesRealizadas.remove(atividadeRealizada);
 			preencheListas();
 			atualizarGrafico();
@@ -244,6 +277,9 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
 	}
 	
+	//Metodo que edita uma atividade*
+	//* metodo em OFF devido a regra de negocio estabelcida e nao poder editar a atividade,
+	// melhor seria excluir e submeter novamente.
 	public void editar(){
 		if(verificaAtividadeRepetida()){
 			try {
@@ -260,13 +296,19 @@ public class AtividadeRealizadaMB implements Serializable {
 		}
 	}
 	
+	
+	//metodo que atualiza o grafico com as atividades mais realizadas
 	public void atualizarGrafico() {
         
 		graficoAtividades = new PieChartModel();
-         
+        
+		//Setando os atributos(Titulo, posição w(west), e os labels para aparecer.)
         graficoAtividades.setTitle("Relação de Atividades mais Realizdas");
         graficoAtividades.setLegendPosition("w");
         graficoAtividades.setShowDataLabels(Boolean.TRUE);
+        
+        //Declarando um HashMap "filter"(Tabela que utiliza chave e valor), com isso setamos
+        //o nome da atividade na String e a contagem no Integer.
         Map<String, Integer> filter = new HashMap<String, Integer>();
         
         
@@ -274,32 +316,35 @@ public class AtividadeRealizadaMB implements Serializable {
         List<AtividadeRealizada> atividadesRealizadas = atividadeRealizadaDAO.listarAtividadesRealizadas(
         		FacesUtil.getUsuarioLogado().getUsuario());
         
-        //TODO nao permitir nomes de atividades repetidas
+        //For para preencher os nomes das atividades
         for (Atividade atividade : atividades) {
         	filter.put(atividade.getNome(), 0);
         }
+        
+        //For para preenhcer fazendo a contagem e adcionando na respectiva atividade.
         Integer cont = null;
         for (AtividadeRealizada atividade : atividadesRealizadas) {
         	cont = filter.get(atividade.getAtividade().getNome());
         	filter.put(atividade.getAtividade().getNome(), ++cont);
 		}
         
+        //Declarando um SetEntry para colocar as informações que estão dentro do filter(HashMap),
+        // dentro do grafico.
         Set<Entry<String, Integer>> entrySet = filter.entrySet();
         for (Entry<String, Integer> entry : entrySet) {
 			graficoAtividades.set(entry.getKey(), entry.getValue());
 		}
-        
     }
 	
-	public void atualizarData() {
-		System.out.println(atividadeRealizada.getAtividade().getDataEvento());
-	}
-	
+	//Metodo usado pela View downloadAtividade, recupera o comprovante submetido pelo Aluno para visualização e
+	// validação do coordenador.
 	public void download(AtividadeRealizada atividadeRealizada) {
 		InputStream stream = new ByteArrayInputStream(atividadeRealizada.getComprovante());
         fileDownload = new DefaultStreamedContent(stream, "download/pdf", "atividade-" + atividadeRealizada.getCodigo() + ".pdf");
 	}
 
+	
+	//Metodos Get e Set's
 	public List<AtividadeRealizada> getListaDeAtividadesRealizadas() {
 		return listaDeAtividadesRealizadas;
 	}
@@ -406,5 +451,4 @@ public class AtividadeRealizadaMB implements Serializable {
 	public void setGraficoAtividades(PieChartModel graficoAtividades) {
 		this.graficoAtividades = graficoAtividades;
 	}
-
 }

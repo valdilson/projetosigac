@@ -33,12 +33,15 @@ public class AlunoMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//Declaração dos objetos
 	private Aluno aluno = null;
-	private AlunoDAO alunoDAO = null;
 	private PerfilEnum perfil;
+	
+	private AlunoDAO alunoDAO = null;
 	private TurnoDAO turnoDAO = null;
 	private TurmaDAO turmaDAO = null;
 	private UnidadeDAO unidadeDAO = null;
+	
 	private List<Aluno> listaDeAlunos = null;
 	private List<Aluno> filtroDeAlunos = null;
 	private List<Curso> listaDeCursos = null;
@@ -49,9 +52,12 @@ public class AlunoMB implements Serializable {
 	
 	private String password;
 	
+	//Injanto o MB login para recuperação do usuario em sessão
 	@ManagedProperty(value = "#{loginMB}")
 	private LoginMB loginMB;
 	
+	
+	//Metódo Construtor
 	public AlunoMB() {
 		aluno = new Aluno();
 		listaPeriodos = new ArrayList<Periodo>();
@@ -59,6 +65,181 @@ public class AlunoMB implements Serializable {
 		pesquisaListaCurso();
 	}
 
+	//Valida Campo nome Vazio
+	public void validaCampos() throws NoSuchAlgorithmException{
+		if(Validacao.validaCampoTexto(aluno.getNome())){
+			salvar();
+		}
+	}
+	
+	//Instacia um novo Objeto para cancelar a edição(Necessario pois o botao editar da View aparece se 
+	// o codigo for != null)
+	public void cancelarEdicao () {
+		aluno = new Aluno();
+	}
+	
+	//Metodo que grava um Aluno
+	public void salvar() throws NoSuchAlgorithmException {
+
+		try {
+			alunoDAO = new AlunoDAO();
+			
+			//Verifica se existe o RA informado, caso exista não deixa gravar
+			Aluno other = alunoDAO.pesquisaRA(aluno.getRa());
+			
+			//se não retornar nada (null), continua com as validações
+			if(other == null) {
+				if (!aluno.getPassword().equals(aluno.getConfirmaPassword())) {
+					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+				} else {
+					
+					//criptografa a senha com MD5 e chama o metodo da camada DAO que sabe como gravar um Aluno
+					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
+					aluno.setPassword(senha);
+					alunoDAO.salvar(aluno);
+					aluno = new Aluno();
+					pesquisarListaAlunos();
+					pesquisaListaCurso();
+					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
+				}
+			} else {
+				FacesUtil.exibirMensagemAlerta("RA já cadastrado no sistema, verifique!");				
+			}
+		} catch (RuntimeException e) {
+			if(e.getMessage().equals("could not execute statement")){
+				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
+			}else{
+				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
+			}
+		}
+	}
+
+	//Metodo que exclui um aluno
+	public void excluir(Aluno aluno) {
+
+		try {
+
+			alunoDAO = new AlunoDAO();
+			alunoDAO.excluir(aluno);
+			
+			//Remove o aluno da lista para sair da tabela view
+			listaDeAlunos.remove(aluno);
+			FacesUtil.exibirMensagemSucesso("Exclusão feita com Sucesso!");
+
+		} catch (RuntimeException e) {
+			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
+					+ e.getMessage());
+		}
+	}
+
+	//Metodo que edita um Aluno
+	public void editar() throws NoSuchAlgorithmException {
+
+		try {
+			
+			String senha = null;
+			//Verifca se o password e diferente de null e vazio
+			if (aluno.getPassword() != null && !aluno.getPassword().equals("")) {
+				///variavel senha recebe o password ja criptografado.
+				senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
+				
+			//Se for vazio o campo senha, entende-se que o usuario não irá alterar a senha e 
+			//recupero a senha ja existente.	
+			} else {
+				senha = password;
+				aluno.setPassword(senha);
+				aluno.setConfirmaPassword(password);
+			}
+			
+			//se nao for vazio e igual os campos de senha e confirma senha faz a edição.
+			if (aluno.getPassword() != "" && aluno.getPassword().equals(aluno.getConfirmaPassword())) {
+				aluno.setPassword(senha);
+				alunoDAO = new AlunoDAO();
+				alunoDAO.editar(aluno);
+				FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
+				aluno = new Aluno();
+			} else {
+				FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
+			}
+
+		} catch (RuntimeException e) {
+			FacesUtil.exibirMensagemErro("Erro ao editar Aluno!"
+					+ e.getMessage());
+		}
+	}
+
+	//Metodo que pesquisa uma lista de Alunos ou Coordenadores
+	public void pesquisarListaAlunos() {
+
+		try {
+			alunoDAO = new AlunoDAO();
+			turmaDAO = new TurmaDAO();
+			turnoDAO = new TurnoDAO();
+			unidadeDAO = new UnidadeDAO();
+			
+			//Recuperando o usuario logado
+			IPessoa pessoaLogada = FacesUtil.getUsuarioLogado().getUsuario();
+			
+			//Verifica se é uma isntância de coordenador, caso seja, traz uma lista completa dos alunos
+			if (pessoaLogada instanceof Coordenador) {
+				listaDeAlunos = alunoDAO.listarAlunos();
+			
+			//Caso não seja recupera apenas o usuário logado.
+			} else {
+				aluno = (Aluno) pessoaLogada;
+				password = aluno.getPassword();
+			}
+			
+			listaDeTurmas = turmaDAO.listaTurma();
+			listaDeTurnos = turnoDAO.listaTurno();
+			listaDeUnidades = unidadeDAO.listarUnidade();
+			
+		} catch (RuntimeException e) {
+			FacesUtil.exibirMensagemAlerta("Nao retornou registro"
+					+ e.getMessage());
+		}
+	}
+
+	//Metodo que pesquisa uma lista de Cursos e os respectivos periodos deles.
+	public void pesquisaListaCurso() {
+		try {
+			CursoDAO cursoDAO = new CursoDAO();
+			listaDeCursos = cursoDAO.listaCurso();
+			Periodo qtdPeriodos = listaDeCursos.get(0).getQtdPeriodos();
+			aluno.setCurso(listaDeCursos.get(0));
+			if (qtdPeriodos != null) {
+				atualizaListaPeriodo(qtdPeriodos);				
+			} else {
+				listaPeriodos = new ArrayList<Periodo>();
+			}
+		} catch (RuntimeException e) {
+			System.err.println(e);
+		}
+	}
+
+	//Metodo que pega o objeto selecionado da tabela para edicao.
+	public void selecionaEdicao(Aluno aluno) {
+		this.aluno = aluno;
+		setPassword(aluno.getPassword());
+	}
+	
+	//Metodo que seta a quantidade de periodos no comboPeriodos de acordo com o Curso selecionado.
+	public void atualizarComboPeriodo() {
+		atualizaListaPeriodo(aluno.getCurso().getQtdPeriodos());
+    }
+	
+	//Metodo que atualiza os peridos de acordo com o selecionado do Curso.
+	private void atualizaListaPeriodo(Periodo periodo) {
+		Periodo[] periodos = Periodo.values();
+		listaPeriodos.clear();
+		for (int i = 0; i < periodo.ordinal(); i++) {
+			listaPeriodos.add(periodos[i]);
+		}
+		System.out.println(listaPeriodos.size());
+	}
+	
+	
+	//Metodos Get e Set's
 	public LoginMB getLoginMB() {
 		return loginMB;
 	}
@@ -129,153 +310,6 @@ public class AlunoMB implements Serializable {
 
 	public void setListaDeUnidades(List<Unidade> listaDeUnidades) {
 		this.listaDeUnidades = listaDeUnidades;
-	}
-
-	public void validaCampos() throws NoSuchAlgorithmException{
-		if(Validacao.validaCampoTexto(aluno.getNome())){
-			salvar();
-		}
-	}
-	
-	public void cancelarEdicao () {
-		aluno = new Aluno();
-	}
-	
-	
-	public void salvar() throws NoSuchAlgorithmException {
-
-		try {
-			alunoDAO = new AlunoDAO();
-			
-			Aluno other = alunoDAO.pesquisaRA(aluno.getRa());
-			
-			if(other == null) {
-				if (!aluno.getPassword().equals(aluno.getConfirmaPassword())) {
-					FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
-				} else {
-
-					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
-					aluno.setPassword(senha);
-					alunoDAO.salvar(aluno);
-					aluno = new Aluno();
-					pesquisarListaAlunos();
-					pesquisaListaCurso();
-					FacesUtil.exibirMensagemSucesso("Cadastro feito com Sucesso!");
-				}
-			} else {
-				FacesUtil.exibirMensagemAlerta("RA já cadastrado no sistema, verifique!");				
-			}
-		} catch (RuntimeException e) {
-			if(e.getMessage().equals("could not execute statement")){
-				FacesUtil.exibirMensagemErro("Já existe este RA cadastrado!");
-			}else{
-				FacesUtil.exibirMensagemErro("Erro: " + e.getMessage());
-			}
-		}
-	}
-
-	public void excluir(Aluno aluno) {
-
-		try {
-
-			alunoDAO = new AlunoDAO();
-			alunoDAO.excluir(aluno);
-
-			listaDeAlunos.remove(aluno);
-			FacesUtil.exibirMensagemSucesso("Exclusï¿½o feita com Sucesso!");
-
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao cadastrar Aluno!"
-					+ e.getMessage());
-		}
-	}
-
-	public void editar() throws NoSuchAlgorithmException {
-
-		try {
-			String senha = null;
-			if (aluno.getPassword() != null && !aluno.getPassword().equals("")) {
-				senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
-			} else {
-				senha = password;
-				aluno.setPassword(senha);
-				aluno.setConfirmaPassword(password);
-			}
-			if (aluno.getPassword() != "" && aluno.getPassword().equals(aluno.getConfirmaPassword())) {
-				aluno.setPassword(senha);
-				alunoDAO = new AlunoDAO();
-				alunoDAO.editar(aluno);
-				FacesUtil.exibirMensagemSucesso("Edição feita com Sucesso!");
-				aluno = new Aluno();
-			} else {
-				FacesUtil.exibirMensagemSucesso("Senhas não conferem ou vazias!");
-			}
-
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemErro("Erro ao editar Aluno!"
-					+ e.getMessage());
-		}
-	}
-
-	public void pesquisarListaAlunos() {
-
-		try {
-			alunoDAO = new AlunoDAO();
-			turmaDAO = new TurmaDAO();
-			turnoDAO = new TurnoDAO();
-			unidadeDAO = new UnidadeDAO();
-			
-			IPessoa pessoaLogada = FacesUtil.getUsuarioLogado().getUsuario();
-			if (pessoaLogada instanceof Coordenador) {
-				listaDeAlunos = alunoDAO.listarAlunos();				
-			} else {
-				aluno = (Aluno) pessoaLogada;
-				password = aluno.getPassword();
-			}
-			
-			listaDeTurmas = turmaDAO.listaTurma();
-			listaDeTurnos = turnoDAO.listaTurno();
-			listaDeUnidades = unidadeDAO.listarUnidade();
-			
-		} catch (RuntimeException e) {
-			FacesUtil.exibirMensagemAlerta("Nao retornou registro"
-					+ e.getMessage());
-		}
-
-	}
-
-	public void pesquisaListaCurso() {
-		try {
-			CursoDAO cursoDAO = new CursoDAO();
-			listaDeCursos = cursoDAO.listaCurso();
-			Periodo qtdPeriodos = listaDeCursos.get(0).getQtdPeriodos();
-			aluno.setCurso(listaDeCursos.get(0));
-			if (qtdPeriodos != null) {
-				atualizaListaPeriodo(qtdPeriodos);				
-			} else {
-				listaPeriodos = new ArrayList<Periodo>();
-			}
-		} catch (RuntimeException e) {
-			System.err.println(e);
-		}
-	}
-
-	public void selecionaEdicao(Aluno aluno) {
-		this.aluno = aluno;
-		setPassword(aluno.getPassword());
-	}
-	
-	public void atualizarComboPeriodo() {
-		atualizaListaPeriodo(aluno.getCurso().getQtdPeriodos());
-    }
-	
-	private void atualizaListaPeriodo(Periodo periodo) {
-		Periodo[] periodos = Periodo.values();
-		listaPeriodos.clear();
-		for (int i = 0; i < periodo.ordinal(); i++) {
-			listaPeriodos.add(periodos[i]);
-		}
-		System.out.println(listaPeriodos.size());
 	}
 
 	public List<Periodo> getListaPeriodos() {

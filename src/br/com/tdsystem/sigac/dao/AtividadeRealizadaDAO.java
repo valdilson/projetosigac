@@ -118,4 +118,20 @@ public class AtividadeRealizadaDAO {
 		
 		return atividadeRealizada;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<AtividadeRealizada> listarAtividadesRealizadasLista() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<AtividadeRealizada> atividades = null;
+		Query hql = null;
+		try {
+			hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA);
+			atividades = hql.list();
+		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			session.close();
+		}
+		return atividades;
+	}
 }

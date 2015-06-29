@@ -24,6 +24,7 @@ public class ApplicationMB implements Serializable{
 	private List<Periodo> listaPeriodos;
 	private List<StatusAprovacao> listaStatusAprovacao;
 	
+	//Metodo que preenche as listas de Enumns e as deixa no contexto de aplicação (@ApplicationScoped)
 	@PostConstruct
 	private void init() {
 		listaStatus = Arrays.asList(Status.values());
