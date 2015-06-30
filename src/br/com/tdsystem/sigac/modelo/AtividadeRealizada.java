@@ -35,7 +35,7 @@ import br.com.tdsystem.sigac.util.Constante;
 					query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada"
 							+ " where atividadeRealizada.aluno.codigo = :codigo_aluno"),
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_TOTAL, 
-		query = "Select atividadeRealizada. from AtividadeRealizada atividadeRealizada "
+		query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada "
 				+ "where atividadeRealizada.codigo = :codigo_atividade and atividadeRealizada.aluno.codigo = :codigo_aluno"), })
 public class AtividadeRealizada implements Serializable {
 
