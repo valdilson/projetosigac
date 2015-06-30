@@ -14,14 +14,25 @@ import br.com.tdsystem.sigac.util.HibernateUtil;
 public class AlunoDAO implements Serializable {
 
 	private static final long serialVersionUID = -4280225683772058698L;
-
+	
+	//Metodo que salva realmente o Aluno no banco
 	public void salvar(Aluno aluno) {
+		
+		//Aqui abre uma sessão com o Hibernate
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		//Objeto responsavel por validar as transações (comit, rollback etc.)
 		Transaction transaction = null;
 
 		try {
+			//Objeto transação recebe uma sessao iniciada
 			transaction = session.beginTransaction();
+			
+			//Metodo Save encapsula o insert, deixando a cargo do Hibernate implementar o insert
+			//insert into aluno (campo, campo...) values (?,?, ...)
 			session.save(aluno);
+			
+			//Objeto transaction valida a transação
 			transaction.commit();
 			System.out.println("Gravou");
 
@@ -35,12 +46,22 @@ public class AlunoDAO implements Serializable {
 		}
 	}
 
+	//Metodo que exclui o Aluno do banco
 	public void excluir(Aluno aluno) {
+
+		//Aqui abre uma sessão com o Hibernate
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		//Objeto responsavel por validar as transações (comit, rollback etc.)
 		Transaction transaction = null;
 
 		try {
+			
+			//Objeto transação recebe uma sessao iniciada
 			transaction = session.beginTransaction();
+			
+			//Metodo Deleta encapsula o delete, deixando a cargo do Hibernate implementar o insert
+			//delete from aluno where aluno.codigo = ? - por exemplo
 			session.delete(aluno);
 			transaction.commit();
 			System.out.println("Excluiu");
@@ -52,12 +73,18 @@ public class AlunoDAO implements Serializable {
 			session.close();
 		}
 	}
-
+	
+	//Metodo que edita o Aluno no banco
 	public void editar(Aluno aluno) {
+		
+		//Aqui abre uma sessão com o Hibernate
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		//Objeto responsavel por validar as transações (comit, rollback etc.)
 		Transaction transaction = null;
 
 		try {
+			//Objeto transação recebe uma sessao iniciada
 			transaction = session.beginTransaction();
 			Aluno novo = new Aluno();
 			session.load(novo, aluno.getCodigo());

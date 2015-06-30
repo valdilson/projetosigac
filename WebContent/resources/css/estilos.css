@@ -2,21 +2,28 @@
 @CHARSET "UTF-8";
 
 /* informando que os Objetos e os SubObjetos serão afetados */
-.ui-widget, .ui-widget .ui-widget{
+.ui-widget, .ui-widget .ui-widget {
 	/* Informando tamanho da fonte a ser usada */
-	font-size: 100%
-	
+	font-size: 98%
 }
 
-.ui-layout-north { 
-z-index: 3!important; 
-overflow: visible!important; 
-} 
-.ui-layout-north .ui-layout-unit-content { 
-overflow: visible!important; 
-} 
-
-.ui-menu,.ui-menubar,.ui-menu-child { 
-min-width: 180px!important; 
+.ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	border: 1px solid #aca19d;
+	background-color: #F5F5F5;
+	font-weight: normal;
+	color: #555555;
 }
 
+.ui-layout-north {
+	z-index: 3 !important;
+	overflow: visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.ui-menu, .ui-menubar, .ui-menu-child {
+	min-width: 180px !important;
+}

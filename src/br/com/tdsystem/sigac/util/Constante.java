@@ -54,7 +54,7 @@ public interface Constante {
 		
 		String ATIVIVIDADE_REALIZADA_LISTA = "AtividadeRealizada.lista";
 		String ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL = "AtividadeRealizada.listaIndividual";
-		String ATIVIVIDADE_REALIZADA_REPETE = "AtividadeRealizada.repete";
+		String ATIVIVIDADE_REALIZADA_TOTAL = "AtividadeRealizada.total";
 		String ATIVIVIDADE_REALIZADA_ALUNO = "AtividadeRealizada.aluno";
 		
 		String UNIDADE_LISTA = "Unidade.lista";

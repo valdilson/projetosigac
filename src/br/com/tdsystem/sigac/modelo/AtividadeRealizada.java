@@ -23,11 +23,19 @@ import br.com.tdsystem.sigac.util.Constante;
 @Entity
 @Table(name = "AtividadeRealizada")
 @NamedQueries({
+	
+		//As namedQuerys abstrai para o programador a complexidade das consultas no banco
+		//O select abaixo em forma estruturada seria :
+		// select a.nome as Aluno, atv.nome as Atividade, ati.dataUpload as DataUpload, ati.statusAprovacao as Estatus
+		// from AtividadeRealizada ati inner join Aluno a on ati.codigo_aluno = a.codigo inner join Atividade atv
+		// on ati.codigo_atividade = atv.codigo;
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada"),
+		
 		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL, 
 					query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada"
 							+ " where atividadeRealizada.aluno.codigo = :codigo_aluno"),
-		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_REPETE, query = "Select atividadeRealizada from AtividadeRealizada atividadeRealizada "
+		@NamedQuery(name = Constante.NamedQueries.ATIVIVIDADE_REALIZADA_TOTAL, 
+		query = "Select atividadeRealizada. from AtividadeRealizada atividadeRealizada "
 				+ "where atividadeRealizada.codigo = :codigo_atividade and atividadeRealizada.aluno.codigo = :codigo_aluno"), })
 public class AtividadeRealizada implements Serializable {
 

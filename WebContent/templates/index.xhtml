@@ -22,9 +22,12 @@
 			float: right !important;
 		}
 	</style>
+	
+	<!-- Notificação do link suporte -->
 	<p:notificationBar position="bottom" effect="slide" styleClass="top"
 		widgetVar="bar">
 		<h:outputText value="E-mail: suporte@pitagoras.com.br - Telefone: (31)9999-9999" style="font-size:26px;"/>
+		<br/>
 		<p:commandButton value="Fechar" onclick="PF('bar').hide()" type="button"
 		icon="ui-icon-arrow-1-n" />
 	</p:notificationBar>
@@ -52,8 +55,6 @@
 								<p:menuitem value="Coordenador" action="#{menuMB.navegar('/paginas/cadastrocoordenador.xhtml')}" 
 											rendered="#{loginMB.perfil == 'COORDENADOR'}"/>
 								<p:menuitem value="Aluno" action="#{menuMB.navegar('/paginas/cadastroaluno.xhtml')}" />
-								<p:menuitem value="Perfil" action="#{menuMB.navegar('/paginas/cadastroperfil.xhtml')}" 
-											rendered="#{loginMB.perfil == 'COORDENADOR'}"/>
 							</p:submenu>
 
 							<p:menuitem value="Atividades" icon="ui-icon-gear" action="#{menuMB.navegar('/paginas/cadastroatividade.xhtml')}" 

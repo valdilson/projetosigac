@@ -17,23 +17,24 @@
 				<p:dataTable id="tabelaAtividadeRealizada" widgetVar="tabelaAtividadeRealizadaWV" var="atividadeRealizada"
 					value="#{atividadeRealizadaMB.listaDeAtividadesRealizadas}" rows="10" emptyMessage="Sem registro!" paginator="true">
 
-					<p:column headerText="Código" width="40" sortBy="#{atividadeRealizada.codigo}">
-						<h:outputText value="#{atividadeRealizada.codigo}" />
-					</p:column>
-
-					<p:column headerText="Atividade" width="120" filterBy="#{atividadeRealizada.atividade.nome}" sortBy="#{atividadeRealizada.atividade.nome}">
+					<p:column headerText="Atividade" width="70" filterBy="#{atividadeRealizada.atividade.nome}" sortBy="#{atividadeRealizada.atividade.nome}">
 						<h:outputText value="#{atividadeRealizada.atividade.nome}" />
 					</p:column>
 
-					<p:column headerText="Horas" width="40">
+					<p:column headerText="Horas" width="32">
 						<h:outputText value="#{atividadeRealizada.atividade.horas}" style="color:#FF0000;"/>
 					</p:column>
 
-					<p:column headerText="Aluno" width="120" filterBy="#{atividadeRealizada.aluno.nome}" sortBy="#{atividadeRealizada.aluno.nome}">
+					<p:column headerText="Aluno" width="100" filterBy="#{atividadeRealizada.aluno.nome}" sortBy="#{atividadeRealizada.aluno.nome}">
 						<h:outputText value="#{atividadeRealizada.aluno.nome}" />
 					</p:column>
+					
+					<p:column headerText="Curso" width="120" filterBy="#{atividadeRealizada.aluno.curso.nome}" 
+							  sortBy="#{atividadeRealizada.aluno.curso.nome}">
+						<h:outputText value="#{atividadeRealizada.aluno.curso.nome}" />
+					</p:column>
 
-					<p:column headerText="Data Upload" width="120" filterBy="#{atividadeRealizada.dataUpload}" sortBy="#{atividadeRealizada.dataUpload}">
+					<p:column headerText="Data Upload" width="60" filterBy="#{atividadeRealizada.dataUpload}" sortBy="#{atividadeRealizada.dataUpload}">
 						<h:outputText value="#{atividadeRealizada.dataUpload}" />
 					</p:column>
 					
@@ -56,7 +57,7 @@
 					</f:facet>
 
 					<!--Botão Download  -->
-					<p:column headerText="Documento" exportable="false" style="width:11%">
+					<p:column headerText="Documento" exportable="false" style="width:9%">
 						<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s"
 						 				 action="#{atividadeRealizadaMB.download(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
@@ -66,7 +67,7 @@
 					
 					<!--Botão Valida Documento  -->
 					<p:column headerText="Valida Documento"  exportable="false" 
-							 rendered="#{loginMB.perfil == 'COORDENADOR'}" style="width:17%">
+							 rendered="#{loginMB.perfil == 'COORDENADOR'}" style="width:18%">
 						<p:commandButton value="Validar" ajax="false" icon="ui-icon-arrowthick-1-s"
 						 				 action="#{atividadeRealizadaMB.validaDocumento(atividadeRealizada)}"
 										 update=":downloadAlunofrm:tabelaAtividadeRealizada">
@@ -81,7 +82,7 @@
 
 				</p:dataTable>
 
-				<!-- Gráfico das Atividades mais Realizadas -->>
+				<!-- Gráfico das Atividades mais Realizadas -->
 				<p:chart id="grafico" type="pie" model="#{atividadeRealizadaMB.graficoAtividades}"
 				 style="width:400px;height:300px" widgetVar="graficowg" 
 				 rendered="#{loginMB.usuario.perfil == 'COORDENADOR'}"/>

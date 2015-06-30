@@ -24,6 +24,7 @@ public class LoginMB implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	//Declaração dos objetos
 	private Usuario usuario;
 	private LoginDAO loginDAO;
 	private Boolean loggedIn;
@@ -51,6 +52,8 @@ public class LoginMB implements Serializable{
 				
 				//Usuario recebe um Usuario cajo exista no banco
 				usuario = loginDAO.recuperarUsuario(ra, password, perfil);
+				
+				//Adciona uma mgs de boasVindas com a Classe FacesMessage
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Bem vindo(a) " + usuario.getUsuario().getNome(), "");
 			} catch (NoResultException e) {
 				loggedIn = Boolean.FALSE;

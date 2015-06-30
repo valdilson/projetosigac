@@ -20,6 +20,7 @@ import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.modelo.IPessoa;
 import br.com.tdsystem.sigac.modelo.PerfilEnum;
 import br.com.tdsystem.sigac.modelo.Periodo;
+import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 import br.com.tdsystem.sigac.modelo.Turma;
 import br.com.tdsystem.sigac.modelo.Turno;
 import br.com.tdsystem.sigac.modelo.Unidade;
@@ -96,6 +97,7 @@ public class AlunoMB implements Serializable {
 					//criptografa a senha com MD5 e chama o metodo da camada DAO que sabe como gravar um Aluno
 					String senha = CriptografaSenhaMD5.converteSenhaMD5(aluno.getPassword());
 					aluno.setPassword(senha);
+					aluno.setStatusApovacao(StatusAprovacao.PENDENTE);
 					alunoDAO.salvar(aluno);
 					aluno = new Aluno();
 					pesquisarListaAlunos();

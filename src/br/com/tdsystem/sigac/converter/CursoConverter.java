@@ -9,6 +9,9 @@ import br.com.tdsystem.sigac.dao.CursoDAO;
 import br.com.tdsystem.sigac.modelo.Curso;
 import br.com.tdsystem.sigac.util.FacesUtil;
 
+//Classe Converter serve para todos selectOnmenu's, ele pega o objeto selecionado
+//no selectOnMenu e passa para o metodo três parametros, Contexto da Aplicação, Componente e o Objeto
+//selecionado (String), busca no banco o valor e retornar o objeto selecionado.
 @FacesConverter("cursoConverter")
 public class CursoConverter implements Converter {
 	

@@ -1,12 +1,19 @@
 package br.com.tdsystem.sigac.mb;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
+import br.com.tdsystem.sigac.dao.AlunoDAO;
 import br.com.tdsystem.sigac.dao.AtividadeRealizadaDAO;
 import br.com.tdsystem.sigac.modelo.Aluno;
+import br.com.tdsystem.sigac.modelo.Atividade;
 import br.com.tdsystem.sigac.modelo.AtividadeRealizada;
 import br.com.tdsystem.sigac.modelo.StatusAprovacao;
 
@@ -31,13 +38,14 @@ public class AcompanhaAtividadeAlunoMB implements Serializable {
 	}
 	
 	//Metodo que atualiza as horas dos alunos para conferência do Coordenador
-	private void atualizahorasRealizadasLista(){
+	public void atualizahorasRealizadasLista(){
 		atividadeRealizadaDAO = new AtividadeRealizadaDAO();
 		listaDeAtividadesRealizadas = 
 				atividadeRealizadaDAO.listarAtividadesRealizadasLista();
+		
 		for (AtividadeRealizada atividadeRealizada : listaDeAtividadesRealizadas) {
 			
-			if(atividadeRealizada.getAluno().getStatusApovacao().equals(StatusAprovacao.APROVADO)){
+			if(atividadeRealizada.getStatusApovacao().equals(StatusAprovacao.APROVADO)){
 				atividadeRealizada.getAluno().setHorasRealizadas(atividadeRealizada.getAluno().getHorasRealizadas()
 						+ atividadeRealizada.getAtividade().getHoras());
 				atividadeRealizada.getAluno().setHorasFaltantes

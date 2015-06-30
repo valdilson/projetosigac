@@ -75,17 +75,17 @@
 						</h:commandLink>
 					</f:facet>
 
-					<p:column headerText="Código" width="40"
+					<p:column headerText="Código" width="5"
 						sortBy="#{filtroTurnos.codigo}">
 						<h:outputText value="#{filtroTurnos.codigo}" />
 					</p:column>
 
 					<p:column headerText="Nome" filterBy="#{filtroTurnos.nome}"
-						sortBy="#{filtroTurnos.nome}" style="width: 20%">
+						sortBy="#{filtroTurnos.nome}" style="width: 50%">
 						<h:outputText value="#{filtroTurnos.nome}" />
 					</p:column>
 
-					<p:column headerText="Status" filterBy="#{filtroTurnos.status}" style="width:12%"
+					<p:column headerText="Status" filterBy="#{filtroTurnos.status}" style="width:15%"
 						sortBy="#{filtroTurnos.status}">
 						<h:outputText value="#{filtroTurnos.status.descricao}" />
 					</p:column>

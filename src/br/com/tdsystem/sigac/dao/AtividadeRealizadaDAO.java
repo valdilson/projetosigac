@@ -70,6 +70,8 @@ public class AtividadeRealizadaDAO {
 		}
 	}
 	
+	//Metodo que retorna uma lista de AtividadesRealizadas(hora atividades de um aluno logado, hora todos, caso
+	// seja coordenador)
 	@SuppressWarnings({ "unchecked" })
 	public List<AtividadeRealizada> listarAtividadesRealizadas(IPessoa usuario){
 		
@@ -78,7 +80,10 @@ public class AtividadeRealizadaDAO {
 		try {
 			Query hql = null;
 			if (usuario instanceof Aluno) {
+				
+				//objeto hql(Query) recebe a lista de atividades realizadas do aluno
 				hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_LISTA_INDIVIDUAL);
+				
 				hql.setLong("codigo_aluno", usuario.getCodigo());
 				atividades = hql.list();
 				((Aluno)usuario).setAtividadesRealizadas(atividades);
@@ -103,7 +108,7 @@ public class AtividadeRealizadaDAO {
 		AtividadeRealizada atividadeRealizada = null;
 		try {
 			
-			Query hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_REPETE);
+			Query hql = session.getNamedQuery(Constante.NamedQueries.ATIVIVIDADE_REALIZADA_TOTAL);
 			hql.setLong("codigo_atividade", codigoAtividade);
 			hql.setLong("codigo_aluno", codigoAluno);
 			
